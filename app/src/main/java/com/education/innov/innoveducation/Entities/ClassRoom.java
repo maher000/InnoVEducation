@@ -16,10 +16,11 @@ public class ClassRoom {
     private ArrayList<HomeWork> homeWorks;
     private ArrayList<Course> courses;
     private String creationDate;
+    private String id;
 
     public ClassRoom() {}
 
-    public ClassRoom(String name, String country, String adress, User administrator, ArrayList<User> students, ArrayList<User> teachers, ArrayList<HomeWork> homeWorks, ArrayList<Course> courses, String creationDate) {
+    public ClassRoom(String id,String name, String country, String adress, User administrator, ArrayList<User> students, ArrayList<User> teachers, ArrayList<HomeWork> homeWorks, ArrayList<Course> courses, String creationDate) {
         this.name = name;
         Country = country;
         this.adress = adress;
@@ -29,6 +30,15 @@ public class ClassRoom {
         this.homeWorks = homeWorks;
         this.courses = courses;
         this.creationDate = creationDate;
+        this.id=id;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {

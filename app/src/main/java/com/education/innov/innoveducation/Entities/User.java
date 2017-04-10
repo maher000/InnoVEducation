@@ -23,10 +23,11 @@ public class User {
     private ArrayList<User> parents; // only set if function equal student;
     private String connected; // boolean to indicate if is the user online or not
     private String lastConnection; // timeStamp
+    private String id;
 
     public User() {}
 
-    public User(String email, String firstName, String lastName, String password, String phone, String adresse, String urlImage, String function, String active, String codePostal, String contry, ClassRoom classeRoom, ArrayList<User> parents, String connected, String lastConnection) {
+    public User(String id,String email, String firstName, String lastName, String password, String phone, String adresse, String urlImage, String function, String active, String codePostal, String contry, ClassRoom classeRoom, ArrayList<User> parents, String connected, String lastConnection) {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -42,6 +43,15 @@ public class User {
         this.parents = parents;
         this.connected = connected;
         this.lastConnection = lastConnection;
+        this.id=id;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getEmail() {

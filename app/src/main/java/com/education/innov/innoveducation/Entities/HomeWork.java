@@ -7,6 +7,7 @@ import java.util.ArrayList;
  */
 
 public class HomeWork {
+    private String id;
     private String title;
     private String description;
     private String url ;// optionel : add external url
@@ -18,7 +19,8 @@ public class HomeWork {
     public HomeWork() {
     }
 
-    public HomeWork(String title, String description, String url, User teacher, ArrayList<Comments> comments, String startDate, String endDate) {
+    public HomeWork(String id, String title, String description, String url, User teacher, ArrayList<Comments> comments, String startDate, String endDate) {
+        this.id = id;
         this.title = title;
         this.description = description;
         this.url = url;
@@ -26,6 +28,14 @@ public class HomeWork {
         this.comments = comments;
         this.startDate = startDate;
         this.endDate = endDate;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -83,4 +93,5 @@ public class HomeWork {
     public void setEndDate(String endDate) {
         this.endDate = endDate;
     }
+
 }

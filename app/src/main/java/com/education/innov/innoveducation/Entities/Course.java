@@ -9,6 +9,7 @@ import java.util.ArrayList;
  */
 
 public class Course {
+    private String id;
     private String name;
     private String description;
     private String Country;
@@ -24,7 +25,7 @@ public class Course {
     public Course() {
     }
 
-    public Course(String name, String description, String country, String langage, User owner, ArrayList<User> followers, ArrayList<Video> videos, String creationDate, String visibility, ClassRoom classRoom, ArrayList<Comments> comments) {
+    public Course(String id,String name, String description, String country, String langage, User owner, ArrayList<User> followers, ArrayList<Video> videos, String creationDate, String visibility, ClassRoom classRoom, ArrayList<Comments> comments) {
         this.name = name;
         this.description = description;
         Country = country;
@@ -36,6 +37,15 @@ public class Course {
         this.visibility = visibility;
         this.classRoom = classRoom;
         this.comments = comments;
+        this.id=id;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {

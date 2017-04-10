@@ -7,6 +7,7 @@ import java.util.ArrayList;
  */
 
 public class post {
+    private String id;
     private String type; // image ,file, video,none
     private String name;
     private String description;
@@ -21,7 +22,8 @@ public class post {
 
     public post() {}
 
-    public post(String type, String name, String description, String creationDate, Video video, String urlImage, String urlFile, ArrayList<Comments> comments, User owner, String visibility, String subject) {
+    public post(String id, String type, String name, String description, String creationDate, Video video, String urlImage, String urlFile, ArrayList<Comments> comments, User owner, String visibility, String subject) {
+        this.id = id;
         this.type = type;
         this.name = name;
         this.description = description;
@@ -33,6 +35,14 @@ public class post {
         this.owner = owner;
         this.visibility = visibility;
         this.subject = subject;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getType() {
