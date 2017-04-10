@@ -1,0 +1,166 @@
+package com.education.innov.innoveducation.Entities;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Created by maher on 10/04/2017.
+ */
+
+public class User {
+    private String email;
+    private String firstName;
+    private String lastName;
+    private String password;
+    private String phone;
+    private String adresse;
+    private String urlImage;
+    private String function; // parent, student or teacher
+    private String active; // true or false to indicate if the acount is active or not
+    private String codePostal;
+    private String contry;
+    private ClassRoom classeRoom; // only set if function equal teacher
+    private ArrayList<User> parents; // only set if function equal student;
+    private String connected; // boolean to indicate if is the user online or not
+    private String lastConnection; // timeStamp
+
+    public User() {}
+
+    public User(String email, String firstName, String lastName, String password, String phone, String adresse, String urlImage, String function, String active, String codePostal, String contry, ClassRoom classeRoom, ArrayList<User> parents, String connected, String lastConnection) {
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.password = password;
+        this.phone = phone;
+        this.adresse = adresse;
+        this.urlImage = urlImage;
+        this.function = function;
+        this.active = active;
+        this.codePostal = codePostal;
+        this.contry = contry;
+        this.classeRoom = classeRoom;
+        this.parents = parents;
+        this.connected = connected;
+        this.lastConnection = lastConnection;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getAdresse() {
+        return adresse;
+    }
+
+    public void setAdresse(String adresse) {
+        this.adresse = adresse;
+    }
+
+    public String getUrlImage() {
+        return urlImage;
+    }
+
+    public void setUrlImage(String urlImage) {
+        this.urlImage = urlImage;
+    }
+
+    public String getFunction() {
+        return function;
+    }
+
+    public void setFunction(String function) {
+        this.function = function;
+    }
+
+    public String getActive() {
+        return active;
+    }
+
+    public void setActive(String active) {
+        this.active = active;
+    }
+
+    public String getCodePostal() {
+        return codePostal;
+    }
+
+    public void setCodePostal(String codePostal) {
+        this.codePostal = codePostal;
+    }
+
+    public String getContry() {
+        return contry;
+    }
+
+    public void setContry(String contry) {
+        this.contry = contry;
+    }
+
+    public ClassRoom getClasseRoom() {
+        return classeRoom;
+    }
+
+    public void setClasseRoom(ClassRoom classeRoom) {
+        this.classeRoom = classeRoom;
+    }
+
+    public ArrayList<User> getParents() {
+        return parents;
+    }
+
+    public void setParents(ArrayList<User> parents) {
+        this.parents = parents;
+    }
+
+    public String getConnected() {
+        return connected;
+    }
+
+    public void setConnected(String connected) {
+        this.connected = connected;
+    }
+
+    public String getLastConnection() {
+        return lastConnection;
+    }
+
+    public void setLastConnection(String lastConnection) {
+        this.lastConnection = lastConnection;
+    }
+}
