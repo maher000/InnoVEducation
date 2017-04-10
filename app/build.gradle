@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.education.innov.innoveducation"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
@@ -30,5 +30,6 @@ dependencies {
     compile 'com.sa90.materialarcmenu:library:1.4'
     compile 'com.roughike:bottom-bar:2.2.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile 'co.intentservice.android-chat-ui:chat-ui:0.1.1'
     testCompile 'junit:junit:4.12'
 }

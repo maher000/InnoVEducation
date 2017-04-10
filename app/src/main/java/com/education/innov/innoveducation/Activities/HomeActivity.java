@@ -3,11 +3,13 @@ package com.education.innov.innoveducation.Activities;
 import android.app.SearchManager;
 import android.content.Context;
 import android.os.Handler;
+import android.os.PersistableBundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,7 +19,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,15 +36,17 @@ import com.roughike.bottombar.OnTabReselectListener;
 import com.roughike.bottombar.OnTabSelectListener;
 
 public class HomeActivity extends AppCompatActivity {
-    private TextView messageView;
     private SearchView searchView;
-    Toolbar toolbar;
-    private android.view.Menu m = null;
+    private Toolbar toolbar;
+    private Menu m ;
     boolean doubleBackToExitPressedOnce = false;
-    DrawerLayout drawerLayout ;
-    LeftFragmentNaviguation drawerLeftFragment ;
-    RightFragmentNaviguation drawerRightFragment ;
+    private DrawerLayout drawerLayout ;
+    private LeftFragmentNaviguation drawerLeftFragment ;
+    private RightFragmentNaviguation drawerRightFragment ;
     private Fragment currentFragment=null;
+    private RelativeLayout chatLaout;
+    private int position=R.id.tab_home;
+    private BottomBar bottomBar = null;
 
     @Override
     protected void onResume() {
@@ -48,7 +54,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate( Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
@@ -61,18 +67,24 @@ public class HomeActivity extends AppCompatActivity {
         setUpToolbar();
         setUpDrawer();
 
-        final BottomBar bottomBar = (BottomBar) findViewById(R.id.bottomBar);
+        bottomBar = (BottomBar) findViewById(R.id.bottomBar);
+        if(savedInstanceState!=null){
+            bottomBar.setDefaultTab(savedInstanceState.getInt("position"));
+            System.out.println("MahersavedInstanceState");
+        }
+
         bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
             public void onTabSelected(@IdRes int tabId) {
                // if(currentFragment!=null)
                    // getSupportFragmentManager().beginTransaction().remove(currentFragment);
+                position=tabId;
                 switch (tabId) {
                     case R.id.tab_classroom:
                         currentFragment=new ClasseFragment();
-                        getSupportFragmentManager().beginTransaction().replace(R.id.container_id, currentFragment).
-                                addToBackStack("gg").
-                                commit();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.container_id, currentFragment)
+                                .addToBackStack("gg")
+                                .commit();
 
                         //      Toast.makeText(getApplicationContext(), tabId+"tabIdSelected", Toast.LENGTH_LONG).show();
                         break;
@@ -98,7 +110,22 @@ public class HomeActivity extends AppCompatActivity {
 
         //BottomBarTab nearby = bottomBar.getTabWithId(R.id.tab_nearby);
         //nearby.setBadgeCount(5);
+        chatLaout = (RelativeLayout) findViewById(R.id.badge_layout1);
     }
+    @Override
+    protected void onSaveInstanceState(Bundle savedInstanceState) {
+
+        savedInstanceState.putInt("position", position);
+        super.onSaveInstanceState(savedInstanceState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        position=savedInstanceState.getInt("position");
+
+    }
+
 
     private void setUpToolbar() {
 
@@ -108,6 +135,10 @@ public class HomeActivity extends AppCompatActivity {
         m = toolbar.getMenu();
         //m.getItem(0).getsetVisible(false);
         setSupportActionBar(toolbar);
+
+
+
+
     }
 
     private void setUpDrawer() {
@@ -132,7 +163,15 @@ public class HomeActivity extends AppCompatActivity {
         // Inflate menu to add items to action bar if it is present.
         inflater.inflate(R.menu.menu_main, menu);
         // Associate searchable configuration with the SearchView
-        int id =0;
+        final Menu m = menu;
+        final MenuItem itemChat = m.findItem(R.id.id_chat);
+        itemChat.getActionView().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("viewselected");
+                onOptionsItemSelected(itemChat);
+            }
+        });
 
         SearchManager searchManager =
                 (SearchManager) getSystemService(Context.SEARCH_SERVICE);
@@ -147,17 +186,16 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here.
-        int id = item.getItemId();
+        int id=item.getItemId();
+        switch (id){
+            case R.id.id_chat:
+                drawerLayout.openDrawer(GravityCompat.END); /*Opens the Right Drawer*/
+                return true;
 
-        if (id == R.id.id_chat) {
-            drawerLayout.openDrawer(GravityCompat.END); /*Opens the Right Drawer*/
-            return true;
+
         }
-
         return super.onOptionsItemSelected(item);
     }
-
-
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

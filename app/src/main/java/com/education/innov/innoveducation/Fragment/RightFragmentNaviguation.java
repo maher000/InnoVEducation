@@ -1,6 +1,7 @@
 package com.education.innov.innoveducation.Fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -16,10 +17,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.education.innov.innoveducation.Activities.ChatActivity;
 import com.education.innov.innoveducation.Adapter.MenuLeftNaviguationAdapter;
 import com.education.innov.innoveducation.Adapter.OnLineFrreindsAdapter;
 import com.education.innov.innoveducation.Adapter.SimpleSectionedRecyclerViewAdapter;
 import com.education.innov.innoveducation.R;
+import com.education.innov.innoveducation.Utils.RecyclerItemClickListener;
 import com.education.innov.innoveducation.model.NavigationDrawerItem;
 
 import java.util.ArrayList;
@@ -66,23 +69,21 @@ public class RightFragmentNaviguation extends Fragment {
         sections.add(new SimpleSectionedRecyclerViewAdapter.Section(4,"Teachers"));
 
         SimpleSectionedRecyclerViewAdapter.Section[] dummy = new SimpleSectionedRecyclerViewAdapter.Section[sections.size()];
-        SimpleSectionedRecyclerViewAdapter mSectionedAdapter = new
-                SimpleSectionedRecyclerViewAdapter(getActivity(),R.layout.section_recycle_view,R.id.section_text,adapter);
+        SimpleSectionedRecyclerViewAdapter mSectionedAdapter = new SimpleSectionedRecyclerViewAdapter(getActivity(),R.layout.section_recycle_view,R.id.section_text,adapter);
         mSectionedAdapter.setSections(sections.toArray(dummy));
         recyclerView.setAdapter(mSectionedAdapter);
         //recyclerView.getChildAt(0).findViewById(R.id.drawerList).setVisibility(View.INVISIBLE);
-      /*  recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
+        recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                NavigationDrawerFragment.Item = position;
-                startActivity(new Intent(getActivity(), MainActivity.class));
+                startActivity(new Intent(getActivity(), ChatActivity.class).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP));
             }
 
             @Override
             public void onLongItemClick(View view, int position) {
 
             }
-        })); */
+        }));
         return recyclerView;
     }
 

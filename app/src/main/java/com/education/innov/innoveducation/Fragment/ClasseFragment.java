@@ -19,12 +19,7 @@ import com.education.innov.innoveducation.R;
 
 public class ClasseFragment extends Fragment {
 
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-
-    private String mParam1;
-    private String mParam2;
     public ClasseFragment() {
         // Required empty public constructor
     }
@@ -51,11 +46,6 @@ public class ClasseFragment extends Fragment {
         pager.setAdapter(buildAdapter());
         TabLayout tabLayout = (TabLayout) view.findViewById(R.id.classe_sliding_tabs);
         tabLayout.setupWithViewPager(pager);
-//hello wolrd
-//modification
-
-        //maher ye behi ;* 
-
 
         return view ;
 

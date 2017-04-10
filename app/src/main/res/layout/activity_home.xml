@@ -9,26 +9,23 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:id="@+id/rl1"
         android:fitsSystemWindows="true">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginBottom="56dp"
+            android:id="@+id/rl2"
             android:orientation="vertical">
 
-            <android.support.v7.widget.Toolbar
+            <include
                 android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="?attr/colorPrimary"
-                android:minHeight="?attr/actionBarSize"
-                app:titleTextColor="@android:color/white">
+                layout="@layout/toolbar"/>
 
+            <include
 
-            </android.support.v7.widget.Toolbar>
-
-            <include layout="@layout/container"></include>
+                layout="@layout/container"></include>
 
             <!--
        -->

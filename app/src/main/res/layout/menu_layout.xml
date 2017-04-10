@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        style="@android:style/Widget.ActionButton"
+        android:id="@+id/badge_layout1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:id="@+id/relative_layout_item_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:clickable="false"
+                android:id="@+id/btn_chat"
+                android:layout_width="40dip"
+                android:layout_height="40dip"
+                android:background="@drawable/icon_chat_48" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/badge_notification_chat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignRight="@id/relative_layout_item_count"
+            android:background="@android:drawable/ic_notification_overlay"
+            android:text="27"
+            android:textColor="#FFF"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
