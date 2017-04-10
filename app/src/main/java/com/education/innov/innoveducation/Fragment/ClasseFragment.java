@@ -52,7 +52,7 @@ public class ClasseFragment extends Fragment {
         TabLayout tabLayout = (TabLayout) view.findViewById(R.id.classe_sliding_tabs);
         tabLayout.setupWithViewPager(pager);
 //hello wolrd
-
+//modification
 
 
         return view ;
