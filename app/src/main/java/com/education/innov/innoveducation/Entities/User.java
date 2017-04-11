@@ -8,6 +8,7 @@ import java.util.List;
  */
 
 public class User {
+    private String id ;
     private String email;
     private String firstName;
     private String lastName;
@@ -25,7 +26,7 @@ public class User {
     private ArrayList<User> parents; // only set if function equal student;
     private String connected; // boolean to indicate if is the user online or not
     private String lastConnection; // timeStamp
-    private String id;
+
 
     public User() {}
 
@@ -46,6 +47,14 @@ public class User {
         this.connected = connected;
         this.lastConnection = lastConnection;
         this.id=id;
+    }
+
+    public String getClassRommId() {
+        return classRommId;
+    }
+
+    public void setClassRommId(String classRommId) {
+        this.classRommId = classRommId;
     }
 
     public String getId() {
@@ -175,4 +184,7 @@ public class User {
     public void setLastConnection(String lastConnection) {
         this.lastConnection = lastConnection;
     }
+
+
+
 }
