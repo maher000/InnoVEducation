@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:pb="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/overWhite">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp">
+
+        <com.liuguangqiang.progressbar.CircleProgressBar
+            android:id="@+id/progressbar1"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            pb:background_color="@android:color/transparent"
+            pb:progress_color="@android:color/white"
+            pb:stroke_width="2dp" />
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_centerInParent="true"
+            android:background="@drawable/ic_action_name"
+            android:backgroundTint="@color/bb_darkBackgroundColor"/>
+
+    </RelativeLayout>
+
+    <com.liuguangqiang.swipeback.SwipeBackLayout
+        android:id="@+id/swipe_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingTop="70dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp">
+
+
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:theme="@style/EditTextHint">
+
+                    <EditText
+                        android:id="@+id/txtDateStart"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:drawableTint="#FF4081"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:hint="Start date"
+                        android:singleLine="true"
+                        android:textColor="@color/black"
+                        android:theme="@style/EditTextHint"
+                        android:foregroundTint="@color/black"
+                        android:backgroundTint="@color/colorPrimary" />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:theme="@style/EditTextHint">
+
+
+                    <EditText
+                        android:id="@+id/txtTimeStart"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:hint="Start time"
+                        android:inputType="numberDecimal"
+                        android:singleLine="true"
+                        android:textColor="@color/black"
+                        android:theme="@style/EditTextHint"
+                        android:foregroundTint="@color/black"
+                        android:backgroundTint="@color/colorPrimary"
+                        android:drawableTint="#FF4081"/>
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:theme="@style/EditTextHint">
+                    <EditText
+                        android:id="@+id/txtDateEnd"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:drawableTint="#FF4081"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:hint="End date"
+                        android:inputType="numberDecimal"
+                        android:singleLine="true"
+                        android:textColorHint="@color/bb_darkBackgroundColor"
+                        android:textColor="@color/black"
+                        android:theme="@style/EditTextHint"
+                        android:foregroundTint="@color/black"
+                        android:backgroundTint="@color/colorPrimary"/>
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:theme="@style/EditTextHint">
+
+
+                    <EditText
+                        android:id="@+id/txtTimeEnd"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:drawableTint="#FF4081"
+                        android:hint="End time"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:inputType="numberDecimal"
+                        android:singleLine="true"
+                        android:textColor="@color/black"
+                        android:theme="@style/EditTextHint"
+                        android:foregroundTint="@color/black"
+                        android:backgroundTint="@color/colorPrimary"/>
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:theme="@style/EditTextHint"
+
+                    >
+
+
+                    <EditText
+                        android:id="@+id/txtDescription"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:drawableTint="#FF4081"
+                        android:hint="Description"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:inputType="textMultiLine"
+                        android:lines="8"
+                        android:minLines="6"
+                        android:gravity="top|left"
+                        android:maxLines="20"
+                        android:scrollbars="vertical"
+                        android:textColor="@color/black"
+                        android:theme="@style/EditTextHint"
+                        android:foregroundTint="@color/black"
+                        android:backgroundTint="@color/colorPrimary"
+
+                        />
+                </android.support.design.widget.TextInputLayout>
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:background="@color/colorPrimary"
+                    android:text="Subbmit" />
+
+            </LinearLayout>
+
+        </ScrollView>
+    </com.liuguangqiang.swipeback.SwipeBackLayout>
+
+
+
+</RelativeLayout>

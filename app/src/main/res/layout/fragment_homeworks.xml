@@ -13,19 +13,43 @@
             android:id="@+id/HomeWorks_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/btnNewHomeWork"
+
+    <com.sa90.materialarcmenu.ArcMenu
+
+        android:id="@+id/arcmenu_android_homeWork_layout"
         android:layout_width="wrap_content"
+        android:layout_gravity="right|bottom"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:paddingRight="10dp"
-        android:paddingBottom="10dp"
         android:layout_alignParentBottom="true"
+        app:menu_color="@color/colorPrimary"
+        app:menu_open="arc_left"
+        app:menu_scr="@drawable/icon_plus_48"
+        android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="40dp"
-        android:src="@drawable/icon_plus_48"
-        app:backgroundTint="@color/colorPrimary"/>
+        android:layout_alignParentLeft="false">
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/btn_add_home_work_layout_homework"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon_courses_48"
+            app:backgroundTint="@color/colorPrimary"  />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/btn_add_post_layout_homework"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon_bishop_48"
+            app:backgroundTint="@color/colorPrimary"  />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/btn_add_course_layout_homework"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:src="@drawable/icon_calendar_48"
+            app:backgroundTint="@color/colorPrimary" />
+    </com.sa90.materialarcmenu.ArcMenu>
+
 
 </RelativeLayout>
