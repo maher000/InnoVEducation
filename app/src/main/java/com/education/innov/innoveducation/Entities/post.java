@@ -12,29 +12,49 @@ public class post {
     private String name;
     private String description;
     private String creationDate;
-    private Video video;
+    private Video video; // do not add to firbase
+    private String urlVideo;
     private String urlImage;
     private String urlFile;
-    private ArrayList<Comments> comments;
-    private User owner;
+    private ArrayList<Comments> comments; // do not add to firebase
+    private String userId;
+    private User owner; // do not add to firbase
     private String visibility;
     private String subject; // football, sport, education...
 
     public post() {}
 
-    public post(String id, String type, String name, String description, String creationDate, Video video, String urlImage, String urlFile, ArrayList<Comments> comments, User owner, String visibility, String subject) {
+    public post(String id, String type, String name, String description, String creationDate, Video video, String urlVideo, String urlImage, String urlFile, ArrayList<Comments> comments, String userId, User owner, String visibility, String subject) {
         this.id = id;
         this.type = type;
         this.name = name;
         this.description = description;
         this.creationDate = creationDate;
         this.video = video;
+        this.urlVideo = urlVideo;
         this.urlImage = urlImage;
         this.urlFile = urlFile;
         this.comments = comments;
+        this.userId = userId;
         this.owner = owner;
         this.visibility = visibility;
         this.subject = subject;
+    }
+
+    public String getUrlVideo() {
+        return urlVideo;
+    }
+
+    public void setUrlVideo(String urlVideo) {
+        this.urlVideo = urlVideo;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getId() {

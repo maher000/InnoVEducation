@@ -19,7 +19,9 @@ public class User {
     private String active; // true or false to indicate if the acount is active or not
     private String codePostal;
     private String contry;
+    private String classRommId;
     private ClassRoom classeRoom; // only set if function equal teacher
+                                 // do not add to firbase
     private ArrayList<User> parents; // only set if function equal student;
     private String connected; // boolean to indicate if is the user online or not
     private String lastConnection; // timeStamp
