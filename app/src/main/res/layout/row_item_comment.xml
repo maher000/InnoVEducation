@@ -10,8 +10,6 @@
     android:layout_marginTop="5dp"
     card_view:cardCornerRadius="5dp">
 
-
-
     <LinearLayout
         android:orientation="vertical"
         android:paddingLeft="10dp"
@@ -27,9 +25,10 @@
             android:weightSum="1">
 
             <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/image_profile"
                 android:layout_width="60dp"
-                android:layout_marginRight="5dp"
                 android:layout_height="60dp"
+                android:layout_marginRight="5dp"
                 android:src="@drawable/round_profile_pic" />
 
             <LinearLayout
@@ -46,20 +45,19 @@
 
 
                     <TextView
-                        android:paddingRight="10dp"
-                        android:layout_weight="01"
-                        android:paddingTop="10dp"
-                        android:textStyle="bold|italic"
+                        android:id="@+id/tvFullNameComment"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Natal Del Caopoffffffffffffffff"
-                        android:textColor="@color/black"
-                        android:id="@+id/tvFullName"
-                        android:singleLine="true"
-                        android:textSize="14dp"
+                        android:layout_weight="01"
                         android:lines="1"
                         android:maxLines="1"
-                        />
+                        android:paddingRight="10dp"
+                        android:paddingTop="10dp"
+                        android:singleLine="true"
+                        android:text="Natal Del Caopoffffffffffffffff"
+                        android:textColor="@color/black"
+                        android:textSize="14dp"
+                        android:textStyle="bold|italic" />
 
                     <TextView
                         android:layout_width="wrap_content"
