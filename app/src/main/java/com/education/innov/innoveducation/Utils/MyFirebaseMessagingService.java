@@ -5,15 +5,17 @@ import android.app.PendingIntent;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 
+import com.education.innov.innoveducation.Activities.MainActivity;
+import com.education.innov.innoveducation.Entities.Notification;
+import com.education.innov.innoveducation.R;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
-import helloexpress.helloexp.MainActivity;
-import helloexpress.helloexp.R;
+import java.util.Date;
 
 
 /**
- * Created by bechirkaddech on 12/4/16.
+ * Created by Ch.
  */
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
@@ -29,7 +31,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         System.out.println("******************** +  getData().get(message) "+remoteMessage.getData().get("message"));
         System.out.println("******************** +  getData().get(title) "+remoteMessage.getData().get("title"));
 
-
+        Notification n = new Notification();
+        n.setDate(new Date().toString());
+        n.setContenue(remoteMessage.getData().get("title") +" : "+remoteMessage.getData().get("message"));
+        // child(CurrentUser)
+        Config.mDatabase.child("Notifications").child("09428835").push().setValue(n);
         showNotification(remoteMessage.getFrom(),remoteMessage.getData().get("title"),remoteMessage.getData().get("message"));
         System.out.println("******************** + 2");
 
@@ -39,7 +45,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private void showNotification(String from , String title,String message) {
 
-        Intent i = new Intent(this,MainActivity.class);
+        Intent i = new Intent(this, MainActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
         PendingIntent pendingIntent = PendingIntent.getActivity(this,0,i, PendingIntent.FLAG_UPDATE_CURRENT);

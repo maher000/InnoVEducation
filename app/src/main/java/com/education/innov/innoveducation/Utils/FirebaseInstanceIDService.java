@@ -9,7 +9,7 @@ import com.google.firebase.messaging.FirebaseMessaging;
 
 
 /**
- * Created by filipp on 5/23/2016.
+ * Created by Ch.
  */
 public class FirebaseInstanceIDService extends FirebaseInstanceIdService {
     private static final String REG_TOKEN ="REG_TOKEN";
@@ -17,11 +17,9 @@ public class FirebaseInstanceIDService extends FirebaseInstanceIdService {
     @Override
     public void onTokenRefresh() {
         FirebaseMessaging.getInstance().subscribeToTopic("news");
-
-
-        String token = FirebaseInstanceId.getInstance().getToken();
+         String token = FirebaseInstanceId.getInstance().getToken();
         Log.d(REG_TOKEN, token);
-        System.out.println("testtest");
+       /* System.out.println("testtest");
         System.out.println(token);
 
 
@@ -29,7 +27,7 @@ public class FirebaseInstanceIDService extends FirebaseInstanceIdService {
         SharedPreferences.Editor editor = getSharedPreferences("deviceToken", MODE_PRIVATE).edit();
         editor.putString("Token",token );
         editor.commit();
-
+*/
     }
 
 }

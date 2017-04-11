@@ -15,7 +15,7 @@ import okhttp3.Response;
 
 public class psuhNotificationAllUsers {
     private  static String ANDROID_NOTIFICATION_URL = "https://fcm.googleapis.com/fcm/send";
-    private static String ANDROID_NOTIFICATION_KEY = "AAAAt5DLutc:APA91bFlH4ZExP08sBfh_Ci8bSZ53NGZcgb-MT_KHAD0KC1q8qgFtXdzv6_m7w1FQC-yk8nGlWRxmCDOd6FrY6u9YavBa2ASWrLFx94kDpEYBxGXAwmHXEUMnMzrfMCyyf-5UElPg20M";
+    private static String ANDROID_NOTIFICATION_KEY = "AAAAfcpfe_s:APA91bFBWoYOsgtk1EBU46HNqqEBe-to1E-nximMXfJUpU_9aMlA4LqF02ZQpp2XZD9NdTXKCEAItu9qE6_SZcgZGWmZuIVaj6rSFoX4EN7V96DO2FrjL9qY6pe89u35CiHPbKP64GxH";
     private static String CONTENT_TYPE = "application/json";
 
     public  static void sendAndroidNotification(String deviceToken,String message,String title)  {
