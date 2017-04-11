@@ -31,5 +31,15 @@ dependencies {
     compile 'com.roughike:bottom-bar:2.2.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'co.intentservice.android-chat-ui:chat-ui:0.1.1'
+
+    // import firebase links
+    compile 'com.google.firebase:firebase-core:10.2.1'
+    compile 'com.google.firebase:firebase-database:10.2.1'
+    compile 'com.google.firebase:firebase-storage:10.2.1'
+    compile 'com.google.firebase:firebase-auth:10.2.1'
+    compile 'com.google.firebase:firebase-messaging:10.2.1'
+
+
     testCompile 'junit:junit:4.12'
 }
+apply plugin: 'com.google.gms.google-services'
