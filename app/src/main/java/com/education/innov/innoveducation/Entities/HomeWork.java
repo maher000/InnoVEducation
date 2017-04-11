@@ -11,7 +11,8 @@ public class HomeWork {
     private String title;
     private String description;
     private String url ;// optionel : add external url
-    private User teacher;
+    private Teacher teacher;
+    private ArrayList<String> idComments;
     private ArrayList<Comments> comments;
     private String startDate;
     private String endDate;
@@ -19,12 +20,13 @@ public class HomeWork {
     public HomeWork() {
     }
 
-    public HomeWork(String id, String title, String description, String url, User teacher, ArrayList<Comments> comments, String startDate, String endDate) {
+    public HomeWork(String id, String title, String description, String url, Teacher teacher, ArrayList<String> idComments, ArrayList<Comments> comments, String startDate, String endDate) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.url = url;
         this.teacher = teacher;
+        this.idComments = idComments;
         this.comments = comments;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -66,7 +68,7 @@ public class HomeWork {
         return teacher;
     }
 
-    public void setTeacher(User teacher) {
+    public void setTeacher(Teacher teacher) {
         this.teacher = teacher;
     }
 
@@ -94,4 +96,11 @@ public class HomeWork {
         this.endDate = endDate;
     }
 
+    public ArrayList<String> getIdComments() {
+        return idComments;
+    }
+
+    public void setIdComments(ArrayList<String> idComments) {
+        this.idComments = idComments;
+    }
 }

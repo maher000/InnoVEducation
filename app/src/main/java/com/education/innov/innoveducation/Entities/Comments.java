@@ -8,17 +8,19 @@ public class Comments {
 
     private String body;
     private String date;
+    private String idUser;
     private User User;
     private String id;
 
     public Comments() {
     }
 
-    public Comments(String body, String date, com.education.innov.innoveducation.Entities.User user, String id) {
-        this.body = body;
-        this.date = date;
-        User = user;
-        this.id = id;
+    public String getIdUser() {
+        return idUser;
+    }
+
+    public void setIdUser(String idUser) {
+        this.idUser = idUser;
     }
 
     public String getBody() {
@@ -52,4 +54,6 @@ public class Comments {
     public void setId(String id) {
         this.id = id;
     }
+
+
 }

@@ -14,18 +14,22 @@ public class Course {
     private String description;
     private String Country;
     private String langage;
-    private User owner;//the owner must bu a teacher in order to add a course
+    private Teacher owner;//the owner must bu a teacher in order to add a course
     private ArrayList<User> followers; //
     private ArrayList<Video> videos;
+    private ArrayList<String > idFollowers; //
+    private ArrayList<String> idVideos;
     private String creationDate;
     private String visibility; // true or false (public to all users or only visible in the classRoom where was created
     private ClassRoom classRoom;
+    private ArrayList<Comments> idComments;
     private ArrayList<Comments> comments;
 
     public Course() {
     }
 
-    public Course(String id,String name, String description, String country, String langage, User owner, ArrayList<User> followers, ArrayList<Video> videos, String creationDate, String visibility, ClassRoom classRoom, ArrayList<Comments> comments) {
+    public Course(String id, String name, String description, String country, String langage, Teacher owner, ArrayList<User> followers, ArrayList<Video> videos, ArrayList<String> idFollowers, ArrayList<String> idVideos, String creationDate, String visibility, ClassRoom classRoom, ArrayList<Comments> idComments, ArrayList<Comments> comments) {
+        this.id = id;
         this.name = name;
         this.description = description;
         Country = country;
@@ -33,11 +37,13 @@ public class Course {
         this.owner = owner;
         this.followers = followers;
         this.videos = videos;
+        this.idFollowers = idFollowers;
+        this.idVideos = idVideos;
         this.creationDate = creationDate;
         this.visibility = visibility;
         this.classRoom = classRoom;
+        this.idComments = idComments;
         this.comments = comments;
-        this.id=id;
     }
 
     public String getId() {
@@ -80,12 +86,8 @@ public class Course {
         this.langage = langage;
     }
 
-    public User getOwner() {
+    public Teacher getOwner() {
         return owner;
-    }
-
-    public void setOwner(User owner) {
-        this.owner = owner;
     }
 
     public ArrayList<User> getFollowers() {
@@ -134,5 +136,33 @@ public class Course {
 
     public void setComments(ArrayList<Comments> comments) {
         this.comments = comments;
+    }
+
+    public void setOwner(Teacher owner) {
+        this.owner = owner;
+    }
+
+    public ArrayList<String> getIdFollowers() {
+        return idFollowers;
+    }
+
+    public void setIdFollowers(ArrayList<String> idFollowers) {
+        this.idFollowers = idFollowers;
+    }
+
+    public ArrayList<String> getIdVideos() {
+        return idVideos;
+    }
+
+    public void setIdVideos(ArrayList<String> idVideos) {
+        this.idVideos = idVideos;
+    }
+
+    public ArrayList<Comments> getIdComments() {
+        return idComments;
+    }
+
+    public void setIdComments(ArrayList<Comments> idComments) {
+        this.idComments = idComments;
     }
 }

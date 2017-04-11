@@ -6,46 +6,22 @@ import java.util.ArrayList;
  * Created by maher on 11/04/2017.
  */
 
-public class Chiled {
-    private String email;
-    private String firstName;
-    private String lastName;
-    private String password;
-    private String phone;
-    private String adresse;
-    private String urlImage;
-    private String active; // true or false to indicate if the acount is active or not
-    private String codePostal;
-    private String contry;
+public class Chiled extends User {
+
     private String classRommId;
     private ClassRoom classeRoom; // only set if function equal teacher
     // do not add to firbase
-    private ArrayList<User> parents; // only set if function equal student;
-    private String connected; // boolean to indicate if is the user online or not
-    private String lastConnection; // timeStamp
+    private ArrayList<Parent> parents; // only set if function equal student;
+    private ArrayList<String > idParents;
     private String id;
 
-    public Chiled() {
-    }
 
-    public Chiled(String email, String firstName, String lastName, String password, String phone, String adresse, String urlImage, String active, String codePostal, String contry, String classRommId, ClassRoom classeRoom, ArrayList<User> parents, String connected, String lastConnection, String id) {
-
-        this.email = email;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.password = password;
-        this.phone = phone;
-        this.adresse = adresse;
-        this.urlImage = urlImage;
-        this.active = active;
-        this.codePostal = codePostal;
-        this.contry = contry;
+    public Chiled(String email, String firstName, String lastName, String password, String phone, String adresse, String urlImage, String active, String codePostal, String contry, String connected, String lastConnection, String id, String classRommId, ClassRoom classeRoom, ArrayList<Parent> parents, String id1) {
+        super(email, firstName, lastName, password, phone, adresse, urlImage, active, codePostal, contry, connected, lastConnection, id);
         this.classRommId = classRommId;
         this.classeRoom = classeRoom;
         this.parents = parents;
-        this.connected = connected;
-        this.lastConnection = lastConnection;
-        this.id = id;
+        this.id = id1;
     }
 
     public String getEmail() {
@@ -144,11 +120,11 @@ public class Chiled {
         this.classeRoom = classeRoom;
     }
 
-    public ArrayList<User> getParents() {
+    public ArrayList<Parent> getParents() {
         return parents;
     }
 
-    public void setParents(ArrayList<User> parents) {
+    public void setParents(ArrayList<Parent> parents) {
         this.parents = parents;
     }
 
