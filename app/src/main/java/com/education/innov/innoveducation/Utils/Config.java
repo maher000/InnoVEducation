@@ -18,6 +18,6 @@ public class Config {
 
     public static FirebaseAuth mAuth =  FirebaseAuth.getInstance();
     public static FirebaseUser user_connected = FirebaseAuth.getInstance().getCurrentUser() ;
-    private DatabaseReference mDatabase  = FirebaseDatabase.getInstance().getReference();
+    public static DatabaseReference mDatabase  = FirebaseDatabase.getInstance().getReference();
 
 }

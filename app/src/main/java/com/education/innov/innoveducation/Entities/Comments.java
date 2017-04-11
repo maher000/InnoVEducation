@@ -55,5 +55,14 @@ public class Comments {
         this.id = id;
     }
 
-
+    @Override
+    public String toString() {
+        return "Comments{" +
+                "body='" + body + '\'' +
+                ", date='" + date + '\'' +
+                ", idUser='" + idUser + '\'' +
+                ", User=" + User +
+                ", id='" + id + '\'' +
+                '}';
+    }
 }

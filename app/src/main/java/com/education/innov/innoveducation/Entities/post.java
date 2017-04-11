@@ -17,6 +17,7 @@ public class post {
     private String urlImage;
     private String urlFile;
     private ArrayList<Comments> comments; // do not add to firebase
+    private ArrayList<String> idcomments;
     private String userId;
     private User owner; // do not add to firbase
     private String visibility;
@@ -24,7 +25,7 @@ public class post {
 
     public post() {}
 
-    public post(String id, String type, String name, String description, String creationDate, Video video, String urlVideo, String urlImage, String urlFile, ArrayList<Comments> comments, String userId, User owner, String visibility, String subject) {
+    public post(String id, String type, String name, String description, String creationDate, Video video, String urlVideo, String urlImage, String urlFile, ArrayList<Comments> comments, String userId, User owner, String visibility, String subject ,ArrayList<String> idcomments) {
         this.id = id;
         this.type = type;
         this.name = name;
@@ -39,6 +40,7 @@ public class post {
         this.owner = owner;
         this.visibility = visibility;
         this.subject = subject;
+        this.idcomments = idcomments ;
     }
 
     public String getUrlVideo() {
@@ -151,5 +153,25 @@ public class post {
 
     public void setSubject(String subject) {
         this.subject = subject;
+    }
+
+    @Override
+    public String toString() {
+        return "post{" +
+                "id='" + id + '\'' +
+                ", type='" + type + '\'' +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", creationDate='" + creationDate + '\'' +
+                ", video=" + video +
+                ", urlVideo='" + urlVideo + '\'' +
+                ", urlImage='" + urlImage + '\'' +
+                ", urlFile='" + urlFile + '\'' +
+                ", idcomments=" + idcomments +
+                ", userId='" + userId + '\'' +
+                ", owner=" + owner +
+                ", visibility='" + visibility + '\'' +
+                ", subject='" + subject + '\'' +
+                '}';
     }
 }

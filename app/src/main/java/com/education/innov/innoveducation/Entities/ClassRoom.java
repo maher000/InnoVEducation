@@ -163,6 +163,20 @@ public class ClassRoom {
         this.idCourses = idCourses;
     }
 
-
-
+    @Override
+    public String toString() {
+        return "ClassRoom{" +
+                "name='" + name + '\'' +
+                ", Country='" + Country + '\'' +
+                ", adress='" + adress + '\'' +
+                ", administrator=" + administrator +
+                ", idAdminstrator='" + idAdminstrator + '\'' +
+                ", idStudents=" + idStudents +
+                ", idTeachers=" + idTeachers +
+                ", idHomeWorks=" + idHomeWorks +
+                ", idCourses=" + idCourses +
+                ", creationDate='" + creationDate + '\'' +
+                ", id='" + id + '\'' +
+                '}';
+    }
 }
