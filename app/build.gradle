@@ -31,5 +31,7 @@ dependencies {
     compile 'com.roughike:bottom-bar:2.2.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'co.intentservice.android-chat-ui:chat-ui:0.1.1'
+
+    compile 'com.squareup.okhttp3:okhttp:3.5.0'
     testCompile 'junit:junit:4.12'
 }

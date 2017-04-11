@@ -20,7 +20,17 @@
         <activity android:name=".Activities.CommentsActivity"/>
         <activity android:name=".Activities.ChatActivity">
 
-        </activity>
+        </activity> <service android:name=".Utils.MyFirebaseMessagingService">
+        <intent-filter>
+            <action android:name="com.google.firebase.MESSAGING_EVENT" />
+        </intent-filter>
+        </service>
+        <service android:name=".Utils.FirebaseInstanceIDService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
+
     </application>
 
 </manifest>
