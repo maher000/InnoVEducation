@@ -1,14 +1,13 @@
 package com.education.innov.innoveducation.Entities;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
- * Created by maher on 10/04/2017.
+ * Created by maher on 11/04/2017.
  */
 
-public class User {
-    private String id ;
+public class Teacher {
+
     private String email;
     private String firstName;
     private String lastName;
@@ -16,21 +15,19 @@ public class User {
     private String phone;
     private String adresse;
     private String urlImage;
-    private String function; // parent, student or teacher
     private String active; // true or false to indicate if the acount is active or not
     private String codePostal;
     private String contry;
     private String classRommId;
     private ClassRoom classeRoom; // only set if function equal teacher
-                                 // do not add to firbase
-    private ArrayList<User> parents; // only set if function equal student;
     private String connected; // boolean to indicate if is the user online or not
     private String lastConnection; // timeStamp
+    private String id;
 
+    public Teacher() {
+    }
 
-    public User() {}
-
-    public User(String id,String email, String firstName, String lastName, String password, String phone, String adresse, String urlImage, String function, String active, String codePostal, String contry, ClassRoom classeRoom, ArrayList<User> parents, String connected, String lastConnection) {
+    public Teacher(String email, String firstName, String lastName, String password, String phone, String adresse, String urlImage, String active, String codePostal, String contry, String classRommId, ClassRoom classeRoom, String connected, String lastConnection, String id) {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -38,30 +35,13 @@ public class User {
         this.phone = phone;
         this.adresse = adresse;
         this.urlImage = urlImage;
-        this.function = function;
         this.active = active;
         this.codePostal = codePostal;
         this.contry = contry;
+        this.classRommId = classRommId;
         this.classeRoom = classeRoom;
-        this.parents = parents;
         this.connected = connected;
         this.lastConnection = lastConnection;
-        this.id=id;
-    }
-
-    public String getClassRommId() {
-        return classRommId;
-    }
-
-    public void setClassRommId(String classRommId) {
-        this.classRommId = classRommId;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
         this.id = id;
     }
 
@@ -121,14 +101,6 @@ public class User {
         this.urlImage = urlImage;
     }
 
-    public String getFunction() {
-        return function;
-    }
-
-    public void setFunction(String function) {
-        this.function = function;
-    }
-
     public String getActive() {
         return active;
     }
@@ -153,20 +125,20 @@ public class User {
         this.contry = contry;
     }
 
+    public String getClassRommId() {
+        return classRommId;
+    }
+
+    public void setClassRommId(String classRommId) {
+        this.classRommId = classRommId;
+    }
+
     public ClassRoom getClasseRoom() {
         return classeRoom;
     }
 
     public void setClasseRoom(ClassRoom classeRoom) {
         this.classeRoom = classeRoom;
-    }
-
-    public ArrayList<User> getParents() {
-        return parents;
-    }
-
-    public void setParents(ArrayList<User> parents) {
-        this.parents = parents;
     }
 
     public String getConnected() {
@@ -185,6 +157,11 @@ public class User {
         this.lastConnection = lastConnection;
     }
 
+    public String getId() {
+        return id;
+    }
 
-
+    public void setId(String id) {
+        this.id = id;
+    }
 }
