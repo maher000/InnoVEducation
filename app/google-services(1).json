@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "540266167291",
+    "firebase_url": "https://innoveducation-a76b3.firebaseio.com",
+    "project_id": "innoveducation-a76b3",
+    "storage_bucket": "innoveducation-a76b3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:540266167291:android:8b11c064c82a26a5",
+        "android_client_info": {
+          "package_name": "com.education.innov.innoveducation"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "540266167291-h1bmlh2441ie3bjvti9ki6och0gjv4op.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.education.innov.innoveducation",
+            "certificate_hash": "8fe6ce87ece96b99b8828d1d86cd658f7e99ab8b"
+          }
+        },
+        {
+          "client_id": "540266167291-a5aemj33gvdl6h259sb7lag4k5n87r9u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAL-J7jrRMSzmV5Gg0zJnb5Wm-JExtFB_0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "540266167291-a5aemj33gvdl6h259sb7lag4k5n87r9u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

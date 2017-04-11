@@ -39,6 +39,9 @@ dependencies {
     compile 'com.google.firebase:firebase-auth:10.2.1'
     compile 'com.google.firebase:firebase-messaging:10.2.1'
 
+    compile 'com.github.liuguangqiang.swipeback:library:1.0.2@aar'
+    compile 'com.github.liuguangqiang.prettyprogressbar:library:+'
+
 
     testCompile 'junit:junit:4.12'
 }

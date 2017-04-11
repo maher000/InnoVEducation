@@ -64,7 +64,7 @@ public class AddHomeWorkActivity extends SwipeBackActivity {
                 int mYear = c.get(Calendar.YEAR);
                 int mMonth = c.get(Calendar.MONTH);
                 int mDay = c.get(Calendar.DAY_OF_MONTH);
-                new DatePickerDialog(this, myStartDateListener,
+                new DatePickerDialog(AddHomeWorkActivity.this, myStartDateListener,
                         mYear, mMonth, mDay).show();
             }
         });
