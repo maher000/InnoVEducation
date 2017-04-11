@@ -15,6 +15,7 @@
         <item name="colorAccent">@android:color/black</item>
         <item name="android:textSize">10dp</item>
         <item name="android:textColorHint">@android:color/black</item>
+
     </style>
 
     <style name="ThemeSwipeBack" parent="Theme.Swipe.Back">

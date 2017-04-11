@@ -1,6 +1,7 @@
 package com.education.innov.innoveducation.Activities;
 
 import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.res.Configuration;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
@@ -42,7 +43,7 @@ public class AddHomeWorkActivity extends SwipeBackActivity {
         eStartTimeView =(EditText)findViewById(R.id.txtTimeStart);
         eEndDateView =(EditText)findViewById(R.id.txtDateEnd);
         eEndTimeView =(EditText)findViewById(R.id.txtTimeEnd);
-        views();
+      //  views();
         initViews();
     }
 
