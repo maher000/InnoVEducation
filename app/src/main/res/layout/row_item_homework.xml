@@ -28,9 +28,10 @@
             android:weightSum="1">
 
             <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/image_profile_Homework"
                 android:layout_width="80dp"
-                android:layout_marginRight="5dp"
                 android:layout_height="80dp"
+                android:layout_marginRight="5dp"
                 android:src="@drawable/round_profile_pic" />
 
             <LinearLayout
@@ -46,81 +47,78 @@
                     android:layout_height="wrap_content">
 
 
-
-
                     <TextView
-                        android:paddingRight="10dp"
-                        android:layout_weight="01"
-                        android:paddingTop="10dp"
-                        android:paddingBottom="10dp"
-                        android:textStyle="bold|italic"
+                        android:id="@+id/tvFullNameHomework"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_weight="01"
+                        android:lines="1"
+                        android:maxLines="1"
+                        android:paddingBottom="10dp"
+                        android:paddingRight="10dp"
+                        android:paddingTop="10dp"
+                        android:singleLine="true"
                         android:text="Natal Del Caopoffffffffffffffff"
                         android:textColor="@color/black"
-                        android:id="@+id/textView7"
-                        android:singleLine="true"
-                        android:lines="1"
-                        android:maxLines="1"
-                        />
+                        android:textStyle="bold|italic" />
 
 
                     <TextView
-                        android:paddingRight="10dp"
-                        android:layout_weight="0.4"
+                        android:id="@+id/tvMatiereHomework"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Android"
-                        android:textStyle="italic"
-                        android:textColor="@color/black"
-                        android:id="@+id/tvMatiere"
-                        android:singleLine="true"
+                        android:layout_weight="0.4"
                         android:lines="1"
                         android:maxLines="1"
-                        />
+                        android:paddingRight="10dp"
+                        android:singleLine="true"
+                        android:text="Android"
+                        android:textColor="@color/black"
+                        android:textStyle="italic" />
 
                     <TextView
+                        android:id="@+id/tvdatestartHomework"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="2017-01-28 at 09:00AM"
                         android:textColor="@color/gray_dark"
                         android:textSize="10dp"
-                        android:textStyle="italic"
-                        android:id="@+id/textView4" />
+                        android:textStyle="italic" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/gray_dark"
-                            android:textSize="10dp"
-                            android:text="To do before 2017-01-28 at 09:00AM"
-                            android:id="@+id/textView18" />
+                    <TextView
+                        android:id="@+id/tvDateEndHomework"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="To do before 2017-01-28 at 09:00AM"
+                        android:textColor="@color/gray_dark"
+                        android:textSize="10dp" />
                     </LinearLayout>
                 </LinearLayout>
 
         </LinearLayout>
 
         <TextView
+            android:id="@+id/tvDescriptionHomework"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Lorem ipsum dolor sit amet, eam nullam aperiam feugiat ex. Illud commodo est an, ius cu nibh legimus necessitatibus, quem quis intellegat ei eos. An suas feugiat nusquam pro, commodo necessi..."
-            android:textColor="@color/black"
-            android:id="@+id/tvDescription" />
+            android:textColor="@color/black" />
 
         <TextView
+            android:id="@+id/tvDetailHomework"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/view_more"
             android:textColor="@color/gray_dark"
-            android:id="@+id/tvDetail"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="right">
+
             <TextView
-                android:id="@+id/tvComment"
+                android:id="@+id/tvCommentHomework"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/icon_comments_48"
@@ -150,18 +148,20 @@
             android:weightSum="1"
             android:paddingLeft="10dp">
 
-            <EditText android:id="@+id/EdtComment"
-                android:theme="@style/EditTextHintBlack"
+            <EditText
+                android:id="@+id/EdtCommentHomework"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="Enter a comment"
-                android:foregroundTint="@color/black"
+                android:layout_weight="1"
                 android:backgroundTint="@color/colorPrimary"
+                android:foregroundTint="@color/black"
+                android:hint="Enter a comment"
                 android:textColor="@color/black"
-                android:layout_weight="1" />
+                android:theme="@style/EditTextHintBlack" />
 
             <Button
 
+                android:id="@+id/btnAddCommentHomewotk"
                 style="@style/Widget.AppCompat.Button.Borderless"
                 android:layout_width="53dp"
                 android:layout_height="30dp"

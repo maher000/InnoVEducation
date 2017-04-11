@@ -23,6 +23,7 @@
             android:weightSum="1">
 
             <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profile_image_online"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_marginRight="5dp"
@@ -30,7 +31,7 @@
 
 
             <TextView
-                android:id="@+id/tvFullName"
+                android:id="@+id/tvFullNameOnline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="01"
@@ -46,9 +47,9 @@
                 android:textStyle="bold|italic" />
 
             <ImageView
+                android:id="@+id/icon_online"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/online"
                 android:src="@drawable/icon_online" />
 
 
