@@ -12,9 +12,9 @@ public class ClassRoom {
     private String adress;
     private Teacher administrator;
     private String idAdminstrator;
-    private ArrayList<Chiled> idStudents;
-    private ArrayList<Teacher>idTeachers;
-    private ArrayList<Chiled> students;
+    private ArrayList<String> idStudents;
+    private ArrayList<String>idTeachers;
+    private ArrayList<Child> students;
     private ArrayList<Teacher> teachers;
     private ArrayList<HomeWork> homeWorks;
     private ArrayList<Course> courses;
@@ -25,7 +25,7 @@ public class ClassRoom {
 
     public ClassRoom() {}
 
-    public ClassRoom(String name, String country, String adress, Teacher administrator, String idAdminstrator, ArrayList<Chiled> idStudents, ArrayList<Teacher> idTeachers, ArrayList<Chiled> students, ArrayList<Teacher> teachers, ArrayList<HomeWork> homeWorks, ArrayList<Course> courses, ArrayList<String> idHomeWorks, ArrayList<String> idCourses, String creationDate, String id) {
+    public ClassRoom(String name, String country, String adress, Teacher administrator, String idAdminstrator, ArrayList<String> idStudents, ArrayList<String> idTeachers, ArrayList<Child> students, ArrayList<Teacher> teachers, ArrayList<HomeWork> homeWorks, ArrayList<Course> courses, ArrayList<String> idHomeWorks, ArrayList<String> idCourses, String creationDate, String id) {
         this.name = name;
         Country = country;
         this.adress = adress;
@@ -115,27 +115,27 @@ public class ClassRoom {
         this.idAdminstrator = idAdminstrator;
     }
 
-    public ArrayList<Chiled> getIdStudents() {
+    public ArrayList<String> getIdStudents() {
         return idStudents;
     }
 
-    public void setIdStudents(ArrayList<Chiled> idStudents) {
+    public void setIdStudents(ArrayList<String> idStudents) {
         this.idStudents = idStudents;
     }
 
-    public ArrayList<Teacher> getIdTeachers() {
+    public ArrayList<String> getIdTeachers() {
         return idTeachers;
     }
 
-    public void setIdTeachers(ArrayList<Teacher> idTeachers) {
+    public void setIdTeachers(ArrayList<String> idTeachers) {
         this.idTeachers = idTeachers;
     }
 
-    public ArrayList<Chiled> getStudents() {
+    public ArrayList<Child> getStudents() {
         return students;
     }
 
-    public void setStudents(ArrayList<Chiled> students) {
+    public void setStudents(ArrayList<Child> students) {
         this.students = students;
     }
 
@@ -161,5 +161,22 @@ public class ClassRoom {
 
     public void setIdCourses(ArrayList<String> idCourses) {
         this.idCourses = idCourses;
+    }
+
+    @Override
+    public String toString() {
+        return "ClassRoom{" +
+                "name='" + name + '\'' +
+                ", Country='" + Country + '\'' +
+                ", adress='" + adress + '\'' +
+                ", administrator=" + administrator +
+                ", idAdminstrator='" + idAdminstrator + '\'' +
+                ", idStudents=" + idStudents +
+                ", idTeachers=" + idTeachers +
+                ", idHomeWorks=" + idHomeWorks +
+                ", idCourses=" + idCourses +
+                ", creationDate='" + creationDate + '\'' +
+                ", id='" + id + '\'' +
+                '}';
     }
 }

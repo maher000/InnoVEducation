@@ -103,4 +103,19 @@ public class HomeWork {
     public void setIdComments(ArrayList<String> idComments) {
         this.idComments = idComments;
     }
+
+    @Override
+    public String toString() {
+        return "HomeWork{" +
+                "id='" + id + '\'' +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", url='" + url + '\'' +
+                ", teacher=" + teacher +
+                ", idComments=" + idComments +
+                ", comments=" + comments +
+                ", startDate='" + startDate + '\'' +
+                ", endDate='" + endDate + '\'' +
+                '}';
+    }
 }

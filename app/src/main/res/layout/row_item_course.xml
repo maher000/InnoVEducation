@@ -10,8 +10,6 @@
     android:layout_marginTop="5dp"
     card_view:cardCornerRadius="5dp">
 
-
-
     <LinearLayout
         android:orientation="vertical"
         android:paddingLeft="10dp"
@@ -27,9 +25,10 @@
         android:weightSum="1">
 
         <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/image_profile_courses"
             android:layout_width="80dp"
-            android:layout_marginRight="5dp"
             android:layout_height="80dp"
+            android:layout_marginRight="5dp"
             android:src="@drawable/round_profile_pic" />
 
         <LinearLayout
@@ -46,44 +45,42 @@
 
 
                 <TextView
-                    android:paddingRight="10dp"
-                    android:layout_weight="01"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="10dp"
-                    android:textStyle="bold|italic"
+                    android:id="@+id/tvFullNameCourses"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_weight="01"
+                    android:lines="1"
+                    android:maxLines="1"
+                    android:paddingBottom="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="10dp"
+                    android:singleLine="true"
                     android:text="Natal Del Caopoffffffffffffffff"
                     android:textColor="@color/black"
-                    android:id="@+id/textView7"
-                    android:singleLine="true"
-                    android:lines="1"
-                    android:maxLines="1"
-                    />
+                    android:textStyle="bold|italic" />
 
 
                 <TextView
-                    android:paddingRight="10dp"
-                    android:layout_weight="0.4"
+                    android:id="@+id/tvMatiereCourses"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Android"
-                    android:textStyle="italic"
-                    android:textColor="@color/black"
-                    android:id="@+id/tvMatiere"
-                    android:singleLine="true"
+                    android:layout_weight="0.4"
                     android:lines="1"
                     android:maxLines="1"
-                    />
+                    android:paddingRight="10dp"
+                    android:singleLine="true"
+                    android:text="Android"
+                    android:textColor="@color/black"
+                    android:textStyle="italic" />
 
                 <TextView
+                    android:id="@+id/tvdateCoursses"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="2017-01-28 at 09:00AM"
                     android:textColor="@color/gray_dark"
-                    android:textStyle="italic"
                     android:textSize="10dp"
-                    android:id="@+id/textView4" />
+                    android:textStyle="italic" />
 
             </LinearLayout>
 

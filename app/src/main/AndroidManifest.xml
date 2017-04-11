@@ -17,9 +17,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".Activities.SearchResultsActivity" />
-        <activity android:name=".Activities.CommentsActivity" />
-        <activity android:name=".Activities.ChatActivity"></activity>
-        <activity android:name=".Activities.AddHomeWorkActivity"></activity>
+        <activity android:name=".Activities.CommentsActivity"/>
+        <activity android:name=".Activities.ChatActivity">
+
+        </activity>
     </application>
 
 </manifest>

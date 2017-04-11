@@ -31,6 +31,7 @@ import com.education.innov.innoveducation.Fragment.ListActivitiesFragment;
 import com.education.innov.innoveducation.Fragment.ProfileFragment;
 import com.education.innov.innoveducation.Fragment.RightFragmentNaviguation;
 import com.education.innov.innoveducation.R;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabReselectListener;
 import com.roughike.bottombar.OnTabSelectListener;
@@ -57,6 +58,13 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate( Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        /*
+                Subscribe users To receive Notification
+         */
+        FirebaseMessaging.getInstance().subscribeToTopic("09428835");
+
+
 
         /*** ToolBar ***.
          *

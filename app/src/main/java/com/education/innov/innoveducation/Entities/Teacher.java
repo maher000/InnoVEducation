@@ -34,4 +34,11 @@ public class Teacher extends User{
     public void setClasseRoom(ClassRoom classeRoom) {
         this.classeRoom = classeRoom;
     }
+
+    @Override
+    public String toString() {
+        return "Teacher{" +
+                "classRommId='" + classRommId + '\'' +
+                '}';
+    }
 }
