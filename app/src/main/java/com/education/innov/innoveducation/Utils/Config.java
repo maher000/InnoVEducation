@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 /**
  * Created by Syrine on 11/04/2017.
@@ -17,6 +18,8 @@ public class Config {
     Context ctx ;
     void config (){
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(ctx);
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user_connected = FirebaseAuth.getInstance().getCurrentUser();
     }
 
 }
