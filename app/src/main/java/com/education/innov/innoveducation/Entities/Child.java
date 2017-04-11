@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * Created by maher on 11/04/2017.
  */
 
-public class Chiled extends User {
+public class Child extends User {
 
     private String classRommId;
     private ClassRoom classeRoom; // only set if function equal teacher
@@ -16,7 +16,7 @@ public class Chiled extends User {
     private String id;
 
 
-    public Chiled(String email, String firstName, String lastName, String password, String phone, String adresse, String urlImage, String active, String codePostal, String contry, String connected, String lastConnection, String id, String classRommId, ClassRoom classeRoom, ArrayList<Parent> parents, String id1) {
+    public Child(String email, String firstName, String lastName, String password, String phone, String adresse, String urlImage, String active, String codePostal, String contry, String connected, String lastConnection, String id, String classRommId, ClassRoom classeRoom, ArrayList<Parent> parents, String id1) {
         super(email, firstName, lastName, password, phone, adresse, urlImage, active, codePostal, contry, connected, lastConnection, id);
         this.classRommId = classRommId;
         this.classeRoom = classeRoom;
@@ -150,5 +150,16 @@ public class Chiled extends User {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+
+    @Override
+    public String toString() {
+        return "Child{" +
+                "classRommId='" + classRommId + '\'' +
+                ", classeRoom=" + classeRoom +
+                ", idParents=" + idParents +
+                ", id='" + id + '\'' +
+                '}';
     }
 }

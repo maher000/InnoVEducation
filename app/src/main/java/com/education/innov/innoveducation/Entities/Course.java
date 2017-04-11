@@ -22,13 +22,13 @@ public class Course {
     private String creationDate;
     private String visibility; // true or false (public to all users or only visible in the classRoom where was created
     private ClassRoom classRoom;
-    private ArrayList<Comments> idComments;
+    private ArrayList<String> idComments;
     private ArrayList<Comments> comments;
 
     public Course() {
     }
 
-    public Course(String id, String name, String description, String country, String langage, Teacher owner, ArrayList<User> followers, ArrayList<Video> videos, ArrayList<String> idFollowers, ArrayList<String> idVideos, String creationDate, String visibility, ClassRoom classRoom, ArrayList<Comments> idComments, ArrayList<Comments> comments) {
+    public Course(String id, String name, String description, String country, String langage, Teacher owner, ArrayList<User> followers, ArrayList<Video> videos, ArrayList<String> idFollowers, ArrayList<String> idVideos, String creationDate, String visibility, ClassRoom classRoom, ArrayList<String> idComments, ArrayList<Comments> comments) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -158,11 +158,29 @@ public class Course {
         this.idVideos = idVideos;
     }
 
-    public ArrayList<Comments> getIdComments() {
+    public ArrayList<String> getIdComments() {
         return idComments;
     }
 
-    public void setIdComments(ArrayList<Comments> idComments) {
+    public void setIdComments(ArrayList<String> idComments) {
         this.idComments = idComments;
+    }
+
+    @Override
+    public String toString() {
+        return "Course{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", Country='" + Country + '\'' +
+                ", langage='" + langage + '\'' +
+                ", owner=" + owner +
+                ", idFollowers=" + idFollowers +
+                ", idVideos=" + idVideos +
+                ", creationDate='" + creationDate + '\'' +
+                ", visibility='" + visibility + '\'' +
+                ", classRoom=" + classRoom +
+                ", idComments=" + idComments +
+                '}';
     }
 }

@@ -38,5 +38,22 @@ public class User {
         this.id = id;
     }
 
-
+    @Override
+    public String toString() {
+        return "User{" +
+                "email='" + email + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", password='" + password + '\'' +
+                ", phone='" + phone + '\'' +
+                ", adresse='" + adresse + '\'' +
+                ", urlImage='" + urlImage + '\'' +
+                ", active='" + active + '\'' +
+                ", codePostal='" + codePostal + '\'' +
+                ", contry='" + contry + '\'' +
+                ", connected='" + connected + '\'' +
+                ", lastConnection='" + lastConnection + '\'' +
+                ", id='" + id + '\'' +
+                '}';
+    }
 }
