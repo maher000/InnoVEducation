@@ -35,12 +35,11 @@ public class ChatActivity extends AppCompatActivity {
         setContentView(R.layout.activity_chat);
         setUpToolbar();
         chatView = (ChatView) findViewById(R.id.chat_view);
-        chatView.addMessage(new ChatMessage("Message received", System.currentTimeMillis(), ChatMessage.Type.RECEIVED));
         getMessages();
         chatView.setOnSentMessageListener(new ChatView.OnSentMessageListener() {
             @Override
             public boolean sendMessage(ChatMessage chatMessage) {
-                Message m =new Message(chatMessage.getMessage(),chatMessage.getTimestamp(),chatMessage.getType(),mUserId,"zPANaDhD0OMgE5DNqGNPkh81qfW");
+                Message m =new Message(chatMessage.getMessage(),chatMessage.getTimestamp(),chatMessage.getType(),mUserId,"zPANaDhD0OMgE5DNqGNPkh81qfW2");
                 addMessage(m);
                 return true;
             }
@@ -69,10 +68,13 @@ public class ChatActivity extends AppCompatActivity {
                 System.out.println("maher"+dataSnapshot.getValue(Message.class));
                 Message m = dataSnapshot.getValue(Message.class);
 
-               // if (mUserId.equals(m.getReciverId()) && "zPANaDhD0OMgE5DNqGNPkh81qfW2".equals(m.getSenderId())) {
+               if (mUserId.equals(m.getSenderId()) && "zPANaDhD0OMgE5DNqGNPkh81qfW2".equals(m.getReciverId())) {
 
                     chatView.addMessage(new ChatMessage(m.getMessage(), m.getTimestamp(), m.getType()));
-              //  }
+                }else if (mUserId.equals(m.getReciverId()) && "zPANaDhD0OMgE5DNqGNPkh81qfW2".equals(m.getSenderId())) {
+
+                   chatView.addMessage(new ChatMessage(m.getMessage(), m.getTimestamp(), ChatMessage.Type.RECEIVED));
+               }
 
 
             }

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    android:background="@color/overWhite"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
+    android:layout_marginTop="5dp">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/game_cover"
+            android:layout_width="wrap_content"
+            android:layout_height="200dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:scaleType="centerInside"
+            card_view:srcCompat="@drawable/img_books" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_alignBottom="@+id/game_cover"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:alpha="0.8"
+            android:background="@color/default_bubble_color_rcv"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvNameGame"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="3dp"
+                android:singleLine="true"
+                android:text="Chess Game"
+                android:textSize="18dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvDescriptionGame"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="8dp"
+                android:layerType="none"
+                android:maxLines="4"
+                android:singleLine="false"
+                android:text="Suspendisse ac tempus orci, id pulvinar orci. Nullam eu velit lectus. Nunc lorem nisl, mollis quis facilisis at, consequat ac ex. Sed non pulvinar velit. Suspendisse fringilla ligula sit amet erat porta bibendum"
+                android:textColor="@color/overWhite"
+                android:textSize="12dp"
+                android:textStyle="italic"
+                android:typeface="normal" />
+
+
+        </LinearLayout>
+    </RelativeLayout>
+</android.support.v7.widget.CardView>

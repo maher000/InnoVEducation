@@ -26,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.education.innov.innoveducation.Fragment.ClasseFragment;
+import com.education.innov.innoveducation.Fragment.GameFragment;
 import com.education.innov.innoveducation.Fragment.LeftFragmentNaviguation;
 import com.education.innov.innoveducation.Fragment.ListActivitiesFragment;
 import com.education.innov.innoveducation.Fragment.ProfileFragment;
@@ -98,6 +99,10 @@ public class HomeActivity extends AppCompatActivity {
                         break;
                     case R.id.tab_friends:
                         currentFragment=new ProfileFragment();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.container_id, currentFragment).commit();
+                        break;
+                    case R.id.tab_bis:
+                        currentFragment=new GameFragment();
                         getSupportFragmentManager().beginTransaction().replace(R.id.container_id, currentFragment).commit();
                         break;
 
