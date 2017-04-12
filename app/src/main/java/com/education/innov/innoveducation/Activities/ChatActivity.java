@@ -36,7 +36,7 @@ public class ChatActivity extends AppCompatActivity {
         setUpToolbar();
         chatView = (ChatView) findViewById(R.id.chat_view);
         chatView.addMessage(new ChatMessage("Message received", System.currentTimeMillis(), ChatMessage.Type.RECEIVED));
-      //  getMessages();
+        getMessages();
         chatView.setOnSentMessageListener(new ChatView.OnSentMessageListener() {
             @Override
             public boolean sendMessage(ChatMessage chatMessage) {
