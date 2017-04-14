@@ -1,6 +1,7 @@
 package com.education.innov.innoveducation.Fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,9 +11,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.education.innov.innoveducation.Activities.CourseActivity;
 import com.education.innov.innoveducation.Adapter.CoursesAdapter;
 import com.education.innov.innoveducation.Adapter.HomeAdapter;
 import com.education.innov.innoveducation.R;
+import com.education.innov.innoveducation.Utils.RecyclerItemClickListener;
 
 
 public class CoursesFragment extends Fragment {
@@ -56,6 +59,17 @@ public class CoursesFragment extends Fragment {
 //Adapter is created in the last step
         mAdapter = new CoursesAdapter(getActivity());
         mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), mRecyclerView, new RecyclerItemClickListener.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                startActivity(new Intent(getActivity(), CourseActivity.class).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP));
+            }
+
+            @Override
+            public void onLongItemClick(View view, int position) {
+
+            }
+        }));
         return view ;
     }
 

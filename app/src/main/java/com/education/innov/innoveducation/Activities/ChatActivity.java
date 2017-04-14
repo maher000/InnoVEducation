@@ -23,10 +23,10 @@ public class ChatActivity extends AppCompatActivity {
     private Toolbar toolbar;
 
     private FirebaseAuth mFirebaseAuth;
-    private FirebaseUser mFirebaseUser;
     private DatabaseReference mDatabase=Config.mDatabase;;
     private String mUserId="Zgzah7K7pNdNT1TgBcFtZQ0jMD03",mMessageId;
     private ChatView chatView;
+    FirebaseUser mFirebaseUser = Config.user_connected;
 
 
     @Override
@@ -35,27 +35,29 @@ public class ChatActivity extends AppCompatActivity {
         setContentView(R.layout.activity_chat);
         setUpToolbar();
         chatView = (ChatView) findViewById(R.id.chat_view);
-        getMessages();
-        chatView.setOnSentMessageListener(new ChatView.OnSentMessageListener() {
-            @Override
-            public boolean sendMessage(ChatMessage chatMessage) {
-                Message m =new Message(chatMessage.getMessage(),chatMessage.getTimestamp(),chatMessage.getType(),mUserId,"zPANaDhD0OMgE5DNqGNPkh81qfW2");
-                addMessage(m);
-                return true;
-            }
-        });
+        if(mFirebaseUser !=null) {
+            getMessages();
+            chatView.setOnSentMessageListener(new ChatView.OnSentMessageListener() {
+                @Override
+                public boolean sendMessage(ChatMessage chatMessage) {
+                    Message m = new Message(chatMessage.getMessage(), chatMessage.getTimestamp(), chatMessage.getType(), mUserId, "zPANaDhD0OMgE5DNqGNPkh81qfW2");
+                    addMessage(m);
+                    return true;
+                }
+            });
 
-        chatView.setTypingListener(new ChatView.TypingListener() {
-            @Override
-            public void userStartedTyping() {
+            chatView.setTypingListener(new ChatView.TypingListener() {
+                @Override
+                public void userStartedTyping() {
 
-            }
+                }
 
-            @Override
-            public void userStoppedTyping() {
+                @Override
+                public void userStoppedTyping() {
 
-            }
-        });
+                }
+            });
+        }
     }
 
     private void getMessages(){
@@ -98,24 +100,11 @@ public class ChatActivity extends AppCompatActivity {
 
     }
 
-
     private void addMessage(Message m){
         String idMessage = mDatabase.child("message").push().getKey();
         m.setId(idMessage);
         mDatabase.child("message").child(idMessage).setValue(m);
     }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

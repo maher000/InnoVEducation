@@ -10,6 +10,8 @@ import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -79,7 +81,9 @@ public class RegisterFragment extends Fragment {
     Teacher teacher;
     Activity activity;
     User user;
+    String id;
     Child child;
+    Bitmap bmpUser;
 
 
     public RegisterFragment() {
@@ -130,7 +134,7 @@ public class RegisterFragment extends Fragment {
 
                 if (!new Test().TestConnection(getActivity())) {
                     ((MainActivity) activity).ShowErorMessage("there is no internet connection");
-                } else if (ImageProfileUser == null) {
+                } else if (bmpUser == null) {
                     ((MainActivity) activity).ShowErorMessage("you have to choose a picture");
                 } else if (email.isEmpty() || password.isEmpty() || confirmpassword.isEmpty() || firstname.isEmpty() || lastname.isEmpty()) {
                     ((MainActivity) activity).ShowErorMessage("All fields are required");
@@ -167,53 +171,46 @@ public class RegisterFragment extends Fragment {
                             String token = FirebaseInstanceId.getInstance().getToken();
                             Config.mDatabase.child("Tokens").child(Config.mAuth.getCurrentUser().getUid()).child("Token").setValue(token);
                             /*******************************************/
+                            id = Config.mAuth.getCurrentUser().getUid();
                             storageImage();
 
                         } else {
-                            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                            builder.setMessage(task.getException().getMessage())
-                                    .setTitle("erreur")
-                                    .setPositiveButton(android.R.string.ok, null);
-                            AlertDialog dialog = builder.create();
-                            dialog.show();
+                            ((MainActivity) activity).ShowErorMessage(task.getException().getMessage());
                         }
                     }
                 });
-        System.out.println("test");
     }
 
 
     private void storageImage() {
 
-        String id = Config.user_connected.getUid();
-        if (id != null ){
-        imagesRef = storageRef.child(id);
-        ImageProfileUser.setDrawingCacheEnabled(true);
-        ImageProfileUser.buildDrawingCache();
-        Bitmap bitmap = ImageProfileUser.getDrawingCache();
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        byte[] data = baos.toByteArray();
+        if (id != null) {
+            imagesRef = storageRef.child(id);
+            ImageProfileUser.setDrawingCacheEnabled(true);
+            ImageProfileUser.buildDrawingCache();
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            bmpUser.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+            byte[] data = baos.toByteArray();
 
-        UploadTask uploadTask = imagesRef.putBytes(data);
-        uploadTask.addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                // Handle unsuccessful uploads
-            }
-        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
-                Uri downloadUrl = taskSnapshot.getDownloadUrl();
-                AddDetailUser(downloadUrl.toString());
-            }
-        });
-    }}
+            UploadTask uploadTask = imagesRef.putBytes(data);
+            uploadTask.addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    // Handle unsuccessful uploads
+                }
+            }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
+                    Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                    AddDetailUser(downloadUrl.toString());
+                }
+            });
+        }
+    }
 
     public void AddDetailUser(String urlImage) {
 
-        String id = Config.user_connected.getUid();
         if (RbParent.isChecked()) {
 
             parent = new Parent();
@@ -269,7 +266,7 @@ public class RegisterFragment extends Fragment {
         final Dialog dialog = new Dialog(getActivity());
 
         dialog.setContentView(R.layout.dialog_select_image);
-                tvCamera = (TextView) dialog.findViewById(R.id.tvCamera);
+        tvCamera = (TextView) dialog.findViewById(R.id.tvCamera);
         tvGallery = (TextView) dialog.findViewById(R.id.tvGallery);
         btnCancelPicture = (Button) dialog.findViewById(R.id.btnCancelPicture);
         tvCamera.setOnClickListener(new View.OnClickListener() {
@@ -279,6 +276,7 @@ public class RegisterFragment extends Fragment {
                 File f = new File(android.os.Environment
                         .getExternalStorageDirectory(), "temp.jpg");
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
+                dialog.dismiss();
                 startActivityForResult(intent, REQUEST_CAMERA);
             }
         });
@@ -288,6 +286,7 @@ public class RegisterFragment extends Fragment {
                 Intent intent = new Intent(
                         Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 intent.setType("image/*");
+                dialog.dismiss();
                 startActivityForResult(
                         Intent.createChooser(intent, "Select File"),
                         SELECT_PICTURE);
@@ -319,12 +318,13 @@ public class RegisterFragment extends Fragment {
                     Bitmap bm;
                     BitmapFactory.Options btmapOptions = new BitmapFactory.Options();
                     btmapOptions.inSampleSize = 2;
+
                     bm = BitmapFactory.decodeFile(f.getAbsolutePath(),
                             btmapOptions);
-
-                    // bm = Bitmap.createScaledBitmap(bm, 70, 70, true);
-                    ImageProfileUser.setImageBitmap(bm);
-
+                    Matrix matrix = new Matrix();
+                    matrix.postRotate(-90);
+                    bmpUser = Bitmap.createBitmap(bm, 0, 0, bm.getWidth(), bm.getHeight(), matrix, true);
+                    ImageProfileUser.setImageBitmap(bmpUser);
                     String path = android.os.Environment
                             .getExternalStorageDirectory()
                             + File.separator
@@ -342,12 +342,38 @@ public class RegisterFragment extends Fragment {
                 }
             } else if (requestCode == SELECT_PICTURE) {
                 Uri selectedImageUri = data.getData();
+                int angle = 0;
                 String tempPath = getPath(selectedImageUri, this.getActivity());
-                Bitmap bm;
+                ExifInterface exif = null;
+                try {
+                    exif = new ExifInterface(tempPath);
+                    int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
+                    switch (orientation) {
+                        case ExifInterface.ORIENTATION_ROTATE_90:
+                            angle = 90;
+                            break;
+                        case ExifInterface.ORIENTATION_ROTATE_180:
+                            angle = 180;
+                            break;
+                        case ExifInterface.ORIENTATION_ROTATE_270:
+                            angle = 270;
+                            break;
+                        default:
+                            angle = 0;
+                            break;
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                Bitmap bm = null;
                 BitmapFactory.Options btmapOptions = new BitmapFactory.Options();
                 btmapOptions.inSampleSize = 2;
                 bm = BitmapFactory.decodeFile(tempPath, btmapOptions);
-                ImageProfileUser.setImageBitmap(bm);
+                Matrix matrix = new Matrix();
+                matrix.postRotate(angle);
+                bmpUser = Bitmap.createBitmap(bm, 0, 0, bm.getWidth(), bm.getHeight(), matrix, true);
+                ImageProfileUser.setImageBitmap(bmpUser);
+
             }
         }
     }
