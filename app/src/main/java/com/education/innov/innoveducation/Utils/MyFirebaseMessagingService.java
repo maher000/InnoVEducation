@@ -23,6 +23,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
+        if("mm".equals("g")){
+            return;
+        }
         System.out.println("******************** +  getMessageType "+remoteMessage.getMessageType());
         System.out.println("******************** +  getFrom "+remoteMessage.getFrom());
         System.out.println("******************** +  getMessageId "+remoteMessage.getMessageId());
@@ -54,9 +57,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setAutoCancel(true)
                 .setContentTitle(title)
                 .setContentText(message)
-                 .setSmallIcon(R.mipmap.ic_launcher)
+                .setSmallIcon(R.drawable.logo)
                 .setContentIntent(pendingIntent);
-
+        builder.mNumber=1;
         NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
         manager.notify(0,builder.build());

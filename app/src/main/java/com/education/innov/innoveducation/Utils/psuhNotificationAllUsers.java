@@ -32,7 +32,6 @@ public class psuhNotificationAllUsers {
 
             obj.put("to", deviceToken);
             obj.put("notification", msgObject);
-
             RequestBody body = RequestBody.create(mediaType, obj.toString());
             Request request = new Request.Builder().url(ANDROID_NOTIFICATION_URL).post(body)
                     .addHeader("content-type", CONTENT_TYPE)

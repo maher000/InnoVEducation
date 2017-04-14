@@ -26,7 +26,6 @@ public class ChatActivity extends AppCompatActivity {
     private FirebaseUser mFirebaseUser;
     private DatabaseReference mDatabase=Config.mDatabase;;
     private String mUserId="Zgzah7K7pNdNT1TgBcFtZQ0jMD03",mMessageId;
-    private String friend="zPANaDhD0OMgE5DNqGNPkh81qfW2";
     private ChatView chatView;
 
 
@@ -35,7 +34,6 @@ public class ChatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
         setUpToolbar();
-
         chatView = (ChatView) findViewById(R.id.chat_view);
         getMessages();
         chatView.setOnSentMessageListener(new ChatView.OnSentMessageListener() {
@@ -70,13 +68,13 @@ public class ChatActivity extends AppCompatActivity {
                 System.out.println("maher"+dataSnapshot.getValue(Message.class));
                 Message m = dataSnapshot.getValue(Message.class);
 
-                if (mUserId.equals(m.getReciverId()) && friend.equals(m.getSenderId())) {
+               if (mUserId.equals(m.getSenderId()) && "zPANaDhD0OMgE5DNqGNPkh81qfW2".equals(m.getReciverId())) {
 
-                    chatView.addMessage(new ChatMessage(m.getMessage(), m.getTimestamp(), ChatMessage.Type.SENT));
-                } else if (mUserId.equals(m.getSenderId()) && friend.equals(m.getReciverId())) {
+                    chatView.addMessage(new ChatMessage(m.getMessage(), m.getTimestamp(), m.getType()));
+                }else if (mUserId.equals(m.getReciverId()) && "zPANaDhD0OMgE5DNqGNPkh81qfW2".equals(m.getSenderId())) {
 
-                    chatView.addMessage(new ChatMessage(m.getMessage(), m.getTimestamp(), ChatMessage.Type.RECEIVED));
-                }
+                   chatView.addMessage(new ChatMessage(m.getMessage(), m.getTimestamp(), ChatMessage.Type.RECEIVED));
+               }
 
 
             }
