@@ -31,6 +31,7 @@
         <activity android:name=".Activities.SearchResultsActivity" />
         <activity android:name=".Activities.CommentsActivity" />
         <activity android:name=".Activities.AddHomeWorkActivity" />
+        <activity android:name=".Activities.AddClassRoomActivity" />
         <activity android:name=".Activities.ChatActivity"></activity>
         <activity android:name=".Activities.CourseActivity"></activity>
         <activity android:name=".Activities.CompleteInformationUserActivity"></activity>

@@ -41,8 +41,9 @@ public class ChatActivity extends AppCompatActivity {
                 @Override
                 public boolean sendMessage(ChatMessage chatMessage) {
                         Message m = new Message(chatMessage.getMessage(), chatMessage.getTimestamp(), chatMessage.getType(), mFirebaseUser.getUid(), "jOhgluEJPLgXK37HyMHPBzXRBB53");
-                    addMessage(m);
-                    return true;
+                        addMessage(m);
+                    chatView.getInputEditText().setText(""); 
+                    return false;
                 }
             });
 
@@ -77,6 +78,7 @@ public class ChatActivity extends AppCompatActivity {
                 }else if (mFirebaseUser.getUid().equals(m.getReciverId()) && "jOhgluEJPLgXK37HyMHPBzXRBB53".equals(m.getSenderId())) {
 
                    chatView.addMessage(new ChatMessage(m.getMessage(), m.getTimestamp(), ChatMessage.Type.RECEIVED));
+
                }
 
 

@@ -21,6 +21,7 @@ public class ClassRoom {
     private ArrayList<String > idHomeWorks;
     private ArrayList<String > idCourses;
     private String creationDate;
+    private String visibility;
     private String id;
 
     public ClassRoom() {}
@@ -161,6 +162,14 @@ public class ClassRoom {
 
     public void setIdCourses(ArrayList<String> idCourses) {
         this.idCourses = idCourses;
+    }
+
+    public String getVisibility() {
+        return visibility;
+    }
+
+    public void setVisibility(String visibility) {
+        this.visibility = visibility;
     }
 
     @Override
