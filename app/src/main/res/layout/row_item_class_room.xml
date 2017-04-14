@@ -96,7 +96,7 @@
             android:layout_height="1dp"
             android:background="@color/color_background" />
         <TextView
-            android:id="@+id/textView6"
+            android:id="@+id/tv_responsable"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/icon_admin"

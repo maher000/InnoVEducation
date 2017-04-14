@@ -172,13 +172,14 @@ public class ClassRoom {
         this.visibility = visibility;
     }
 
+
+
     @Override
     public String toString() {
         return "ClassRoom{" +
                 "name='" + name + '\'' +
                 ", Country='" + Country + '\'' +
                 ", adress='" + adress + '\'' +
-                ", administrator=" + administrator +
                 ", idAdminstrator='" + idAdminstrator + '\'' +
                 ", idStudents=" + idStudents +
                 ", idTeachers=" + idTeachers +

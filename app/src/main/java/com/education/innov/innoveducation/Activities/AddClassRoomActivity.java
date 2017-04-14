@@ -8,15 +8,19 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.InputType;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.education.innov.innoveducation.Entities.ClassRoom;
 import com.education.innov.innoveducation.R;
 import com.education.innov.innoveducation.Utils.Config;
+import com.education.innov.innoveducation.Utils.Test;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -44,17 +48,21 @@ public class AddClassRoomActivity extends SwipeBackActivity {
     private RadioButton RbYes, RbNo;
     private String name, institut, country, codePostale, visivility, id;
     private DatabaseReference mDBase = Config.mDatabase;
-    CountryPicker picker ;
+    private CountryPicker picker ;
     private ClassRoom classroom;
+    private LinearLayout LayoutErrorMessage;
+    private TextView tvErrorMsg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_class_room);
         picker = CountryPicker.newInstance("Select Country");
+        LayoutErrorMessage = (LinearLayout) findViewById(R.id.LayoutErrorMessage);
+        tvErrorMsg = (TextView) findViewById(R.id.tvErrorMsg);
         etName = (EditText) findViewById(R.id.et_classe_room_name);
         etInstitut = (EditText) findViewById(R.id.et_classe_room_institut);
-        etCountry = (EditText) findViewById(R.id.EdtCountry_add_class_room);
+        etCountry = (EditText) findViewById(R.id.etCountry_add_class_room);
         etCodePostal = (EditText) findViewById(R.id.EdtCodePostal);
         RbYes = (RadioButton) findViewById(R.id.RbYes);
         RbNo = (RadioButton) findViewById(R.id.RbNo);
@@ -87,34 +95,38 @@ public class AddClassRoomActivity extends SwipeBackActivity {
     }
 
     private void AddClassRoom() {
-        classroom = new ClassRoom();
-        id = mDBase.child("classrooms").push().getKey();
-        classroom.setIdAdminstrator(FirebaseAuth.getInstance().getCurrentUser().getUid());
-        classroom.setId(id);
-        classroom.setName(name);
-        classroom.setAdress(institut);
-        classroom.setVisibility(visivility);
-        Date date = new Date();
-        SimpleDateFormat simpleDate =  new SimpleDateFormat("dd-mm-yyyy hh:mm");
-        String dateCreation = simpleDate.format(date);
-        classroom.setCreationDate(dateCreation);
-        mDBase.child("classrooms").child(id).setValue(classroom).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful()) {
 
-                } else {
+        if(!ShowErorMessage()) {
+            classroom = new ClassRoom();
+            id = mDBase.child("classrooms").push().getKey();
+            classroom.setIdAdminstrator(FirebaseAuth.getInstance().getCurrentUser().getUid());
+            classroom.setId(id);
+            classroom.setName(name);
+            classroom.setAdress(institut);
+            classroom.setVisibility(visivility);
+            classroom.setCountry(country);
+            Date date = new Date();
+            SimpleDateFormat simpleDate = new SimpleDateFormat("dd-mm-yyyy hh:mm");
+            String dateCreation = simpleDate.format(date);
+            classroom.setCreationDate(dateCreation);
+            mDBase.child("classrooms").child(id).setValue(classroom).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if (task.isSuccessful()) {
+                        AddClassRoomActivity.this.finish();
+                        startActivity(new Intent(AddClassRoomActivity.this,MyClassRoomsActivity.class));
+                    } else {
 
-                    System.out.println("error" + task.getException().getMessage());
+                        System.out.println("error" + task.getException().getMessage());
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 
 
     private void initViews() {
         progressBar = (CircleProgressBar) findViewById(R.id.progressbar1);
-        progressBar.setBackgroundColor(Color.rgb(0, 0, 0));
         swipeBackLayout = (SwipeBackLayout) findViewById(R.id.swipe_layout);
         swipeBackLayout.setEnableFlingBack(false);
         swipeBackLayout.setOnPullToBackListener(new SwipeBackLayout.SwipeBackListener() {
@@ -130,9 +142,34 @@ public class AddClassRoomActivity extends SwipeBackActivity {
         picker.setListener(new CountryPickerListener() {
             @Override
             public void onSelectCountry(String name, String code, String dialCode, int flagDrawableResID) {
-                etCountry.setText(name);
+                country=name;
+                etCountry.setText(country);
                 picker.dismiss();
             }
         });
+    }
+
+    public boolean ShowErorMessage() {
+        String msg="";
+        if (!new Test().TestConnection(this)) {
+            msg="there is no internet connection";
+            return dispalyError(msg);
+        }
+        if(name.trim().isEmpty()||institut.trim().isEmpty()|| country.trim().isEmpty()||codePostale.trim().isEmpty())
+            return dispalyError("All fields are required");
+
+        return false;
+
+    }
+    private boolean dispalyError(String message){
+        tvErrorMsg.setText(message);
+        tvErrorMsg.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_in));
+        LayoutErrorMessage.setVisibility(View.VISIBLE);
+        LayoutErrorMessage.postDelayed(new Runnable() {
+            public void run() {
+                LayoutErrorMessage.setVisibility(View.INVISIBLE);
+            }
+        }, 3000);
+        return true;
     }
 }

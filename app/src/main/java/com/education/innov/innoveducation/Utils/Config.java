@@ -21,5 +21,12 @@ public class Config {
     public static  DatabaseReference mDatabase  = FirebaseDatabase.getInstance().getReference();
     public static FirebaseStorage storage = FirebaseStorage.getInstance();
     public static StorageReference storageRef = storage.getReference("images");
+    public static String CHILD_CLASSROOM="classrooms";
+    public static String CHILD_MESSAGE="message";
+    public static String CHILD_TEACHER="teachers";
+    public static String CHILD_TOKEN="Tokens";
+
+
+
 
 }
