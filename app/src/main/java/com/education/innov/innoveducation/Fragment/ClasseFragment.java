@@ -1,8 +1,10 @@
 package com.education.innov.innoveducation.Fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
@@ -12,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toolbar;
 
+import com.education.innov.innoveducation.Activities.AddHomeWorkActivity;
 import com.education.innov.innoveducation.Adapter.ClassePagerAdapter;
 import com.education.innov.innoveducation.Adapter.ViewPagerAdapter;
 import com.education.innov.innoveducation.R;
@@ -19,7 +22,7 @@ import com.education.innov.innoveducation.R;
 
 public class ClasseFragment extends Fragment {
 
-
+    FloatingActionButton btnAddHomeWork ;
     public ClasseFragment() {
         // Required empty public constructor
     }
@@ -46,12 +49,23 @@ public class ClasseFragment extends Fragment {
         pager.setAdapter(buildAdapter());
         TabLayout tabLayout = (TabLayout) view.findViewById(R.id.classe_sliding_tabs);
         tabLayout.setupWithViewPager(pager);
-
+       btnAddHomeWork =(FloatingActionButton) view.findViewById(R.id.btn_add_home_work_layout_homework);
+        btnAddHomeWork.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addHomeWork();
+            }
+        });
         return view ;
 
     }
 
     private PagerAdapter buildAdapter() {
         return (new ClassePagerAdapter(getActivity().getSupportFragmentManager()));
+    }
+    // add a home work
+    private void addHomeWork()
+    {
+        startActivity(new Intent(getActivity(), AddHomeWorkActivity.class).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP));
     }
 }

@@ -11,9 +11,13 @@ public class Parent extends User{
 
     private ArrayList<User> children; // only set if function equal student;
     private String type;
+    public Parent(){
+        super("hell","syrine","dridi","123456","55280536","Rue Palestine" ,"hhhh","hhhh","12345","coucou",
+                "cc");
 
-    public Parent(String email, String firstName, String lastName, String password, String phone, String adresse, String urlImage, String active, String codePostal, String contry, String connected, String lastConnection, String id, ArrayList<User> children, String type) {
-        super(email, firstName, lastName, password, phone, adresse, urlImage, active, codePostal, contry, connected, lastConnection, id);
+    }
+    public Parent(String sex, String firstName, String lastName, String phone, String adresse, String urlImage, String active, String codePostal, String contry, String connected,  String id, ArrayList<User> children, String type) {
+        super( sex ,firstName, lastName,  phone, adresse, urlImage, active, codePostal, contry, connected, id);
         this.children = children;
         this.type = type;
     }

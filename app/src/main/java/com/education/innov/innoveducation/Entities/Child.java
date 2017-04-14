@@ -16,21 +16,14 @@ public class Child extends User {
     private String id;
 
 
-    public Child(String email, String firstName, String lastName, String password, String phone, String adresse, String urlImage, String active, String codePostal, String contry, String connected, String lastConnection, String id, String classRommId, ClassRoom classeRoom, ArrayList<Parent> parents, String id1) {
-        super(email, firstName, lastName, password, phone, adresse, urlImage, active, codePostal, contry, connected, lastConnection, id);
+    public Child(String email, String sex , String firstName, String lastName, String password, String phone, String adresse, String urlImage, String active, String codePostal, String contry, String connected, String lastConnection, String id, String classRommId, ClassRoom classeRoom, ArrayList<Parent> parents, String id1) {
+        super(sex ,firstName, lastName, phone, adresse, urlImage, active, codePostal, contry, connected, id);
         this.classRommId = classRommId;
         this.classeRoom = classeRoom;
         this.parents = parents;
         this.id = id1;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
 
     public String getFirstName() {
         return firstName;
@@ -48,13 +41,6 @@ public class Child extends User {
         this.lastName = lastName;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 
     public String getPhone() {
         return phone;
@@ -136,13 +122,6 @@ public class Child extends User {
         this.connected = connected;
     }
 
-    public String getLastConnection() {
-        return lastConnection;
-    }
-
-    public void setLastConnection(String lastConnection) {
-        this.lastConnection = lastConnection;
-    }
 
     public String getId() {
         return id;

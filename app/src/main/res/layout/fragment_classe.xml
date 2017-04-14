@@ -6,13 +6,22 @@
     android:background="@color/color_background"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
     <android.support.v4.view.ViewPager
         android:id="@+id/VpPagerClasse"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-    </android.support.v4.view.ViewPager>
+        android:layout_height="wrap_content">
+  </android.support.v4.view.ViewPager>
+
+
+
+
+
+</RelativeLayout>
+
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -146,5 +155,41 @@
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"></android.support.v7.widget.Toolbar>
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
+    <com.sa90.materialarcmenu.ArcMenu
 
+        android:id="@+id/arcmenu_android_example_layout"
+        android:layout_width="wrap_content"
+        android:layout_gravity="right|bottom"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        app:menu_color="@color/colorPrimary"
+        app:menu_open="arc_left"
+        app:menu_scr="@drawable/icon_plus_48"
+        android:layout_marginBottom="40dp"
+        android:layout_alignParentStart="false"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentLeft="false">
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/btnResetPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon_courses_48"
+            app:backgroundTint="@color/colorPrimary"  />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/btnRestCountry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon_bishop_48"
+            app:backgroundTint="@color/colorPrimary"  />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/btn_add_home_work_layout_homework"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:src="@drawable/icon_calendar_48"
+            app:backgroundTint="@color/colorPrimary" />
+    </com.sa90.materialarcmenu.ArcMenu>
 </android.support.design.widget.CoordinatorLayout>

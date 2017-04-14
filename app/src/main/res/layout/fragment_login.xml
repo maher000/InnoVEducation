@@ -34,10 +34,10 @@
 
             android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp">
-            <EditText android:id="@+id/login_page_social_login_text"
+            <EditText android:id="@+id/EdtEmailUser"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Nom"
+                android:hint="Email"
                 android:inputType="textEmailAddress"
                 android:textColor="@color/overWhite" />
         </android.support.design.widget.TextInputLayout>
@@ -50,7 +50,7 @@
             android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp"
             android:forceHasOverlappingRendering="true">
-            <EditText android:id="@+id/login_page_social_login_password"
+            <EditText android:id="@+id/EdtPasswordUser"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Mot De Passe"

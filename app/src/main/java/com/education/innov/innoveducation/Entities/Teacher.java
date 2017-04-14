@@ -12,9 +12,13 @@ public class Teacher extends User{
     private String classRommId;
     private ClassRoom classeRoom; // only set if function equal teacher
 
+public Teacher(){
+    super("hell","syrine","dridi","123456","55280536","Rue Palestine" ,"hhhh","hhhh","12345","coucou",
+            "cc");
 
-    public Teacher(String email, String firstName, String lastName, String password, String phone, String adresse, String urlImage, String active, String codePostal, String contry, String connected, String lastConnection, String id, String classRommId, ClassRoom classeRoom) {
-        super(email, firstName, lastName, password, phone, adresse, urlImage, active, codePostal, contry, connected, lastConnection, id);
+}
+    public Teacher(String sex ,  String firstName, String lastName, String phone, String adresse, String urlImage, String active, String codePostal, String contry, String connected,  String id, String classRommId, ClassRoom classeRoom) {
+        super(sex,firstName, lastName, phone, adresse, urlImage, active, codePostal, contry, connected, id);
         this.classRommId = classRommId;
         this.classeRoom = classeRoom;
     }

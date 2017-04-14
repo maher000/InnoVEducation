@@ -49,18 +49,8 @@ public class HomeworksFragment extends Fragment {
         //Adapter is created in the last step
         mAdapter = new HomeWorkAdapter(getActivity());
         mRecyclerView.setAdapter(mAdapter);
-        btnAddHomeWork =(FloatingActionButton) view.findViewById(R.id.btn_add_home_work_layout_homework);
-        btnAddHomeWork.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                addHomeWork();
-            }
-        });
+
         return view ;
     }
-    // add a home work
-    private void addHomeWork()
-    {
-        startActivity(new Intent(getActivity(), AddHomeWorkActivity.class).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP));
-    }
+
 }

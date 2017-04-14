@@ -26,6 +26,7 @@ public class ChatActivity extends AppCompatActivity {
     private FirebaseUser mFirebaseUser;
     private DatabaseReference mDatabase=Config.mDatabase;;
     private String mUserId="Zgzah7K7pNdNT1TgBcFtZQ0jMD03",mMessageId;
+    private String friend="zPANaDhD0OMgE5DNqGNPkh81qfW2";
     private ChatView chatView;
 
 
@@ -34,13 +35,13 @@ public class ChatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
         setUpToolbar();
+
         chatView = (ChatView) findViewById(R.id.chat_view);
-        chatView.addMessage(new ChatMessage("Message received", System.currentTimeMillis(), ChatMessage.Type.RECEIVED));
         getMessages();
         chatView.setOnSentMessageListener(new ChatView.OnSentMessageListener() {
             @Override
             public boolean sendMessage(ChatMessage chatMessage) {
-                Message m =new Message(chatMessage.getMessage(),chatMessage.getTimestamp(),chatMessage.getType(),mUserId,"zPANaDhD0OMgE5DNqGNPkh81qfW");
+                Message m =new Message(chatMessage.getMessage(),chatMessage.getTimestamp(),chatMessage.getType(),mUserId,"zPANaDhD0OMgE5DNqGNPkh81qfW2");
                 addMessage(m);
                 return true;
             }
@@ -69,10 +70,13 @@ public class ChatActivity extends AppCompatActivity {
                 System.out.println("maher"+dataSnapshot.getValue(Message.class));
                 Message m = dataSnapshot.getValue(Message.class);
 
-               // if (mUserId.equals(m.getReciverId()) && "zPANaDhD0OMgE5DNqGNPkh81qfW2".equals(m.getSenderId())) {
+                if (mUserId.equals(m.getReciverId()) && friend.equals(m.getSenderId())) {
 
-                    chatView.addMessage(new ChatMessage(m.getMessage(), m.getTimestamp(), m.getType()));
-              //  }
+                    chatView.addMessage(new ChatMessage(m.getMessage(), m.getTimestamp(), ChatMessage.Type.SENT));
+                } else if (mUserId.equals(m.getSenderId()) && friend.equals(m.getReciverId())) {
+
+                    chatView.addMessage(new ChatMessage(m.getMessage(), m.getTimestamp(), ChatMessage.Type.RECEIVED));
+                }
 
 
             }

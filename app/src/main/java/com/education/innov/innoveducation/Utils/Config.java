@@ -7,6 +7,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 /**
  * Created by Syrine on 11/04/2017.
@@ -17,5 +19,7 @@ public class Config {
     public static FirebaseAuth mAuth =  FirebaseAuth.getInstance();
     public static FirebaseUser user_connected = FirebaseAuth.getInstance().getCurrentUser() ;
     public static  DatabaseReference mDatabase  = FirebaseDatabase.getInstance().getReference();
+    public static FirebaseStorage storage = FirebaseStorage.getInstance();
+    public static StorageReference storageRef = storage.getReference("images");
 
 }

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/login_background_f"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
@@ -37,30 +38,71 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <de.hdodenhof.circleimageview.CircleImageView
-        android:layout_width="143dp"
-        android:layout_height="108dp"
-        android:src="@drawable/profil_image"
-                android:layout_gravity="center_horizontal" />
-        </LinearLayout>
-        <!--  Email Label -->
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp">
-            <EditText android:id="@+id/FullName"
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Full name"
-                android:inputType="textEmailAddress"
+                android:gravity="center">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="143dp"
+                    android:layout_height="108dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_gravity="center_vertical|center_horizontal|center"
+                    android:src="@drawable/profil_image"
+                    android:id="@+id/ImageProfileUser" />
+                <android.support.design.widget.FloatingActionButton
+                    android:id="@+id/btnChooseImage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/icon_plus_48"
+                    app:backgroundTint="@color/colorPrimary"
+                    android:layout_marginRight="13dp"
+                    android:layout_marginTop="67dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignRight="@+id/ImageProfileUser"
+                    android:layout_alignEnd="@+id/ImageProfileUser"
+                    android:layout_marginEnd="13dp" />
+            </RelativeLayout>
+        </LinearLayout>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+        <!--  FirstName Label -->
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:layout_marginTop="8dp">
+            <EditText android:id="@+id/EdtFirstname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Firstname"
+                android:inputType="text"
                 android:textColor="@color/overWhite" />
         </android.support.design.widget.TextInputLayout>
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="wrap_content"
+        android:layout_weight="0.5"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp">
+        <EditText android:id="@+id/EdtLastname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Lastname"
+            android:inputType="text"
+            android:textColor="@color/overWhite" />
+    </android.support.design.widget.TextInputLayout>
         <!--  Email Label -->
+
+</LinearLayout>
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp">
-            <EditText android:id="@+id/login_page_social_login_text"
+            <EditText android:id="@+id/EdtEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Email"
@@ -74,7 +116,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:forceHasOverlappingRendering="true">
-            <EditText android:id="@+id/password"
+            <EditText android:id="@+id/EdtPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Password"
@@ -89,7 +131,7 @@
             android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp"
             android:forceHasOverlappingRendering="true">
-            <EditText android:id="@+id/RetypePassword"
+            <EditText android:id="@+id/EdtConfirmPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Retype Password"
@@ -104,44 +146,49 @@
             android:layout_gravity="center_horizontal">
 
             <TextView
+                android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="i am"
+                android:layout_gravity="center_vertical|center_horizontal"
                 android:paddingRight="10dp"
-                android:textColor="@color/overWhite"
-                android:id="@+id/textView2"
-                android:layout_gravity="center_horizontal" />
+                android:text="i am"
+                android:textColor="@color/overWhite" />
 
 
                 <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content">
+
                     <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
                         android:layout_width="fill_parent"
+                        android:id="@+id/RgType"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical|center_horizontal"
                         android:orientation="horizontal">
-                    <RadioButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Teacher"
-                        android:paddingLeft="10dp"
-                        android:paddingRight="10dp"
-                        android:textColor="@color/overWhite"
-                        android:id="@+id/RdTeacher"
-                        android:buttonTint="@color/colorPrimary"
-                        android:layout_weight="0.5"/>
 
-                    <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:text="Parent"
-                    android:textColor="@color/overWhite"
-                    android:id="@+id/RdParent"
-                        android:buttonTint="@color/colorPrimary"
-                        android:layout_weight="0.5"/>
+                        <RadioButton
+                            android:id="@+id/RbTeacher"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.5"
+                            android:buttonTint="@color/colorPrimary"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp"
+                            android:checked="true"
+                            android:text="Teacher"
+                            android:textColor="@color/overWhite" />
+
+                        <RadioButton
+                            android:id="@+id/RbParent"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.5"
+                            android:buttonTint="@color/colorPrimary"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp"
+                            android:text="Parent"
+                            android:textColor="@color/overWhite" />
                     </RadioGroup>
                 </LinearLayout>
 

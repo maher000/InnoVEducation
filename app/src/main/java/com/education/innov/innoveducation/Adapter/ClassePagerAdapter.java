@@ -1,19 +1,13 @@
 package com.education.innov.innoveducation.Adapter;
 
-import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.education.innov.innoveducation.Fragment.ActivitiesFragment;
 import com.education.innov.innoveducation.Fragment.CoursesFragment;
-import com.education.innov.innoveducation.Fragment.HomeFragment;
 import com.education.innov.innoveducation.Fragment.HomeworksFragment;
 import com.education.innov.innoveducation.Fragment.ListActivitiesFragment;
-import com.education.innov.innoveducation.Fragment.LoginFragment;
-import com.education.innov.innoveducation.Fragment.ProfileFragment;
-import com.education.innov.innoveducation.Fragment.RegisterFragment;
+
 /**
  * Created by Syrine on 03/04/2017.
  */
