@@ -91,7 +91,10 @@
 
 
         </LinearLayout>
-
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/color_background" />
         <TextView
             android:id="@+id/textView6"
             android:layout_width="match_parent"
@@ -105,7 +108,7 @@
             android:id="@+id/tvCountry"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/icon_location"
+            android:drawableLeft="@drawable/icon_worldwide_location_48"
             android:gravity="center_vertical|left"
             android:paddingRight="10dp"
             android:text="Tunsisa"
@@ -113,10 +116,7 @@
             android:textColor="@color/gray_dark" />
 
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/color_background" />
+
         <!--  Password Label -->
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"

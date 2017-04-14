@@ -16,7 +16,7 @@
             android:layout_width="45dp"
             android:layout_height="45dp"
             pb:background_color="@android:color/transparent"
-            pb:progress_color="@android:color/white"
+            pb:progress_color="@android:color/black"
             pb:stroke_width="2dp" />
 
         <ImageView

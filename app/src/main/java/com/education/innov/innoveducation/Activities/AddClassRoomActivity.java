@@ -50,11 +50,11 @@ public class AddClassRoomActivity extends SwipeBackActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_home_work);
+        setContentView(R.layout.activity_add_class_room);
         picker = CountryPicker.newInstance("Select Country");
         etName = (EditText) findViewById(R.id.et_classe_room_name);
         etInstitut = (EditText) findViewById(R.id.et_classe_room_institut);
-        etCountry = (EditText) findViewById(R.id.EdtCountry);
+        etCountry = (EditText) findViewById(R.id.EdtCountry_add_class_room);
         etCodePostal = (EditText) findViewById(R.id.EdtCodePostal);
         RbYes = (RadioButton) findViewById(R.id.RbYes);
         RbNo = (RadioButton) findViewById(R.id.RbNo);

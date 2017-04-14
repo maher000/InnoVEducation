@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toolbar;
 
+import com.education.innov.innoveducation.Activities.AddClassRoomActivity;
 import com.education.innov.innoveducation.Activities.AddHomeWorkActivity;
 import com.education.innov.innoveducation.Adapter.ClassePagerAdapter;
 import com.education.innov.innoveducation.Adapter.ViewPagerAdapter;
@@ -22,7 +23,7 @@ import com.education.innov.innoveducation.R;
 
 public class ClasseFragment extends Fragment {
 
-    FloatingActionButton btnAddHomeWork ;
+    FloatingActionButton btnAddHomeWork,btnAddClassroom ;
     public ClasseFragment() {
         // Required empty public constructor
     }
@@ -49,11 +50,18 @@ public class ClasseFragment extends Fragment {
         pager.setAdapter(buildAdapter());
         TabLayout tabLayout = (TabLayout) view.findViewById(R.id.classe_sliding_tabs);
         tabLayout.setupWithViewPager(pager);
-       btnAddHomeWork =(FloatingActionButton) view.findViewById(R.id.btn_add_home_work_layout_homework);
+        btnAddHomeWork =(FloatingActionButton) view.findViewById(R.id.btn_add_home_work_layout_homework);
+        btnAddClassroom =(FloatingActionButton) view.findViewById(R.id.btn_add_classroom_layout_homework);
         btnAddHomeWork.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 addHomeWork();
+            }
+        });
+        btnAddClassroom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addClassroom();
             }
         });
         return view ;
@@ -67,5 +75,9 @@ public class ClasseFragment extends Fragment {
     private void addHomeWork()
     {
         startActivity(new Intent(getActivity(), AddHomeWorkActivity.class).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP));
+    }
+    private void addClassroom()
+    {
+        startActivity(new Intent(getActivity(), AddClassRoomActivity.class).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP));
     }
 }

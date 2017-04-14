@@ -34,6 +34,7 @@
         <activity android:name=".Activities.AddClassRoomActivity" />
         <activity android:name=".Activities.ChatActivity"></activity>
         <activity android:name=".Activities.CourseActivity"></activity>
+        <activity android:name=".Activities.MyClassRoomsActivity"></activity>
         <activity android:name=".Activities.CompleteInformationUserActivity"></activity>
         <service android:name=".Services.FirebaseMessagingService">
             <intent-filter>

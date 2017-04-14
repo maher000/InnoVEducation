@@ -2,6 +2,7 @@ package com.education.innov.innoveducation.Activities;
 
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Handler;
 import android.os.PersistableBundle;
 import android.support.annotation.IdRes;
@@ -115,8 +116,13 @@ public class HomeActivity extends AppCompatActivity {
         bottomBar.setOnTabReselectListener(new OnTabReselectListener() {
             @Override
             public void onTabReSelected(@IdRes int tabId) {
-
-                Toast.makeText(getApplicationContext(), tabId + "", Toast.LENGTH_LONG).show();
+                switch (tabId) {
+                    case R.id.tab_classroom:
+                        startActivity(new Intent(HomeActivity.this,MyClassRoomsActivity.class));
+                        break;
+                    default:
+                        Toast.makeText(getApplicationContext(), tabId + "", Toast.LENGTH_LONG).show();
+                }
             }
         });
 

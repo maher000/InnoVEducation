@@ -179,17 +179,17 @@
         android:layout_alignParentLeft="false">
 
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/btnResetPassword"
+            android:id="@+id/btn_add_course_layout_homework"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/icon_courses_48"
             app:backgroundTint="@color/colorPrimary"  />
 
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/btnRestCountry"
+            android:id="@+id/btn_add_classroom_layout_homework"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/icon_bishop_48"
+            android:src="@drawable/icon_classroom_48"
             app:backgroundTint="@color/colorPrimary"  />
 
         <android.support.design.widget.FloatingActionButton
@@ -197,7 +197,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:src="@drawable/icon_calendar_48"
+            android:src="@drawable/icon_book_open"
             app:backgroundTint="@color/colorPrimary" />
     </com.sa90.materialarcmenu.ArcMenu>
 </android.support.design.widget.CoordinatorLayout>
