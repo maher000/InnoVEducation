@@ -22,12 +22,11 @@ import co.intentservice.chatui.models.ChatMessage;
 public class ChatActivity extends AppCompatActivity {
     private Toolbar toolbar;
 
-    private FirebaseAuth mFirebaseAuth;
+    private FirebaseAuth mFirebaseAuth=FirebaseAuth.getInstance();
     private DatabaseReference mDatabase=Config.mDatabase;;
-    private String mUserId="Zgzah7K7pNdNT1TgBcFtZQ0jMD03",mMessageId;
+    private String mMessageId;
     private ChatView chatView;
-    FirebaseUser mFirebaseUser = Config.user_connected;
-
+    FirebaseUser mFirebaseUser = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,11 +35,12 @@ public class ChatActivity extends AppCompatActivity {
         setUpToolbar();
         chatView = (ChatView) findViewById(R.id.chat_view);
         if(mFirebaseUser !=null) {
+            mFirebaseUser=mFirebaseAuth.getCurrentUser();
             getMessages();
             chatView.setOnSentMessageListener(new ChatView.OnSentMessageListener() {
                 @Override
                 public boolean sendMessage(ChatMessage chatMessage) {
-                    Message m = new Message(chatMessage.getMessage(), chatMessage.getTimestamp(), chatMessage.getType(), mUserId, "zPANaDhD0OMgE5DNqGNPkh81qfW2");
+                    Message m = new Message(chatMessage.getMessage(), chatMessage.getTimestamp(), chatMessage.getType(), mFirebaseUser.getUid(), "jOhgluEJPLgXK37HyMHPBzXRBB53");
                     addMessage(m);
                     return true;
                 }
@@ -70,10 +70,10 @@ public class ChatActivity extends AppCompatActivity {
                 System.out.println("maher"+dataSnapshot.getValue(Message.class));
                 Message m = dataSnapshot.getValue(Message.class);
 
-               if (mUserId.equals(m.getSenderId()) && "zPANaDhD0OMgE5DNqGNPkh81qfW2".equals(m.getReciverId())) {
+               if (mFirebaseUser.getUid().equals(m.getSenderId()) && "jOhgluEJPLgXK37HyMHPBzXRBB53".equals(m.getReciverId())) {
 
-                    chatView.addMessage(new ChatMessage(m.getMessage(), m.getTimestamp(), m.getType()));
-                }else if (mUserId.equals(m.getReciverId()) && "zPANaDhD0OMgE5DNqGNPkh81qfW2".equals(m.getSenderId())) {
+                    chatView.addMessage(new ChatMessage(m.getMessage(), m.getTimestamp(),  ChatMessage.Type.SENT));
+                }else if (mFirebaseUser.getUid().equals(m.getReciverId()) && "jOhgluEJPLgXK37HyMHPBzXRBB53".equals(m.getSenderId())) {
 
                    chatView.addMessage(new ChatMessage(m.getMessage(), m.getTimestamp(), ChatMessage.Type.RECEIVED));
                }
