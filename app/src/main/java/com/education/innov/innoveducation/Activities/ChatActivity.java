@@ -34,13 +34,13 @@ public class ChatActivity extends AppCompatActivity {
         setContentView(R.layout.activity_chat);
         setUpToolbar();
         chatView = (ChatView) findViewById(R.id.chat_view);
-        if(mFirebaseUser !=null) {
+        if(mFirebaseAuth !=null) {
             mFirebaseUser=mFirebaseAuth.getCurrentUser();
             getMessages();
             chatView.setOnSentMessageListener(new ChatView.OnSentMessageListener() {
                 @Override
                 public boolean sendMessage(ChatMessage chatMessage) {
-                    Message m = new Message(chatMessage.getMessage(), chatMessage.getTimestamp(), chatMessage.getType(), mFirebaseUser.getUid(), "jOhgluEJPLgXK37HyMHPBzXRBB53");
+                        Message m = new Message(chatMessage.getMessage(), chatMessage.getTimestamp(), chatMessage.getType(), mFirebaseUser.getUid(), "jOhgluEJPLgXK37HyMHPBzXRBB53");
                     addMessage(m);
                     return true;
                 }
@@ -57,7 +57,8 @@ public class ChatActivity extends AppCompatActivity {
 
                 }
             });
-        }
+        }else
+            System.out.println("nullFireBase");
     }
 
     private void getMessages(){
