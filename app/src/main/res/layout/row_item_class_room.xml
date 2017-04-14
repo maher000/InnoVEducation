@@ -105,10 +105,10 @@
             android:id="@+id/tvCountry"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/icon_admin"
+            android:drawableLeft="@drawable/icon_location"
             android:gravity="center_vertical|left"
             android:paddingRight="10dp"
-            android:text="Natalina Del Capo"
+            android:text="Tunsisa"
             android:layout_marginTop="6dp"
             android:textColor="@color/gray_dark" />
 
