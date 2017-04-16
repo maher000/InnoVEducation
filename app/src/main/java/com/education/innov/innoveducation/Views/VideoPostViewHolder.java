@@ -17,12 +17,12 @@ import de.hdodenhof.circleimageview.CircleImageView;
  */
 public class VideoPostViewHolder extends RecyclerView.ViewHolder {
 
-    CircleImageView image_profile_video ;
-    TextView tvFullNameVideo , tvMatiereVideo , tvDateVideo , tvDescriptionVideo ,
+   public CircleImageView image_profile_video ;
+   public TextView tvFullNameVideo , tvMatiereVideo , tvDateVideo , tvDescriptionVideo ,
     tvDetailVideo ,  tvCommentsVideo  ;
-    VideoView  PostVideo ;
-    EditText EdtCommentVideo;
-    Button btnAddCommentVideo;
+   public VideoView  PostVideo ;
+   public EditText EdtCommentVideo;
+   public Button btnAddCommentVideo;
 
     private TextView headerLabel;
 

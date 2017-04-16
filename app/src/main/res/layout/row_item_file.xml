@@ -101,6 +101,13 @@
             android:layout_height="wrap_content"
             android:text="Lorem ipsum dolor sit amet, eam nullam aperiam feugiat ex. Illud commodo est an, ius cu nibh legimus necessitatibus, quem quis intellegat ei eos. An suas feugiat nusquam pro, commodo necessi..."
             android:textColor="@color/black" />
+        <TextView
+            android:id="@+id/tvNameFile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="file"
+            android:textColor="@color/gray_dark"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tvDetailFile"

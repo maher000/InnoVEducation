@@ -26,9 +26,10 @@
 
                 <EditText
                     android:id="@+id/EdtPhone"
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
+                    android:textSize="12dp"
                     android:backgroundTint="@color/colorPrimary"
                     android:drawableTint="#FF4081"
                     android:focusable="true"
@@ -49,12 +50,13 @@
 
                 <EditText
                     android:id="@+id/EdtBirthday"
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:backgroundTint="@color/colorPrimary"
                     android:drawableTint="#FF4081"
                     android:focusable="true"
+                    android:textSize="12dp"
                     android:focusableInTouchMode="true"
                     android:foregroundTint="@color/black"
                     android:hint="Birthday"
@@ -87,6 +89,7 @@
                         android:focusableInTouchMode="true"
                         android:foregroundTint="@color/black"
                         android:hint="Country"
+                        android:textSize="12dp"
                         android:singleLine="true"
                         android:textColor="@color/black"
                         android:textColorHint="@color/bb_darkBackgroundColor"
@@ -101,13 +104,12 @@
 
                     <EditText
                         android:id="@+id/EdtCodePostal"
-                        android:layout_width="fill_parent"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
                         android:backgroundTint="@color/colorPrimary"
                         android:drawableTint="#FF4081"
-                        android:focusable="true"
-                        android:focusableInTouchMode="true"
+                        android:textSize="12dp"
                         android:foregroundTint="@color/black"
                         android:hint="Code Postal"
                         android:inputType="numberDecimal"
@@ -127,13 +129,12 @@
 
                 <EditText
                     android:id="@+id/EdtAdress"
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:backgroundTint="@color/colorPrimary"
                     android:drawableTint="#FF4081"
-                    android:focusable="true"
-                    android:focusableInTouchMode="true"
+                    android:textSize="12dp"
                     android:foregroundTint="@color/black"
                     android:hint="Adress "
                     android:singleLine="true"
@@ -155,6 +156,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical|center_horizontal"
                     android:paddingRight="10dp"
+                    android:textSize="12dp"
                     android:text="Sex"
                     android:textColor="@color/black" />
 
@@ -181,7 +183,7 @@
                             android:text="Women"
                             android:textColor="@color/black" />
 
-                        <RadioButton
+           n              <RadioButton
                             android:id="@+id/RbMen"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"

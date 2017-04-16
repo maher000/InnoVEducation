@@ -1,6 +1,7 @@
 package com.education.innov.innoveducation.Activities;
 
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -47,7 +48,9 @@ public class CompleteInformationUserActivity extends AppCompatActivity {
     private int yearStart, monthStart, dayStart;
     private int year, month, day;
     CountryPicker picker ;
+    ProgressDialog progress;
     String country, address, phone, birthday, sex, code_postal;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,9 +70,13 @@ public class CompleteInformationUserActivity extends AppCompatActivity {
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                progress = new ProgressDialog(CompleteInformationUserActivity.this);
+                progress.setMessage("Uploading dat ...");
+                progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                progress.setIndeterminate(true);
+                progress.show();
                 if (RbMen.isChecked()) {
                     sex = "Men";
-
                 }
                 if (RbWomen.isChecked()) {
                     sex = "Women";
@@ -83,14 +90,12 @@ public class CompleteInformationUserActivity extends AppCompatActivity {
                 CompleteInformationParent();
             }
         });
-
         EdtCountry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 SelectCountry();
             }
         });
-
         EdtBirthday.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -98,7 +103,6 @@ public class CompleteInformationUserActivity extends AppCompatActivity {
                         year, month, day).show();
             }
         });
-
         btnLater.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -133,6 +137,7 @@ public class CompleteInformationUserActivity extends AppCompatActivity {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {
+                                        progress.dismiss();
                                         startActivity(new Intent(CompleteInformationUserActivity.this, HomeActivity.class));
                                     }
                                 }
@@ -173,20 +178,16 @@ public class CompleteInformationUserActivity extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()) {
+                                    progress.dismiss();
                                     startActivity(new Intent(CompleteInformationUserActivity.this, HomeActivity.class));
                                 }
                             }
                         });
                     }
-
-
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
-
                     }
-
                 });
-
     }
 
     private DatePickerDialog.OnDateSetListener BirthdayListener = new

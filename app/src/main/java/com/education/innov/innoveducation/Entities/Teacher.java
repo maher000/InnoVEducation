@@ -13,8 +13,8 @@ public class Teacher extends User{
     private ClassRoom classeRoom; // only set if function equal teacher
 
 public Teacher(){
-    super("hell","syrine","dridi","123456","55280536","Rue Palestine" ,"hhhh","hhhh","12345","coucou",
-            "cc");
+    super("NONE","NONE","NONE","NONE","NONE","NONE" ,"NONE","NONE","NONE","NONE",
+            "NONE");
 
 }
     public Teacher(String sex ,  String firstName, String lastName, String phone, String adresse, String urlImage, String active, String codePostal, String contry, String connected,  String id, String classRommId, ClassRoom classeRoom) {

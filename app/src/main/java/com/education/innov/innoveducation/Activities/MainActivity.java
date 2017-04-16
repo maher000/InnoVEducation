@@ -1,7 +1,9 @@
 package com.education.innov.innoveducation.Activities;
 
 import android.app.ActionBar;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -31,7 +33,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        if (mFirebaseUser != null) {
+
+
+
+       if (mFirebaseUser != null) {
             Intent intent1 = new Intent(MainActivity.this, HomeActivity.class);
             intent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent1.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);

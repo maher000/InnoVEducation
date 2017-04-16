@@ -16,6 +16,7 @@ import android.widget.Toolbar;
 
 import com.education.innov.innoveducation.Activities.AddClassRoomActivity;
 import com.education.innov.innoveducation.Activities.AddHomeWorkActivity;
+import com.education.innov.innoveducation.Activities.AddPostActivity;
 import com.education.innov.innoveducation.Adapter.ClassePagerAdapter;
 import com.education.innov.innoveducation.Adapter.ViewPagerAdapter;
 import com.education.innov.innoveducation.R;
@@ -23,7 +24,7 @@ import com.education.innov.innoveducation.R;
 
 public class ClasseFragment extends Fragment {
 
-    FloatingActionButton btnAddHomeWork,btnAddClassroom ;
+    FloatingActionButton btnAddHomeWork,btnAddClassroom ,btn_add_post_layout_post;
     public ClasseFragment() {
         // Required empty public constructor
     }
@@ -52,6 +53,7 @@ public class ClasseFragment extends Fragment {
         tabLayout.setupWithViewPager(pager);
         btnAddHomeWork =(FloatingActionButton) view.findViewById(R.id.btn_add_home_work_layout_homework);
         btnAddClassroom =(FloatingActionButton) view.findViewById(R.id.btn_add_classroom_layout_homework);
+        btn_add_post_layout_post =(FloatingActionButton) view.findViewById(R.id.btn_add_post_layout_post);
         btnAddHomeWork.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -62,6 +64,12 @@ public class ClasseFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 addClassroom();
+            }
+        });
+        btn_add_post_layout_post.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addPost();
             }
         });
         return view ;
@@ -79,5 +87,10 @@ public class ClasseFragment extends Fragment {
     private void addClassroom()
     {
         startActivity(new Intent(getActivity(), AddClassRoomActivity.class).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP));
+    }
+
+    private void addPost()
+    {
+        startActivity(new Intent(getActivity(), AddPostActivity.class).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP));
     }
 }

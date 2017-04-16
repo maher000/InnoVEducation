@@ -24,7 +24,7 @@
             android:layout_height="25dp"
             android:layout_centerInParent="true"
             android:background="@drawable/ic_action_name"
-            android:backgroundTint="@color/bb_darkBackgroundColor"/>
+            android:backgroundTint="@color/bb_darkBackgroundColor" />
 
     </RelativeLayout>
 
@@ -42,10 +42,9 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingTop="70dp"
                 android:paddingLeft="16dp"
-                android:paddingRight="16dp">
-
+                android:paddingRight="16dp"
+                android:paddingTop="70dp">
 
 
                 <android.support.design.widget.TextInputLayout
@@ -54,87 +53,117 @@
                     android:theme="@style/EditTextHint">
 
                     <EditText
-                        android:id="@+id/txtDateStart"
+                        android:id="@+id/EdtNamePost"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
-                        android:drawableTint="#FF4081"
-                        android:focusable="true"
-                        android:focusableInTouchMode="true"
-                        android:hint="Start date"
-                        android:singleLine="true"
-                        android:textColor="@color/black"
-                        android:theme="@style/EditTextHint"
-                        android:foregroundTint="@color/black"
-                        android:backgroundTint="@color/colorPrimary" />
-                </android.support.design.widget.TextInputLayout>
-
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:theme="@style/EditTextHint">
-
-
-                    <EditText
-                        android:id="@+id/txtTimeStart"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:focusable="true"
-                        android:focusableInTouchMode="true"
-                        android:hint="Start time"
-                        android:inputType="numberDecimal"
-                        android:singleLine="true"
-                        android:textColor="@color/black"
-                        android:theme="@style/EditTextHint"
-                        android:foregroundTint="@color/black"
                         android:backgroundTint="@color/colorPrimary"
-                        android:drawableTint="#FF4081"/>
+                        android:drawableTint="#FF4081"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:foregroundTint="@color/black"
+                        android:hint="Title"
+                        android:singleLine="true"
+                        android:textColor="@color/black"
+                        android:theme="@style/EditTextHint" />
                 </android.support.design.widget.TextInputLayout>
+
+                <LinearLayout
+                    android:id="@+id/attchementContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/ImgAddVideo"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/icon_video_48" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal|center_vertical"
+                            android:text="Video"
+                            android:textColor="@color/black"
+                            android:textSize="12dp"
+                            android:textStyle="bold|italic" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/ImgAddPhoto"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/icon_image_48" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal|center_vertical"
+                            android:text="Photo"
+                            android:textColor="@color/black"
+                            android:textSize="12dp"
+                            android:textStyle="bold|italic" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/ImgAddFile"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/icon_file_48" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal|center_vertical"
+                            android:text="File"
+                            android:textColor="@color/black"
+                            android:textSize="12dp"
+                            android:textStyle="bold|italic" />
+                    </LinearLayout>
+
+                </LinearLayout>
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:theme="@style/EditTextHint">
+
                     <EditText
-                        android:id="@+id/txtDateEnd"
+                        android:id="@+id/EdtSubjectPost"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
+                        android:backgroundTint="@color/colorPrimary"
                         android:drawableTint="#FF4081"
                         android:focusable="true"
                         android:focusableInTouchMode="true"
-                        android:hint="End date"
-                        android:inputType="numberDecimal"
-                        android:singleLine="true"
-                        android:textColorHint="@color/bb_darkBackgroundColor"
-                        android:textColor="@color/black"
-                        android:theme="@style/EditTextHint"
                         android:foregroundTint="@color/black"
-                        android:backgroundTint="@color/colorPrimary"/>
-                </android.support.design.widget.TextInputLayout>
-
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:theme="@style/EditTextHint">
-
-
-                    <EditText
-                        android:id="@+id/txtTimeEnd"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:drawableTint="#FF4081"
-                        android:hint="End time"
-                        android:focusable="true"
-                        android:focusableInTouchMode="true"
-                        android:inputType="numberDecimal"
+                        android:hint="Subject"
                         android:singleLine="true"
                         android:textColor="@color/black"
-                        android:theme="@style/EditTextHint"
-                        android:foregroundTint="@color/black"
-                        android:backgroundTint="@color/colorPrimary"/>
+                        android:theme="@style/EditTextHint" />
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
@@ -146,29 +175,30 @@
 
 
                     <EditText
-                        android:id="@+id/txtDescription"
+                        android:id="@+id/EdtDescriptionPost"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
+                        android:backgroundTint="@color/colorPrimary"
                         android:drawableTint="#FF4081"
-                        android:hint="Description"
                         android:focusable="true"
                         android:focusableInTouchMode="true"
+                        android:foregroundTint="@color/black"
+                        android:gravity="top|left"
+                        android:hint="Description"
                         android:inputType="textMultiLine"
                         android:lines="8"
-                        android:minLines="6"
-                        android:gravity="top|left"
                         android:maxLines="20"
+                        android:minLines="6"
                         android:scrollbars="vertical"
                         android:textColor="@color/black"
                         android:theme="@style/EditTextHint"
-                        android:foregroundTint="@color/black"
-                        android:backgroundTint="@color/colorPrimary"
 
                         />
                 </android.support.design.widget.TextInputLayout>
 
                 <Button
+                    android:id="@+id/btnAddPost"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
@@ -178,7 +208,4 @@
             </LinearLayout>
         </ScrollView>
     </com.liuguangqiang.swipeback.SwipeBackLayout>
-
-
-
 </RelativeLayout>

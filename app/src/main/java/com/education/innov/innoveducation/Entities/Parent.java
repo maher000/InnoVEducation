@@ -8,12 +8,10 @@ import java.util.ArrayList;
 
 public class Parent extends User{
 
-
     private ArrayList<User> children; // only set if function equal student;
     private String type;
     public Parent(){
-        super("hell","syrine","dridi","123456","55280536","Rue Palestine" ,"hhhh","hhhh","12345","coucou",
-                "cc");
+        super("NONE","NONE","NONE","NONE","NONE","NONE" ,"NONE","NONE","NONE","NONE","NONE");
 
     }
     public Parent(String sex, String firstName, String lastName, String phone, String adresse, String urlImage, String active, String codePostal, String contry, String connected,  String id, ArrayList<User> children, String type) {

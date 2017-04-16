@@ -1,11 +1,12 @@
 package com.education.innov.innoveducation.Fragment;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -66,14 +67,15 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class RegisterFragment extends Fragment {
     private static final int SELECT_PICTURE = 0;
     private static final int REQUEST_CAMERA = 1;
+    SharedPreferences sharedpreferences ;
     ImageView ImageProfileUser;
     EditText EdtFirstname, EdtLastname, EdtEmail, EdtPassword, EdtConfirmPassword;
     FloatingActionButton btnChooseImage;
     RadioGroup RgType;
     RadioButton RbTeacher, RbParent;
     StorageReference storageRef = Config.storage.getReference("images_users");
-    DatabaseReference mDBase = Config.mDatabase;
     StorageReference imagesRef;
+    DatabaseReference mDBase = Config.mDatabase;
     Button btnRegister;
     String email, password, firstname, lastname, confirmpassword, role;
     Parent parent;
@@ -84,6 +86,7 @@ public class RegisterFragment extends Fragment {
     String id;
     Child child;
     Bitmap bmpUser;
+    ProgressDialog progress;
 
 
     public RegisterFragment() {
@@ -110,6 +113,7 @@ public class RegisterFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_register, container, false);
+        sharedpreferences = getActivity().getSharedPreferences("role_user", Context.MODE_PRIVATE);
         activity = getActivity();
         ImageProfileUser = (ImageView) view.findViewById(R.id.ImageProfileUser);
         EdtFirstname = (EditText) view.findViewById(R.id.EdtFirstname);
@@ -157,7 +161,11 @@ public class RegisterFragment extends Fragment {
 
     void Register() {
 
-
+        progress = new ProgressDialog(getActivity());
+        progress.setMessage("Uploading dat ...");
+        progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progress.setIndeterminate(true);
+        progress.show();
         System.out.println("test");
         System.out.println("syriiine" + email + password);
         System.out.println(auth.toString());
@@ -212,7 +220,9 @@ public class RegisterFragment extends Fragment {
     public void AddDetailUser(String urlImage) {
 
         if (RbParent.isChecked()) {
-
+            SharedPreferences.Editor editor = sharedpreferences.edit();
+            editor.putString("role", "parent");
+            editor.commit() ;
             parent = new Parent();
             parent.setId(id);
             parent.setFirstName(firstname);
@@ -224,7 +234,6 @@ public class RegisterFragment extends Fragment {
                     if (task.isSuccessful()) {
                         Intent intent = new Intent(getActivity(), CompleteInformationUserActivity.class);
                         startActivity(intent);
-
                     } else {
                         System.out.println("error");
                     }
@@ -232,7 +241,9 @@ public class RegisterFragment extends Fragment {
             });
 
         } else if (RbTeacher.isChecked()) {
-
+            SharedPreferences.Editor editor = sharedpreferences.edit();
+            editor.putString("role", "teacher");
+            editor.commit() ;
             teacher = new Teacher();
             teacher.setId(id);
             teacher.setFirstName(firstname);
@@ -242,6 +253,7 @@ public class RegisterFragment extends Fragment {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                     if (task.isSuccessful()) {
+                        progress.dismiss();
                         Intent intent = new Intent(getActivity(), CompleteInformationUserActivity.class);
                         startActivity(intent);
 

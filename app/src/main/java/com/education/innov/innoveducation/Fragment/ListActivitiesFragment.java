@@ -2,52 +2,105 @@ package com.education.innov.innoveducation.Fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.education.innov.innoveducation.Adapter.HomeAdapter;
+import com.education.innov.innoveducation.Entities.User;
+import com.education.innov.innoveducation.Entities.post;
 import com.education.innov.innoveducation.R;
+import com.education.innov.innoveducation.Utils.Config;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+
+import java.util.ArrayList;
 
 
 public class ListActivitiesFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-
-    private String mParam1;
-    private String mParam2;
-
-
+    ArrayList<post> posts;
+    post new_post;
+    DatabaseReference mDBase = Config.mDatabase;
+    User user ;
 
     private RecyclerView mRecyclerView;
     private HomeAdapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager ;
+    private RecyclerView.LayoutManager mLayoutManager;
+    String id_user ;
 
-    // TODO: Rename and change types and number of parameters
+
     public static ListActivitiesFragment newInstance(int param1, String param2) {
         ListActivitiesFragment fragment = new ListActivitiesFragment();
-
         return fragment;
     }
 
 
-
     @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_list_activities, container, false);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.Activities_recycler_view);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
-        //Adapter is created in the last step
-        mAdapter = new HomeAdapter(getActivity());
-        mRecyclerView.setAdapter(mAdapter);
-        return view ;
+        getAllPosts();
+        return view;
 
     }
 
+    public void getAllPosts() {
+
+        posts = new ArrayList<>();
+        mAdapter = new HomeAdapter(posts, getActivity());
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        mAdapter.notifyDataSetChanged();
+        final String id = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        mDBase.child("posts").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                new_post = dataSnapshot.getValue(post.class);
+                posts.add(new_post);
+                mRecyclerView.setAdapter(mAdapter);
+                mAdapter.notifyDataSetChanged();
+                System.out.println(posts);
 
 
+            }
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+

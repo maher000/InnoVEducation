@@ -17,9 +17,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.education.innov.innoveducation.Activities.MainActivity;
 import com.education.innov.innoveducation.Adapter.MenuLeftNaviguationAdapter;
 import com.education.innov.innoveducation.R;
+import com.education.innov.innoveducation.Utils.Config;
+import com.education.innov.innoveducation.Utils.RecyclerItemClickListener;
 import com.education.innov.innoveducation.model.NavigationDrawerItem;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.HashMap;
 import java.util.List;
@@ -71,18 +75,21 @@ public class LeftFragmentNaviguation extends Fragment {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         //recyclerView.getChildAt(0).findViewById(R.id.drawerList).setVisibility(View.INVISIBLE);
-      /*  recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
+       recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                NavigationDrawerFragment.Item = position;
-                startActivity(new Intent(getActivity(), MainActivity.class));
+                LeftFragmentNaviguation.Item = position;
+                System.out.println(position+"possyrine");
+                switch (position){
+                    case 5 : logOut();
+                }
             }
 
             @Override
             public void onLongItemClick(View view, int position) {
 
             }
-        })); */
+        }));
         return recyclerView;
     }
 
@@ -109,10 +116,7 @@ public class LeftFragmentNaviguation extends Fragment {
                 // Do something of Slide of Drawer
             }
         };
-
         mDrawerLayout.setDrawerListener(mDrawerToggle);
-
-
         mDrawerLayout.post(new Runnable() {
             @Override
             public void run() {
@@ -120,4 +124,10 @@ public class LeftFragmentNaviguation extends Fragment {
             }
         });
     }
+    private void logOut(){
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        auth.signOut();
+        if( auth.getCurrentUser() == null ){
+        startActivity(new Intent(getActivity(), MainActivity.class));
+    }}
 }
