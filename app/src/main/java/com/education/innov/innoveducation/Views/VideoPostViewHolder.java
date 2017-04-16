@@ -30,7 +30,7 @@ public class VideoPostViewHolder extends RecyclerView.ViewHolder {
         super(view);
 
 
-        image_profile_video  = (CircleImageView) view.findViewById(R.id.image_profile_image);
+        image_profile_video  = (CircleImageView) view.findViewById(R.id.image_profile_video);
         tvFullNameVideo = ( TextView) view.findViewById(R.id.tvFullNameVideo) ;
         tvMatiereVideo = ( TextView) view.findViewById(R.id.tvMatiereVideo) ;
         tvDateVideo = ( TextView) view.findViewById(R.id.tvDateVideo) ;

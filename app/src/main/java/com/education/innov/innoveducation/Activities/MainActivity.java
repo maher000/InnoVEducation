@@ -34,8 +34,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-
        if (mFirebaseUser != null) {
             Intent intent1 = new Intent(MainActivity.this, HomeActivity.class);
             intent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

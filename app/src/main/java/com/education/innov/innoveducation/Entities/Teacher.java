@@ -43,6 +43,7 @@ public Teacher(){
     public String toString() {
         return "Teacher{" +
                 "classRommId='" + classRommId + '\'' +
+                super.toString()+
                 '}';
     }
 }

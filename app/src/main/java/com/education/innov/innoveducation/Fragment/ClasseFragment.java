@@ -39,7 +39,6 @@ public class ClasseFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -73,7 +72,6 @@ public class ClasseFragment extends Fragment {
             }
         });
         return view ;
-
     }
 
     private PagerAdapter buildAdapter() {

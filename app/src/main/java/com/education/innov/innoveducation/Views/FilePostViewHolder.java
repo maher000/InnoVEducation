@@ -15,16 +15,17 @@ import de.hdodenhof.circleimageview.CircleImageView;
  */
 public class FilePostViewHolder extends RecyclerView.ViewHolder {
 
-    CircleImageView image_profile_file;
-    TextView tvFullNameFile,tvMatiereFile , tvDateFile ,
-            tvDescriptionFile ,tvDetailFile , tvCommentsFile  ;
-    EditText EdtCommentFile ;
-    Button btnAddCommentFile ;
+    public CircleImageView image_profile_file;
+    public TextView tvFullNameFile,tvMatiereFile , tvDateFile ,
+            tvDescriptionFile ,tvDetailFile , tvCommentsFile ,tvNameFile ;
+    public EditText EdtCommentFile ;
+    public Button btnAddCommentFile ;
 
     public FilePostViewHolder(View view) {
         super(view);
-        image_profile_file = (CircleImageView) view.findViewById(R.id.image_profile_file);
+        image_profile_file = (CircleImageView) view.findViewById(R.id.image_profile_File);
         tvFullNameFile = (TextView) view.findViewById(R.id.tvFullNameFile) ;
+        tvNameFile = (TextView) view.findViewById(R.id.tvFullNameFile) ;
         tvMatiereFile = (TextView) view.findViewById(R.id.tvMatiereFile) ;
         tvDateFile = (TextView) view.findViewById(R.id.tvDateFile) ;
         tvDescriptionFile = (TextView) view.findViewById(R.id.tvDescriptionFile) ;

@@ -28,12 +28,10 @@
             android:weightSum="1">
 
             <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/image_profile_file"
+                android:id="@+id/image_profile_File"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_marginRight="5dp"
-                android:adjustViewBounds="true"
-                android:scaleType="fitXY"
                 android:src="@drawable/round_profile_pic" />
 
             <LinearLayout
@@ -66,18 +64,17 @@
 
 
                     <TextView
-                        android:paddingRight="10dp"
-                        android:layout_weight="0.4"
+                        android:id="@+id/tvMatiereFile"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Android"
-                        android:textStyle="italic"
-                        android:textColor="@color/black"
-                        android:id="@+id/tvMatiereFile"
-                        android:singleLine="true"
+                        android:layout_weight="0.4"
                         android:lines="1"
                         android:maxLines="1"
-                        />
+                        android:paddingRight="10dp"
+                        android:singleLine="true"
+                        android:text="Android"
+                        android:textColor="@color/black"
+                        android:textStyle="italic" />
 
                     <TextView
                         android:id="@+id/tvDateFile"
@@ -101,13 +98,6 @@
             android:layout_height="wrap_content"
             android:text="Lorem ipsum dolor sit amet, eam nullam aperiam feugiat ex. Illud commodo est an, ius cu nibh legimus necessitatibus, quem quis intellegat ei eos. An suas feugiat nusquam pro, commodo necessi..."
             android:textColor="@color/black" />
-        <TextView
-            android:id="@+id/tvNameFile"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="file"
-            android:textColor="@color/gray_dark"
-            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tvDetailFile"
@@ -133,7 +123,9 @@
                 android:paddingRight="10dp"
                 android:text="Comments"
                 android:textColor="@color/gray_dark" />
+
         </LinearLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
@@ -166,10 +158,11 @@
                 android:theme="@style/EditTextHintBlack" />
 
             <Button
+
                 android:id="@+id/btnAddCommentFile"
                 style="@style/Widget.AppCompat.Button.Borderless"
                 android:layout_width="53dp"
-                android:layout_height="35dp"
+                android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/icon_ok_48" />
         </LinearLayout>
     </LinearLayout>

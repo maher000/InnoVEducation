@@ -41,14 +41,14 @@ import com.roughike.bottombar.OnTabSelectListener;
 public class HomeActivity extends AppCompatActivity {
     private SearchView searchView;
     private Toolbar toolbar;
-    private Menu m ;
+    private Menu m;
     boolean doubleBackToExitPressedOnce = false;
-    private DrawerLayout drawerLayout ;
-    private LeftFragmentNaviguation drawerLeftFragment ;
-    private RightFragmentNaviguation drawerRightFragment ;
-    private Fragment currentFragment=null;
+    private DrawerLayout drawerLayout;
+    private LeftFragmentNaviguation drawerLeftFragment;
+    private RightFragmentNaviguation drawerRightFragment;
+    private Fragment currentFragment = null;
     private RelativeLayout chatLaout;
-    private int position=R.id.tab_home;
+    private int position = R.id.tab_home;
     private BottomBar bottomBar = null;
 
     @Override
@@ -57,7 +57,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onCreate( Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
@@ -65,7 +65,6 @@ public class HomeActivity extends AppCompatActivity {
                 Subscribe users To receive Notification
          */
         FirebaseMessaging.getInstance().subscribeToTopic("09428835");
-
 
 
         /*** ToolBar ***.
@@ -78,7 +77,7 @@ public class HomeActivity extends AppCompatActivity {
         setUpDrawer();
 
         bottomBar = (BottomBar) findViewById(R.id.bottomBar);
-        if(savedInstanceState!=null){
+        if (savedInstanceState != null) {
             bottomBar.setDefaultTab(savedInstanceState.getInt("position"));
             System.out.println("MahersavedInstanceState");
         }
@@ -86,12 +85,12 @@ public class HomeActivity extends AppCompatActivity {
         bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
             public void onTabSelected(@IdRes int tabId) {
-               // if(currentFragment!=null)
-                   // getSupportFragmentManager().beginTransaction().remove(currentFragment);
-                position=tabId;
+                // if(currentFragment!=null)
+                // getSupportFragmentManager().beginTransaction().remove(currentFragment);
+                position = tabId;
                 switch (tabId) {
                     case R.id.tab_classroom:
-                        currentFragment=new ClasseFragment();
+                        currentFragment = new ClasseFragment();
                         getSupportFragmentManager().beginTransaction().replace(R.id.container_id, currentFragment)
                                 .addToBackStack("gg")
                                 .commit();
@@ -99,11 +98,11 @@ public class HomeActivity extends AppCompatActivity {
                         //      Toast.makeText(getApplicationContext(), tabId+"tabIdSelected", Toast.LENGTH_LONG).show();
                         break;
                     case R.id.tab_friends:
-                        currentFragment=new ProfileFragment();
+                        currentFragment = new ProfileFragment();
                         getSupportFragmentManager().beginTransaction().replace(R.id.container_id, currentFragment).commit();
                         break;
                     case R.id.tab_bis:
-                        currentFragment=new GameFragment();
+                        currentFragment = new GameFragment();
                         getSupportFragmentManager().beginTransaction().replace(R.id.container_id, currentFragment).commit();
                         break;
 
@@ -118,7 +117,7 @@ public class HomeActivity extends AppCompatActivity {
             public void onTabReSelected(@IdRes int tabId) {
                 switch (tabId) {
                     case R.id.tab_classroom:
-                        startActivity(new Intent(HomeActivity.this,MyClassRoomsActivity.class));
+                        startActivity(new Intent(HomeActivity.this, MyClassRoomsActivity.class));
                         break;
                     default:
                         Toast.makeText(getApplicationContext(), tabId + "", Toast.LENGTH_LONG).show();
@@ -131,6 +130,7 @@ public class HomeActivity extends AppCompatActivity {
         //nearby.setBadgeCount(5);
         chatLaout = (RelativeLayout) findViewById(R.id.badge_layout1);
     }
+
     @Override
     protected void onSaveInstanceState(Bundle savedInstanceState) {
 
@@ -141,7 +141,7 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        position=savedInstanceState.getInt("position");
+        position = savedInstanceState.getInt("position");
 
     }
 
@@ -156,18 +156,16 @@ public class HomeActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
 
-
-
     }
 
     private void setUpDrawer() {
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
-        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
 
         // to lock swipe left and right
-        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+        //      drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+        //      drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
         drawerLeftFragment = (LeftFragmentNaviguation) getSupportFragmentManager().findFragmentById(R.id.nav_drw_left_fragment);
         drawerRightFragment = (RightFragmentNaviguation) getSupportFragmentManager().findFragmentById(R.id.nav_drw_right_fragment);
         drawerLeftFragment.setUpDrawer(drawerLayout, toolbar);
@@ -202,11 +200,12 @@ public class HomeActivity extends AppCompatActivity {
 
         return true;
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here.
-        int id=item.getItemId();
-        switch (id){
+        int id = item.getItemId();
+        switch (id) {
             case R.id.id_chat:
                 drawerLayout.openDrawer(GravityCompat.END); /*Opens the Right Drawer*/
                 return true;
@@ -215,6 +214,7 @@ public class HomeActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
