@@ -82,7 +82,6 @@ public class MyClassroomsAdapter extends RecyclerView.Adapter<MyClassroomsAdapte
         }
 
         public void setData(ClassRoom current, int position) {
-            System.out.println(current.getName()+" "+current.getAdress()+" detailclassroom");
             this.tvName.setText(current.getName());
             this.tvCreatedAt.setText(current.getCreationDate());
             this.tvResponsable.setText(current.getAdministrator().getFirstName() + " " + current.getAdministrator().getLastName());
@@ -90,13 +89,13 @@ public class MyClassroomsAdapter extends RecyclerView.Adapter<MyClassroomsAdapte
             this.tvInstitut.setText(current.getAdress());//institut
             this.position = position;
             this.current = current;
-              String source = current.getAdministrator().getUrlImage();
+            String source = current.getAdministrator().getUrlImage();
             Picasso.with(context).load(source).into(imgProfile);
         }
 
         public void setListeners() {
-//            imgDelete.setOnClickListener(MyViewHolder2.this);
-            //   imgAdd.setOnClickListener(MyViewHolder2.this);
+            //imgDelete.setOnClickListener(MyViewHolder2.this);
+            //imgAdd.setOnClickListener(MyViewHolder2.this);
         }
 
 

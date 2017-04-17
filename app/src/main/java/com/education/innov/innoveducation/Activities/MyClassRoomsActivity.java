@@ -49,7 +49,6 @@ public class MyClassRoomsActivity extends SwipeBackActivity {
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
     private ArrayList<ClassRoom> classRooms = new ArrayList<>();
-    private  ClassRoom classRoom=null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,13 +59,6 @@ public class MyClassRoomsActivity extends SwipeBackActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         initViews();
     }
-
-
-
-
-
-
-
 
     private void initViews() {
         progressBar = (CircleProgressBar) findViewById(R.id.progressbar1);
@@ -105,36 +97,13 @@ public class MyClassRoomsActivity extends SwipeBackActivity {
         mDatabase.child(Config.CHILD_CLASSROOM).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                classRoom=dataSnapshot.getValue(ClassRoom.class);
+                ClassRoom classRoom=dataSnapshot.getValue(ClassRoom.class);
+                System.out.println("classRoom"+classRoom);
                 if(classRoom!=null){
                    //creta a listener
-                    ChildEventListener listener = new ChildEventListener() {
-                        @Override
-                        public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                            Teacher teacher=dataSnapshot.getValue(Teacher.class);
-                            if(teacher!=null)
-                                classRoom.setAdministrator(teacher);
-                            classRooms.add(classRoom);
-                            mRecyclerView.setAdapter(mAdapter);
-
-                            mDatabase.removeEventListener(this);
-                        }
-                        @Override
-                        public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                        }
-                        @Override
-                        public void onChildRemoved(DataSnapshot dataSnapshot) {
-                        }
-                        @Override
-                        public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-                        }
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-                        }
-                    };
-                    mDatabase.child(Config.CHILD_TEACHER).orderByChild("id").equalTo(classRoom.getIdAdminstrator()).addChildEventListener(listener);
 
                 }
+                getOwner(classRoom);
 
             }
 
@@ -158,5 +127,37 @@ public class MyClassRoomsActivity extends SwipeBackActivity {
             }
         });
 
+
+
     }
+        private void getOwner(ClassRoom classroom){
+            final ClassRoom c=classroom;
+            ChildEventListener listener = new ChildEventListener() {
+                @Override
+                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                    Teacher teacher=dataSnapshot.getValue(Teacher.class);
+                    System.out.println("maherClassroom"+c);
+                    if(teacher!=null)
+                        c.setAdministrator(teacher);
+                    classRooms.add(c);
+                    System.out.println("maherClassroom"+c);
+                    mRecyclerView.setAdapter(mAdapter);
+                    mDatabase.removeEventListener(this);
+                }
+                @Override
+                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                }
+                @Override
+                public void onChildRemoved(DataSnapshot dataSnapshot) {
+                }
+                @Override
+                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+                }
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                }
+            };
+            mDatabase.child(Config.CHILD_TEACHER).orderByChild("id").equalTo(classroom.getIdAdminstrator()).addChildEventListener(listener);
+
+        }
 }
