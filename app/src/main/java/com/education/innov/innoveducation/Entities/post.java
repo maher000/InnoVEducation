@@ -22,6 +22,7 @@ public class post {
     private User owner; // do not add to firbase
     private String visibility;
     private String subject; // football, sport, education...
+    private String classroomId;
 
     public post() {}
 
@@ -153,6 +154,22 @@ public class post {
 
     public void setSubject(String subject) {
         this.subject = subject;
+    }
+
+    public ArrayList<String> getIdcomments() {
+        return idcomments;
+    }
+
+    public void setIdcomments(ArrayList<String> idcomments) {
+        this.idcomments = idcomments;
+    }
+
+    public String getClassroomId() {
+        return classroomId;
+    }
+
+    public void setClassroomId(String classroomId) {
+        this.classroomId = classroomId;
     }
 
     @Override

@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.education.innov.innoveducation.Activities.HomeActivity;
 import com.education.innov.innoveducation.Adapter.HomeAdapter;
 import com.education.innov.innoveducation.Entities.Teacher;
 import com.education.innov.innoveducation.Entities.User;
@@ -68,35 +69,38 @@ public class ListActivitiesFragment extends Fragment {
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mAdapter.notifyDataSetChanged();
         final String id = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        mDBase.child("posts").addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+        if(HomeActivity.activeClassroom!=null) {
+            mDBase.child("posts").orderByChild("classroomId").equalTo(HomeActivity.activeClassroom).addChildEventListener(new ChildEventListener() {
+                @Override
+                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
-                new_post = dataSnapshot.getValue(post.class);
-                System.out.println("posts: "+new_post);
-                getUsers(new_post.getUserId(),posts.size()-1,new_post);
+                    new_post = dataSnapshot.getValue(post.class);
+                    System.out.println("posts: " + new_post);
+                    getUsers(new_post.getUserId(), posts.size() - 1, new_post);
 
 
                 }
 
 
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-            }
+                @Override
+                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                }
 
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-            }
+                @Override
+                public void onChildRemoved(DataSnapshot dataSnapshot) {
+                }
 
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-            }
+                @Override
+                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+                }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        });
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                }
+            });
+        }
     }
+
 
     private void getUsers(String id, final int position, final post post){
         mDBase.child(Config.CHILD_TEACHER).child(id).addValueEventListener(new ValueEventListener() {

@@ -50,16 +50,23 @@ public class HomeActivity extends AppCompatActivity {
     private RelativeLayout chatLaout;
     private int position = R.id.tab_home;
     private BottomBar bottomBar = null;
+    public static String activeClassroom=null;
 
     @Override
     protected void onResume() {
+
         super.onResume();
+        if(activeClassroom!=null){
+            System.out.println("onresume lala ");
+           // finish();
+        }
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
 
         /*
                 Subscribe users To receive Notification
@@ -105,7 +112,9 @@ public class HomeActivity extends AppCompatActivity {
                         currentFragment = new GameFragment();
                         getSupportFragmentManager().beginTransaction().replace(R.id.container_id, currentFragment).commit();
                         break;
-
+                    case R.id.tab_courses:
+                       startActivity(new Intent(HomeActivity.this,ListClassroomsActivity.class));
+                        break;
                     default:
                         return;
                 }
@@ -243,6 +252,10 @@ public class HomeActivity extends AppCompatActivity {
             }, 2000);
         }
     }
+    public static  void selectClassRomm(){
+
+    }
+
 
 
 }
