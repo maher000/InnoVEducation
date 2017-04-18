@@ -53,6 +53,7 @@ import com.liuguangqiang.swipeback.SwipeBackLayout;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 
 
 public class AddPostActivity extends SwipeBackActivity {
@@ -351,7 +352,7 @@ public class AddPostActivity extends SwipeBackActivity {
     private void upload_Video() {
         System.out.println("uploading video");
           if (id != null) {
-        videosRef = ViedeoPostRef.child("syrine");
+        videosRef = ViedeoPostRef.child(new Date()+"");
         StorageMetadata metadata = new StorageMetadata.Builder()
                 .setContentType("video/mp4")
                 .build();
@@ -386,7 +387,7 @@ public class AddPostActivity extends SwipeBackActivity {
 
         System.out.println("uploading image");
           if (id != null) {
-        imagesRef = ImagePostRef.child("image_post");
+        imagesRef = ImagePostRef.child(new Date()+"");
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bmpImagePost.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         byte[] data = baos.toByteArray();
@@ -423,7 +424,7 @@ public class AddPostActivity extends SwipeBackActivity {
     private void upload_file() {
         System.out.println("uploading file");
          if (id != null) {
-        fileRef = FilePostRef.child("file");
+        fileRef = FilePostRef.child(new Date()+"");
         String type = "*/" + extentionFile + "";
         System.out.println(type);
         StorageMetadata metadata = new StorageMetadata.Builder()

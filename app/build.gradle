@@ -47,6 +47,7 @@ dependencies {
     compile 'com.github.liuguangqiang.prettyprogressbar:library:+'
     compile 'com.github.mukeshsolanki:country-picker-android:1.1.7'
     compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'fm.jiecao:jiecaovideoplayer:5.5.3'
     testCompile 'junit:junit:4.12'
 }
 apply plugin: 'com.google.gms.google-services'

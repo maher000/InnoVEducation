@@ -17,33 +17,26 @@ import android.widget.VideoView;
 
 import com.education.innov.innoveducation.R;
 
+import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
+import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
+
 public class CourseActivity extends AppCompatActivity {
     Toolbar toolbar;
     VideoView videoView;
-    ImageView btnFullScreen;
-    private int position = 0;
-    private ProgressDialog progressDialog;
-    private MediaController mediaControls;
-    private boolean isFullScreen=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_course);
-        mediaControls = new MediaController(CourseActivity.this);
-        videoView = (VideoView) findViewById(R.id.videoView_courses);
-        btnFullScreen=(ImageView) findViewById(R.id.btn_full_screen);
-        btnFullScreen.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                fullScreen();
-            }
-        });
         setUpToolbar();
-        setUpVideoView();
+        JCVideoPlayerStandard jcVideoPlayerStandard = (JCVideoPlayerStandard) findViewById(R.id.videoplayer);
+        jcVideoPlayerStandard.setUp("http://2449.vod.myqcloud.com/2449_22ca37a6ea9011e5acaaf51d105342e3.f20.mp4"
+                , JCVideoPlayerStandard.SCREEN_LAYOUT_NORMAL, "video name");
+        jcVideoPlayerStandard.thumbImageView.setImageURI(Uri.parse("http://p.qpic.cn/vide5oyun/0/2449_43b6f696980311e59ed467f22794e792_1/640"));
 
 
     }
+    /*
     private void fullScreen(){
         if(isFullScreen==true){
             isFullScreen=false;
@@ -67,6 +60,7 @@ public class CourseActivity extends AppCompatActivity {
             videoView.setLayoutParams(params);
         }
     }
+
     private void setUpVideoView(){
         // create a progress bar while the video file is loading
         progressDialog = new ProgressDialog(CourseActivity.this);
@@ -111,6 +105,7 @@ public class CourseActivity extends AppCompatActivity {
 
 
     }
+    */
     private void setUpToolbar() {
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -124,6 +119,19 @@ public class CourseActivity extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (JCVideoPlayer.backPress()) {
+            return;
+        }
+        super.onBackPressed();
+    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        JCVideoPlayer.releaseAllVideos();
     }
 
 }

@@ -64,23 +64,11 @@
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentTop="true">
 
-                <VideoView
-                    android:id="@+id/videoView_courses"
+                <fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard
+                    android:id="@+id/videoplayer"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentTop="true"/>
+                    android:layout_height="250dp"/>
 
-                <ImageView
-                    android:id="@+id/btn_full_screen"
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"
-                    app:srcCompat="@drawable/ic_full_screen"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentEnd="true" />
 
                 </RelativeLayout>
 

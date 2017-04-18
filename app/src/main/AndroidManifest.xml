@@ -33,7 +33,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activities.HomeActivity"></activity>
+        <activity android:name=".Activities.HomeActivity"
+            android:configChanges="orientation|keyboardHidden|screenLayout|screenSize">
+        </activity>
         <activity android:name=".Activities.SearchResultsActivity" />
         <activity android:name=".Activities.CommentsActivity" />
         <activity android:name=".Activities.AddHomeWorkActivity" />
