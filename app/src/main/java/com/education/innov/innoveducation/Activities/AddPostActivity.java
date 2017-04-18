@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
+import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.DocumentsContract;
@@ -356,7 +357,10 @@ public class AddPostActivity extends SwipeBackActivity {
         StorageMetadata metadata = new StorageMetadata.Builder()
                 .setContentType("video/mp4")
                 .build();
-        Uri file = Uri.fromFile(new File(filePath));
+                Uri file = Uri.fromFile(new File(filePath));
+                upload_thms(filePath);
+
+
         System.out.println(file + "new file");
         UploadTask uploadTask = videosRef.putFile(file, metadata);
         uploadTask.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
@@ -455,4 +459,46 @@ public class AddPostActivity extends SwipeBackActivity {
         });
     }
 }
-}
+
+    private void upload_thms(String urlFile){
+        Bitmap bmThumbnail;
+        bmThumbnail = ThumbnailUtils.createVideoThumbnail(urlFile, MediaStore.Images.Thumbnails.FULL_SCREEN_KIND);
+
+        ViedeoPostRef.child("miniatures");
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bmThumbnail.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] data = baos.toByteArray();
+
+        UploadTask uploadTask =  ViedeoPostRef.child("miniatures").putBytes(data);
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle unsuccessful uploads
+            }
+        }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
+                System.out.println("Upload is " + progress + "% done");
+            }
+        }).addOnPausedListener(new OnPausedListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onPaused(UploadTask.TaskSnapshot taskSnapshot) {
+                System.out.println("Upload is paused");
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
+                Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                AddPost(downloadUrl.toString());
+                System.out.println("url image" + downloadUrl);
+            }
+        });
+    }
+
+
+    }
+
+

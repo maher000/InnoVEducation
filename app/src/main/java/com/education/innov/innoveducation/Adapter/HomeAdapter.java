@@ -42,6 +42,8 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
+import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
+
 
 public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -117,7 +119,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 }
             });
         } else if (itemType == ITEM_TYPE_HEADER) {
-            MediaController mediaControls = new MediaController(context);
+
             VideoPostViewHolder mHolder = (VideoPostViewHolder) holder;
             mHolder.tvDescriptionVideo.setText(posts.get(position).getDescription().toString());
                 mHolder.tvFullNameVideo.setText(posts.get(position).getOwner().getFirstName().toString() + " " + posts.get(position).getOwner().getLastName().toString());
@@ -133,10 +135,10 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 }
             });
             try {
-                //set the media controller in the VideoView
-                mHolder.PostVideo.setMediaController(mediaControls);
-                //set the uri of the video to be played
-               mHolder.PostVideo.setVideoURI(Uri.parse(posts.get(position).getUrlFile().toString()));
+                mHolder.PostVideo.setUp(posts.get(position).getUrlFile().toString()
+                        , JCVideoPlayerStandard.SCREEN_LAYOUT_NORMAL, "video name");
+
+
             } catch (Exception e) {
                 Log.e("Error", e.getMessage());
                 e.printStackTrace();

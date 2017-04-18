@@ -38,6 +38,8 @@ import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabReselectListener;
 import com.roughike.bottombar.OnTabSelectListener;
 
+import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
+
 public class HomeActivity extends AppCompatActivity {
     private SearchView searchView;
     private Toolbar toolbar;
@@ -239,6 +241,9 @@ public class HomeActivity extends AppCompatActivity {
                 moveTaskToBack(true);
                 return;
             }
+            if (JCVideoPlayer.backPress()) {
+                return;
+            }
 
             this.doubleBackToExitPressedOnce = true;
             Toast.makeText(this, "clicker une autre fois pour sortir", Toast.LENGTH_SHORT).show();
@@ -256,6 +261,10 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
-
+    @Override
+    protected void onPause() {
+        super.onPause();
+        JCVideoPlayer.releaseAllVideos();
+    }
 
 }

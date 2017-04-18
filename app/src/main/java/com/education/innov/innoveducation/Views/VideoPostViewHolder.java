@@ -11,6 +11,7 @@ import android.widget.VideoView;
 import com.education.innov.innoveducation.R;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
 
 /**
  * Created by Syrine on 04/04/2017.
@@ -20,7 +21,7 @@ public class VideoPostViewHolder extends RecyclerView.ViewHolder {
    public CircleImageView image_profile_video ;
    public TextView tvFullNameVideo , tvMatiereVideo , tvDateVideo , tvDescriptionVideo ,
     tvDetailVideo ,  tvCommentsVideo  ;
-   public VideoView  PostVideo ;
+   public JCVideoPlayerStandard PostVideo ;
    public EditText EdtCommentVideo;
    public Button btnAddCommentVideo;
 
@@ -37,7 +38,7 @@ public class VideoPostViewHolder extends RecyclerView.ViewHolder {
         tvDescriptionVideo = ( TextView) view.findViewById(R.id.tvDescriptionVideo) ;
         tvDetailVideo = ( TextView) view.findViewById(R.id.tvDetailVideo) ;
         tvCommentsVideo = ( TextView) view.findViewById(R.id.tvCommentsVideo) ;
-        PostVideo = ( VideoView) view.findViewById(R.id.PostVideo) ;
+        PostVideo = ( JCVideoPlayerStandard) view.findViewById(R.id.videoplayer) ;
         EdtCommentVideo = ( EditText) view.findViewById(R.id.EdtCommentVideo) ;
         btnAddCommentVideo = ( Button) view.findViewById(R.id.btnAddCommentVideo) ;
 
