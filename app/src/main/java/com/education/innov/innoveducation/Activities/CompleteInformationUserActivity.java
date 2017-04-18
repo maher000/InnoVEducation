@@ -20,6 +20,7 @@ import com.education.innov.innoveducation.R;
 import com.education.innov.innoveducation.Utils.Config;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -42,7 +43,7 @@ public class CompleteInformationUserActivity extends AppCompatActivity {
     Button btnLater, btnSubmit;
     DatabaseReference mDbase = Config.mDatabase;
     FirebaseUser current_user = Config.user_connected;
-    String id = current_user.getUid();
+    String id = FirebaseAuth.getInstance().getCurrentUser().getUid();
     Parent parent;
     Teacher teacher;
     private int yearStart, monthStart, dayStart;
@@ -114,7 +115,7 @@ public class CompleteInformationUserActivity extends AppCompatActivity {
 
 
     private void CompleteInformationParent() {
-        mDbase.child("parents").orderByChild("id").equalTo(id).addListenerForSingleValueEvent(
+        mDbase.child(Config.CHILD_TEACHER).child(id).addListenerForSingleValueEvent(
                 new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
@@ -127,7 +128,7 @@ public class CompleteInformationUserActivity extends AppCompatActivity {
                             user.setFirstName(firstName);
                             user.setLastName(lastName);
                             user.setUrlImage(urlImage);
-                            user.setId(id);
+                            user.setIdUser(id);
                             user.setAdresse(address);
                             user.setCodePostal(code_postal);
                             user.setContry(country);
@@ -168,7 +169,7 @@ public class CompleteInformationUserActivity extends AppCompatActivity {
                         user.setFirstName(firstName);
                         user.setLastName(lastName);
                         user.setUrlImage(urlImage);
-                        user.setId(id);
+                        user.setIdUser(id);
                         user.setAdresse(address);
                         user.setCodePostal(code_postal);
                         user.setContry(country);

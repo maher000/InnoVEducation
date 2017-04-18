@@ -16,12 +16,9 @@ public class Child extends User {
     private String id;
 
 
-    public Child(String email, String sex , String firstName, String lastName, String password, String phone, String adresse, String urlImage, String active, String codePostal, String contry, String connected, String lastConnection, String id, String classRommId, ClassRoom classeRoom, ArrayList<Parent> parents, String id1) {
-        super(sex ,firstName, lastName, phone, adresse, urlImage, active, codePostal, contry, connected, id);
-        this.classRommId = classRommId;
-        this.classeRoom = classeRoom;
-        this.parents = parents;
-        this.id = id1;
+    public Child() {
+        super("sex" ,"firstName", "lastName", "phone"," adresse", "urlImage", "active", "codePostal", "ontry", "connected", "id");
+
     }
 
 

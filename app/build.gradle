@@ -21,11 +21,6 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    // import firebase links
-    
-
-
-
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:support-v4:25.3.1'
     compile 'com.android.support:design:25.3.1'
@@ -38,16 +33,20 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'co.intentservice.android-chat-ui:chat-ui:0.1.1'
     compile 'com.squareup.okhttp3:okhttp:3.6.0'
+    // import firebase links
     compile 'com.google.firebase:firebase-core:10.2.1'
     compile 'com.google.firebase:firebase-database:10.2.1'
     compile 'com.google.firebase:firebase-storage:10.2.1'
     compile 'com.google.firebase:firebase-auth:10.2.1'
     compile 'com.google.firebase:firebase-messaging:10.2.1'
+
     compile 'com.github.liuguangqiang.swipeback:library:1.0.2@aar'
     compile 'com.github.liuguangqiang.prettyprogressbar:library:+'
     compile 'com.github.mukeshsolanki:country-picker-android:1.1.7'
     compile 'com.squareup.picasso:picasso:2.5.2'
-    compile 'fm.jiecao:jiecaovideoplayer:5.5.3'
+    compile 'com.google.code.gson:gson:2.7'
+
+
     testCompile 'junit:junit:4.12'
 }
 apply plugin: 'com.google.gms.google-services'

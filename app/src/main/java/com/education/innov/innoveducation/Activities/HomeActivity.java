@@ -1,8 +1,10 @@
 package com.education.innov.innoveducation.Activities;
 
+import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.PersistableBundle;
 import android.support.annotation.IdRes;
@@ -26,6 +28,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.education.innov.innoveducation.Entities.Child;
+import com.education.innov.innoveducation.Entities.Parent;
+import com.education.innov.innoveducation.Entities.Teacher;
 import com.education.innov.innoveducation.Fragment.ClasseFragment;
 import com.education.innov.innoveducation.Fragment.GameFragment;
 import com.education.innov.innoveducation.Fragment.LeftFragmentNaviguation;
@@ -33,17 +38,24 @@ import com.education.innov.innoveducation.Fragment.ListActivitiesFragment;
 import com.education.innov.innoveducation.Fragment.ProfileFragment;
 import com.education.innov.innoveducation.Fragment.RightFragmentNaviguation;
 import com.education.innov.innoveducation.R;
+import com.education.innov.innoveducation.Utils.Config;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.gson.Gson;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabReselectListener;
 import com.roughike.bottombar.OnTabSelectListener;
-
-import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
 
 public class HomeActivity extends AppCompatActivity {
     private SearchView searchView;
     private Toolbar toolbar;
     private Menu m;
+    DatabaseReference mBase = Config.mDatabase;
     boolean doubleBackToExitPressedOnce = false;
     private DrawerLayout drawerLayout;
     private LeftFragmentNaviguation drawerLeftFragment;
@@ -52,16 +64,15 @@ public class HomeActivity extends AppCompatActivity {
     private RelativeLayout chatLaout;
     private int position = R.id.tab_home;
     private BottomBar bottomBar = null;
-    public static String activeClassroom=null;
+    String RoleUser;
+    Teacher teacher;
+    Child child;
+    SharedPreferences sharedpreferences;
+    Parent parent;
 
     @Override
     protected void onResume() {
-
         super.onResume();
-        if(activeClassroom!=null){
-            System.out.println("onresume lala ");
-           // finish();
-        }
     }
 
     @Override
@@ -69,13 +80,16 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-
         /*
                 Subscribe users To receive Notification
          */
         FirebaseMessaging.getInstance().subscribeToTopic("09428835");
+//store and retreive data from shared prefernces
+        SharedPreferences sp = getSharedPreferences("role_user", Activity.MODE_PRIVATE);
+        RoleUser = sp.getString("role", null);
+        getUserInformation(RoleUser);
 
-
+        System.out.println("mon roole est" + RoleUser);
         /*** ToolBar ***.
          *
          */
@@ -114,9 +128,7 @@ public class HomeActivity extends AppCompatActivity {
                         currentFragment = new GameFragment();
                         getSupportFragmentManager().beginTransaction().replace(R.id.container_id, currentFragment).commit();
                         break;
-                    case R.id.tab_courses:
-                       startActivity(new Intent(HomeActivity.this,ListClassroomsActivity.class));
-                        break;
+
                     default:
                         return;
                 }
@@ -241,9 +253,6 @@ public class HomeActivity extends AppCompatActivity {
                 moveTaskToBack(true);
                 return;
             }
-            if (JCVideoPlayer.backPress()) {
-                return;
-            }
 
             this.doubleBackToExitPressedOnce = true;
             Toast.makeText(this, "clicker une autre fois pour sortir", Toast.LENGTH_SHORT).show();
@@ -257,14 +266,61 @@ public class HomeActivity extends AppCompatActivity {
             }, 2000);
         }
     }
-    public static  void selectClassRomm(){
 
-    }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        JCVideoPlayer.releaseAllVideos();
+    private void getUserInformation(final String role) {
+        sharedpreferences = getPreferences(MODE_APPEND);
+        DatabaseReference ref = Config.mDatabase;
+        String id = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        System.out.println("the id is "+id);
+        if (role == "child") {
+            ref = mBase.child("students").child(id);
+        } else if (role.trim().equals("teacher")) {
+            ref = mBase.child(Config.CHILD_TEACHER).child(id);
+            System.out.println("user no yes ");
+            System.out.println("the id is nn"+id);
+        } else if (role == "parent") {
+            ref = mBase.child("parents").child(id);
+        }
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (role == "child") {
+
+                    child = dataSnapshot.getValue(Child.class);
+                    System.out.println("priiiint" + child);
+                    SharedPreferences.Editor prefsEditor = sharedpreferences.edit();
+                    Gson gson = new Gson();
+                    String json = gson.toJson(child);
+                    prefsEditor.putString("current_user", json);
+                    System.out.println("dfghjklm" + json);
+                    prefsEditor.commit();
+
+                } else if (role.trim().equals("teacher")) {
+                    teacher = dataSnapshot.getValue(Teacher.class);
+                    System.out.println("maher i love you walaah " + teacher);
+                    SharedPreferences.Editor prefsEditor = sharedpreferences.edit();
+                    Gson gson = new Gson();
+                    String json = gson.toJson(teacher);
+                    System.out.println("dfghjklm" + json);
+                    prefsEditor.putString("current_user", json);
+                    prefsEditor.commit();
+                } else if (role == "parent") {
+                    parent = dataSnapshot.getValue(Parent.class);
+                    SharedPreferences.Editor prefsEditor = sharedpreferences.edit();
+                    Gson gson = new Gson();
+                    String json = gson.toJson(parent);
+                    prefsEditor.putString("current_user", json);
+                    prefsEditor.commit();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
     }
 
 }

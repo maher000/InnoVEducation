@@ -12,6 +12,7 @@ public class post {
     private String name;
     private String description;
     private String creationDate;
+    private String classRoomId ;
     private Video video; // do not add to firbase
     private String urlVideo;
     private String urlImage;
@@ -22,11 +23,28 @@ public class post {
     private User owner; // do not add to firbase
     private String visibility;
     private String subject; // football, sport, education...
-    private String classroomId;
+    String author ;
+    String urlImageAuthor ;
 
     public post() {}
 
-    public post(String id, String type, String name, String description, String creationDate, Video video, String urlVideo, String urlImage, String urlFile, ArrayList<Comments> comments, String userId, User owner, String visibility, String subject ,ArrayList<String> idcomments) {
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public String getUrlImageAuthor() {
+        return urlImageAuthor;
+    }
+
+    public void setUrlImageAuthor(String urlImageAuthor) {
+        this.urlImageAuthor = urlImageAuthor;
+    }
+
+    public post(String id, String type, String name, String description, String creationDate, Video video, String urlVideo, String urlImage, String urlFile, ArrayList<Comments> comments, String userId, User owner, String visibility, String subject , ArrayList<String> idcomments) {
         this.id = id;
         this.type = type;
         this.name = name;
@@ -36,12 +54,29 @@ public class post {
         this.urlVideo = urlVideo;
         this.urlImage = urlImage;
         this.urlFile = urlFile;
+
         this.comments = comments;
         this.userId = userId;
         this.owner = owner;
         this.visibility = visibility;
         this.subject = subject;
         this.idcomments = idcomments ;
+    }
+
+    public String getClassRoomId() {
+        return classRoomId;
+    }
+
+    public void setClassRoomId(String classRoomId) {
+        this.classRoomId = classRoomId;
+    }
+
+    public ArrayList<String> getIdcomments() {
+        return idcomments;
+    }
+
+    public void setIdcomments(ArrayList<String> idcomments) {
+        this.idcomments = idcomments;
     }
 
     public String getUrlVideo() {
@@ -154,22 +189,6 @@ public class post {
 
     public void setSubject(String subject) {
         this.subject = subject;
-    }
-
-    public ArrayList<String> getIdcomments() {
-        return idcomments;
-    }
-
-    public void setIdcomments(ArrayList<String> idcomments) {
-        this.idcomments = idcomments;
-    }
-
-    public String getClassroomId() {
-        return classroomId;
-    }
-
-    public void setClassroomId(String classroomId) {
-        this.classroomId = classroomId;
     }
 
     @Override

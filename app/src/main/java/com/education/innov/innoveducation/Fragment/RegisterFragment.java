@@ -224,7 +224,7 @@ public class RegisterFragment extends Fragment {
             editor.putString("role", "parent");
             editor.commit() ;
             parent = new Parent();
-            parent.setId(id);
+            parent.setIdUser(id);
             parent.setFirstName(firstname);
             parent.setLastName(lastname);
             parent.setUrlImage(urlImage);
@@ -245,7 +245,7 @@ public class RegisterFragment extends Fragment {
             editor.putString("role", "teacher");
             editor.commit() ;
             teacher = new Teacher();
-            teacher.setId(id);
+            teacher.setIdUser(id);
             teacher.setFirstName(firstname);
             teacher.setLastName(lastname);
             teacher.setUrlImage(urlImage);

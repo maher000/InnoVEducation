@@ -125,9 +125,7 @@ public class LeftFragmentNaviguation extends Fragment {
         });
     }
     private void logOut(){
-        FirebaseAuth auth = FirebaseAuth.getInstance();
-        auth.signOut();
-        if( auth.getCurrentUser() == null ){
+        FirebaseAuth.getInstance().signOut();
         startActivity(new Intent(getActivity(), MainActivity.class));
-    }}
+}
 }

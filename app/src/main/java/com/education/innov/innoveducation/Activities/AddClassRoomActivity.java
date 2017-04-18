@@ -1,21 +1,15 @@
 package com.education.innov.innoveducation.Activities;
 
-import android.app.DatePickerDialog;
 import android.content.Intent;
-import android.content.res.Configuration;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.text.InputType;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.education.innov.innoveducation.Entities.ClassRoom;
 import com.education.innov.innoveducation.R;
@@ -31,11 +25,8 @@ import com.liuguangqiang.swipeback.SwipeBackLayout;
 import com.mukesh.countrypicker.fragments.CountryPicker;
 import com.mukesh.countrypicker.interfaces.CountryPickerListener;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 
 public class AddClassRoomActivity extends SwipeBackActivity {
     private CircleProgressBar progressBar;

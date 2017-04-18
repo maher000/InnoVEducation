@@ -1,11 +1,11 @@
 <resources>
-    <string name="app_name">Innov Education</string>
+    <string name="app_name"></string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <string name="view_more"><u>view more</u></string>
-    <string name="natalina_del_capo_fffffffffffffffff">Natalina Del Capo</string>
+    <string name="natalina_del_capo">Natalina Del Capo</string>
     <string name="ios">Ios</string>
     <string name="add_by_teacher">Add by teacher :</string>
     <string name="update_profile"><u>Update Profil</u></string>

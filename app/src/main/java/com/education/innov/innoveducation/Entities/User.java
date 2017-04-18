@@ -18,7 +18,7 @@ public class User {
     protected String sex ;
     // do not add to firbase
     protected String connected; // boolean to indicate if is the user online or not
-    protected String id;
+    protected String idUser;
 
 
 
@@ -104,12 +104,12 @@ public class User {
     }
 
 
-    public String getId() {
-        return id;
+    public String getIdUser() {
+        return idUser;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setIdUser(String idUser) {
+        this.idUser = idUser;
     }
 
     public User(String sex , String firstName, String lastName, String phone, String adresse, String urlImage, String active, String codePostal, String contry, String connected, String id) {
@@ -123,7 +123,7 @@ public class User {
         this.contry = contry;
         this.connected = connected;
         this.sex = sex;
-        this.id = id;
+        this.idUser = id;
     }
 
     @Override
@@ -138,7 +138,7 @@ public class User {
                 ", codePostal='" + codePostal + '\'' +
                 ", contry='" + contry + '\'' +
                 ", connected='" + connected + '\'' +
-                ", id='" + id + '\'' +
+                ", id='" + idUser + '\'' +
                 '}';
     }
 }
