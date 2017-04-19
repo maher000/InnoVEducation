@@ -52,44 +52,45 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:theme="@style/EditTextHint">
-
                     <EditText
-                        android:id="@+id/txtDateStart"
+                        android:id="@+id/EdtTitleHomework"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
                         android:drawableTint="#FF4081"
                         android:focusable="true"
                         android:focusableInTouchMode="true"
-                        android:hint="Start date"
+                        android:hint="Title"
+                        android:inputType="text"
                         android:singleLine="true"
+                        android:textColorHint="@color/bb_darkBackgroundColor"
                         android:textColor="@color/black"
                         android:theme="@style/EditTextHint"
                         android:foregroundTint="@color/black"
-                        android:backgroundTint="@color/colorPrimary" />
+                        android:backgroundTint="@color/colorPrimary"/>
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:theme="@style/EditTextHint">
-
-
                     <EditText
-                        android:id="@+id/txtTimeStart"
+                        android:id="@+id/EdtSubjectHomework"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
+                        android:drawableTint="#FF4081"
                         android:focusable="true"
                         android:focusableInTouchMode="true"
-                        android:hint="Start time"
-                        android:inputType="numberDecimal"
+                        android:hint="Subject"
+                        android:inputType="text"
                         android:singleLine="true"
+                        android:textColorHint="@color/bb_darkBackgroundColor"
                         android:textColor="@color/black"
                         android:theme="@style/EditTextHint"
                         android:foregroundTint="@color/black"
-                        android:backgroundTint="@color/colorPrimary"
-                        android:drawableTint="#FF4081"/>
+                        android:backgroundTint="@color/colorPrimary"/>
+
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
@@ -146,7 +147,7 @@
 
 
                     <EditText
-                        android:id="@+id/txtDescription"
+                        android:id="@+id/EdtDescriptionHomework"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
@@ -169,6 +170,7 @@
                 </android.support.design.widget.TextInputLayout>
 
                 <Button
+                    android:id="@+id/btnAddHomework"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"

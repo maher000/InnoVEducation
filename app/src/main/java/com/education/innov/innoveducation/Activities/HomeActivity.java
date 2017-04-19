@@ -67,12 +67,17 @@ public class HomeActivity extends AppCompatActivity {
     String RoleUser;
     Teacher teacher;
     Child child;
+    public static String activeClassroom = null;
     SharedPreferences sharedpreferences;
     Parent parent;
 
     @Override
     protected void onResume() {
         super.onResume();
+        if (activeClassroom != null) {
+            System.out.println("onresume lala ");
+            // finish();
+        }
     }
 
     @Override
@@ -119,6 +124,9 @@ public class HomeActivity extends AppCompatActivity {
                                 .commit();
 
                         //      Toast.makeText(getApplicationContext(), tabId+"tabIdSelected", Toast.LENGTH_LONG).show();
+                        break;
+                    case R.id.tab_courses:
+                        startActivity(new Intent(HomeActivity.this, ListClassroomsActivity.class));
                         break;
                     case R.id.tab_friends:
                         currentFragment = new ProfileFragment();
@@ -272,13 +280,13 @@ public class HomeActivity extends AppCompatActivity {
         sharedpreferences = getPreferences(MODE_APPEND);
         DatabaseReference ref = Config.mDatabase;
         String id = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        System.out.println("the id is "+id);
+        System.out.println("the id is " + id);
         if (role == "child") {
             ref = mBase.child("students").child(id);
         } else if (role.trim().equals("teacher")) {
             ref = mBase.child(Config.CHILD_TEACHER).child(id);
             System.out.println("user no yes ");
-            System.out.println("the id is nn"+id);
+            System.out.println("the id is nn" + id);
         } else if (role == "parent") {
             ref = mBase.child("parents").child(id);
         }
@@ -322,5 +330,10 @@ public class HomeActivity extends AppCompatActivity {
         });
 
     }
+
+    public static void selectClassRomm() {
+
+    }
+
 
 }

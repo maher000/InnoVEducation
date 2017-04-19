@@ -16,11 +16,11 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class HomeWorkViewHolder extends RecyclerView.ViewHolder {
 
     public TextView TvComment;
-    CircleImageView image_profile_Homework;
-    TextView tvFullNameHomework, tvMatiereHomework, tvdatestartHomework,
+    public CircleImageView image_profile_Homework;
+    public TextView tvFullNameHomework, tvMatiereHomework, tvdatestartHomework,
             tvDateEndHomework, tvDescriptionHomework, tvDetailHomework;
-    EditText EdtCommentHomework;
-    Button btnAddCommentHomewotk;
+    public EditText EdtCommentHomework;
+    public Button btnAddCommentHomewotk;
 
     public HomeWorkViewHolder(View view) {
         super(view);

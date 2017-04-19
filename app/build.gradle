@@ -39,12 +39,13 @@ dependencies {
     compile 'com.google.firebase:firebase-storage:10.2.1'
     compile 'com.google.firebase:firebase-auth:10.2.1'
     compile 'com.google.firebase:firebase-messaging:10.2.1'
+    compile 'com.google.code.gson:gson:2.3'
 
     compile 'com.github.liuguangqiang.swipeback:library:1.0.2@aar'
     compile 'com.github.liuguangqiang.prettyprogressbar:library:+'
     compile 'com.github.mukeshsolanki:country-picker-android:1.1.7'
     compile 'com.squareup.picasso:picasso:2.5.2'
-    compile 'com.google.code.gson:gson:2.7'
+    compile 'fm.jiecao:jiecaovideoplayer:5.5.3'
 
 
     testCompile 'junit:junit:4.12'

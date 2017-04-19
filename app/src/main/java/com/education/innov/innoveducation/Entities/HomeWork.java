@@ -9,7 +9,11 @@ import java.util.ArrayList;
 public class HomeWork {
     private String id;
     private String title;
+    private String author ;
+    private String urlImageAuthor ;
+    private String IdClassRom ;
     private String description;
+    private String Subject ;
     private String url ;// optionel : add external url
     private Teacher teacher;
     private ArrayList<String> idComments;
@@ -30,6 +34,38 @@ public class HomeWork {
         this.comments = comments;
         this.startDate = startDate;
         this.endDate = endDate;
+    }
+
+    public String getSubject() {
+        return Subject;
+    }
+
+    public void setSubject(String subject) {
+        Subject = subject;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public String getUrlImageAuthor() {
+        return urlImageAuthor;
+    }
+
+    public void setUrlImageAuthor(String urlImageAuthor) {
+        this.urlImageAuthor = urlImageAuthor;
+    }
+
+    public String getIdClassRom() {
+        return IdClassRom;
+    }
+
+    public void setIdClassRom(String idClassRom) {
+        IdClassRom = idClassRom;
     }
 
     public String getId() {

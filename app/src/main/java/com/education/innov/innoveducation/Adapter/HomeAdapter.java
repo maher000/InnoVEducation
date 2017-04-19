@@ -13,6 +13,8 @@ import android.view.ViewGroup;
 import android.widget.Adapter;
 import android.widget.MediaController;
 
+import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
+
 import com.education.innov.innoveducation.Activities.CommentsActivity;
 import com.education.innov.innoveducation.Activities.CompleteInformationUserActivity;
 import com.education.innov.innoveducation.Activities.CourseActivity;
@@ -60,14 +62,12 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<User> list_final = new ArrayList<>();
 
 
-
-
     public static final int ITEM_TYPE_NORMAL = 0;
     public static final int ITEM_TYPE_HEADER = 1;
     public static final int ITEM_TYPE_Text = 2;
     public static final int ITEM_TYPE_FILE = 3;
 
-    public HomeAdapter(ArrayList<post> posts,ArrayList<Teacher> teachers, Context context) {
+    public HomeAdapter(ArrayList<post> posts, ArrayList<Teacher> teachers, Context context) {
         inflater = LayoutInflater.from(context);
         this.context = context;
         this.posts = posts;
@@ -99,11 +99,10 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         final int itemType = getItemViewType(position);
 
 
-
         if (itemType == ITEM_TYPE_NORMAL) {
             ImagePostViewHolder mHolder = (ImagePostViewHolder) holder;
             mHolder.tvDescriptionImage.setText(posts.get(position).getDescription().toString());
-            mHolder.tvFullNameImage.setText(posts.get(position).getAuthor().toString() + " " + posts.get(position).getOwner().getLastName().toString());
+            mHolder.tvFullNameImage.setText(posts.get(position).getAuthor().toString() );
             mHolder.tvMatiereImage.setText(posts.get(position).getSubject().toString());
             Picasso.with(context).load(posts.get(position).getUrlFile().toString()).into(mHolder.image_post);
             Picasso.with(context).load(posts.get(position).getUrlImageAuthor().toString()).into(mHolder.image_profile_image);
@@ -120,7 +119,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             MediaController mediaControls = new MediaController(context);
             VideoPostViewHolder mHolder = (VideoPostViewHolder) holder;
             mHolder.tvDescriptionVideo.setText(posts.get(position).getDescription().toString());
-            mHolder.tvFullNameVideo.setText(posts.get(position).getAuthor().toString() + " " + posts.get(position).getOwner().getLastName().toString());
+            mHolder.tvFullNameVideo.setText(posts.get(position).getAuthor().toString());
             mHolder.tvMatiereVideo.setText(posts.get(position).getSubject().toString());
             Picasso.with(context).load(posts.get(position).getUrlImageAuthor().toString()).into(mHolder.image_profile_video);
             mHolder.tvCommentsVideo.setOnClickListener(new View.OnClickListener() {
@@ -134,9 +133,9 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             });
             try {
                 //set the media controller in the VideoView
-                mHolder.PostVideo.setMediaController(mediaControls);
-                //set the uri of the video to be played
-                mHolder.PostVideo.setVideoURI(Uri.parse(posts.get(position).getUrlFile().toString()));
+                ;
+                mHolder.PostVideo.setUp(posts.get(position).getUrlFile().toString()
+                        , JCVideoPlayerStandard.SCREEN_LAYOUT_NORMAL, "video name");
             } catch (Exception e) {
                 Log.e("Error", e.getMessage());
                 e.printStackTrace();
@@ -145,7 +144,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         } else if (itemType == ITEM_TYPE_Text) {
             TextPostViewHolder mHolder = (TextPostViewHolder) holder;
             mHolder.tvDescriptionText.setText(posts.get(position).getDescription().toString());
-            mHolder.tvFullNameText.setText(posts.get(position).getAuthor().toString() + " " + posts.get(position).getOwner().getLastName().toString());
+            mHolder.tvFullNameText.setText(posts.get(position).getAuthor().toString() );
             mHolder.tvMatiereText.setText(posts.get(position).getSubject().toString());
             Picasso.with(context).load(posts.get(position).getUrlImageAuthor().toString()).into(mHolder.image_profile_text);
             mHolder.tvCommentsText.setOnClickListener(new View.OnClickListener() {
@@ -161,7 +160,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         } else if (itemType == ITEM_TYPE_FILE) {
             FilePostViewHolder mHolder = (FilePostViewHolder) holder;
             mHolder.tvDescriptionFile.setText(posts.get(position).getDescription().toString());
-            mHolder.tvFullNameFile.setText(posts.get(position).getAuthor().toString() + " " + posts.get(position).getOwner().getLastName().toString());
+            mHolder.tvFullNameFile.setText(posts.get(position).getAuthor().toString());
             mHolder.tvMatiereFile.setText(posts.get(position).getSubject().toString());
             Picasso.with(context).load(posts.get(position).getUrlImageAuthor().toString()).into(mHolder.image_profile_file);
             mHolder.tvCommentsFile.setOnClickListener(new View.OnClickListener() {

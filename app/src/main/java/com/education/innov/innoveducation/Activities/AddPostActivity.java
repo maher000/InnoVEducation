@@ -61,6 +61,8 @@ import com.google.gson.Gson;
 import com.liuguangqiang.progressbar.CircleProgressBar;
 import com.liuguangqiang.swipeback.SwipeBackActivity;
 
+import android.media.ThumbnailUtils;
+
 import com.liuguangqiang.swipeback.SwipeBackLayout;
 
 import java.io.ByteArrayOutputStream;
@@ -99,7 +101,7 @@ public class AddPostActivity extends SwipeBackActivity {
     String typePost = "text";
     String title, subject, description, urlPostStorage, visibility, author, urlImageAuthor;
     post new_post;
-    Object obj ;
+    Object obj;
 
     String extentionFile;
 
@@ -347,13 +349,15 @@ public class AddPostActivity extends SwipeBackActivity {
                     .setContentType("video/mp4")
                     .build();
             Uri file = Uri.fromFile(new File(filePath));
+            upload_thms(filePath);
             System.out.println(file + "new file");
+
             UploadTask uploadTask = videosRef.putFile(file, metadata);
             uploadTask.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
                     double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
-                    circleProgressBar.setProgress((int)progress);
+                    circleProgressBar.setProgress((int) progress);
                     System.out.println("Upload is " + progress + "% done");
                 }
             }).addOnPausedListener(new OnPausedListener<UploadTask.TaskSnapshot>() {
@@ -393,7 +397,7 @@ public class AddPostActivity extends SwipeBackActivity {
                 @Override
                 public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
                     double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
-                    circleProgressBar.setProgress((int)progress);
+                    circleProgressBar.setProgress((int) progress);
                     System.out.println("Upload is " + progress + "% done");
                 }
             }).addOnPausedListener(new OnPausedListener<UploadTask.TaskSnapshot>() {
@@ -430,7 +434,7 @@ public class AddPostActivity extends SwipeBackActivity {
                 @Override
                 public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
                     double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
-                    circleProgressBar.setProgress((int)progress);
+                    circleProgressBar.setProgress((int) progress);
                     System.out.println("Upload is " + progress + "% done");
                 }
             }).addOnPausedListener(new OnPausedListener<UploadTask.TaskSnapshot>() {
@@ -513,56 +517,96 @@ public class AddPostActivity extends SwipeBackActivity {
         System.out.println("type of post is " + typePost);
     }
 
-  /*  public void getInfomationUser() {
+    /*  public void getInfomationUser() {
 
-        SharedPreferences sp = getSharedPreferences("role_user", Activity.MODE_PRIVATE);
-        final String role = sp.getString("role", null);
-        DatabaseReference ref = Config.mDatabase;
-        String id = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        System.out.println("the id is " + id);
-        if (role == "child") {
-            ref = mDBase.child("students").child(id);
-        } else if (role.trim().equals("teacher")) {
-            ref = mDBase.child(Config.CHILD_TEACHER).child(id);
-            System.out.println("user no yes ");
-            System.out.println("the id is nn" + id);
-        } else if (role == "parent") {
-            ref = mDBase.child("parents").child(id);
-        }
-        ref.addValueEventListener(new ValueEventListener() {
+          SharedPreferences sp = getSharedPreferences("role_user", Activity.MODE_PRIVATE);
+          final String role = sp.getString("role", null);
+          DatabaseReference ref = Config.mDatabase;
+          String id = FirebaseAuth.getInstance().getCurrentUser().getUid();
+          System.out.println("the id is " + id);
+          if (role == "child") {
+              ref = mDBase.child("students").child(id);
+          } else if (role.trim().equals("teacher")) {
+              ref = mDBase.child(Config.CHILD_TEACHER).child(id);
+              System.out.println("user no yes ");
+              System.out.println("the id is nn" + id);
+          } else if (role == "parent") {
+              ref = mDBase.child("parents").child(id);
+          }
+          ref.addValueEventListener(new ValueEventListener() {
+              @Override
+              public void onDataChange(DataSnapshot dataSnapshot) {
+                  if (role == "child") {
+
+                      child = dataSnapshot.getValue(Child.class);
+                      author = child.getFirstName() + " " + child.getLastName();
+                      urlImageAuthor = child.getUrlImage();
+
+                  } else if (role.trim().equals("teacher")) {
+                      teacher = dataSnapshot.getValue(Teacher.class);
+                      author = teacher.getFirstName() + " " + teacher.getLastName();
+                      urlImageAuthor = teacher.getUrlImage();
+                      System.out.println("maher i love you walaah " + teacher);
+                  } else if (role == "parent") {
+                      parent = dataSnapshot.getValue(Parent.class);
+                      author = parent.getFirstName() + " " + parent.getLastName();
+                      urlImageAuthor = parent.getUrlImage();
+                  }
+              }
+
+              @Override
+              public void onCancelled(DatabaseError databaseError) {
+
+              }
+          });
+
+      }*/
+    public void getInfomationUser() {
+
+        if (Config.currentTeacher != null)
+            System.out.println(Config.currentTeacher);
+        author = Config.currentTeacher.getFirstName() + " " + Config.currentTeacher.getLastName();
+        urlImageAuthor = Config.currentTeacher.getUrlImage();
+    }
+
+    private void upload_thms(String urlFile) {
+        Bitmap bmThumbnail;
+        bmThumbnail = ThumbnailUtils.createVideoThumbnail(urlFile, MediaStore.Images.Thumbnails.FULL_SCREEN_KIND);
+        ViedeoPostRef.child("miniatures");
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bmThumbnail.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] data = baos.toByteArray();
+        UploadTask uploadTask = ViedeoPostRef.child("miniatures").putBytes(data);
+        uploadTask.addOnFailureListener(new OnFailureListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (role == "child") {
+            public void onFailure(@NonNull Exception exception) {
+                // Handle unsuccessful uploads
 
-                    child = dataSnapshot.getValue(Child.class);
-                    author = child.getFirstName() + " " + child.getLastName();
-                    urlImageAuthor = child.getUrlImage();
+            }
+        }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+            @Override
 
-                } else if (role.trim().equals("teacher")) {
-                    teacher = dataSnapshot.getValue(Teacher.class);
-                    author = teacher.getFirstName() + " " + teacher.getLastName();
-                    urlImageAuthor = teacher.getUrlImage();
-                    System.out.println("maher i love you walaah " + teacher);
-                } else if (role == "parent") {
-                    parent = dataSnapshot.getValue(Parent.class);
-                    author = parent.getFirstName() + " " + parent.getLastName();
-                    urlImageAuthor = parent.getUrlImage();
-                }
+            public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
+                System.out.println("Upload is " + progress + "% done");
+            }
+        }).addOnPausedListener(new OnPausedListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onPaused(UploadTask.TaskSnapshot taskSnapshot) {
+                System.out.println("Upload is paused");
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
+                Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                AddPost(downloadUrl.toString());
+                System.out.println("url image" + downloadUrl);
+
             }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
         });
-
-    }*/
-  public void getInfomationUser() {
-
-      if (Config.currentTeacher != null)
-          System.out.println(Config.currentTeacher);
-      author = Config.currentTeacher.getFirstName() + " " + Config.currentTeacher.getLastName();
-      urlImageAuthor = Config.currentTeacher.getUrlImage();
-  }
+    }
 
 }
