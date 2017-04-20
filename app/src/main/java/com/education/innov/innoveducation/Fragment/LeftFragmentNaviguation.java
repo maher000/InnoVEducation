@@ -83,7 +83,11 @@ public class LeftFragmentNaviguation extends Fragment {
                 System.out.println(position+"possyrine");
                 switch (position){
                     case 1 : addChild();
+                        break;
                     case 5 : logOut();
+                        break;
+                    default:
+                        break;
                 }
             }
 
