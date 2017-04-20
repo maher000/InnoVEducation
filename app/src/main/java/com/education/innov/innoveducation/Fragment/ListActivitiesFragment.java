@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import com.education.innov.innoveducation.Activities.HomeActivity;
 import com.education.innov.innoveducation.Adapter.HomeAdapter;
 import com.education.innov.innoveducation.Entities.Child;
+import com.education.innov.innoveducation.Entities.HomeWork;
 import com.education.innov.innoveducation.Entities.Parent;
 import com.education.innov.innoveducation.Entities.Teacher;
 import com.education.innov.innoveducation.Entities.User;
@@ -61,102 +62,15 @@ public class ListActivitiesFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        ;
-
-
-        // Inflate the layout for this fragment
+           // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_list_activities, container, false);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.Activities_recycler_view);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
-        getPosts();
         getInfomationUser();
-
-
+        getPosts();
         return view;
-
-
     }
-
-   /* public void getAllPosts() {
-
-        posts = new ArrayList<>();
-        mAdapter = new HomeAdapter(posts,teachers, getActivity());
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        mAdapter.notifyDataSetChanged();
-        final String id = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        if(HomeActivity.activeClassroom!=null) {
-            mDBase.child("posts").orderByChild("classroomId").equalTo(HomeActivity.activeClassroom).addChildEventListener(new ChildEventListener() {
-                @Override
-                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-
-                    new_post = dataSnapshot.getValue(post.class);
-                    System.out.println("posts: " + new_post);
-                    getUsers(new_post.getUserId(), posts.size() - 1, new_post);
-
-
-            }
-
-
-                @Override
-                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                }
-
-                @Override
-                public void onChildRemoved(DataSnapshot dataSnapshot) {
-                }
-
-                @Override
-                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-                }
-            });
-        }
-    }
-
-
-    private void getUsers(String id, final int position, final post post){
-        mDBase.child(Config.CHILD_TEACHER).child(id).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                System.out.println(dataSnapshot.getValue()+"teacher");
-
-                try{
-
-                    Teacher teacher  = dataSnapshot.getValue(Teacher.class);
-                    System.out.println("teacher :"+teacher);
-                    //teachers.add(position,teacher);
-                    post.setOwner(teacher);
-                    posts.add(post);
-                    System.out.println("typeMaher"+posts.get(posts.size()-1).getType());
-                    mRecyclerView.setAdapter(mAdapter);
-
-
-
-                } catch (Throwable e) {
-                    Log.e("errorTeacher",e.getMessage());
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
-
-    }
-
-    public Teacher getUser(final String UserID) {
-
-
-        return owner;
-    } */
-
 
     public void getPosts() {
 
@@ -165,55 +79,43 @@ public class ListActivitiesFragment extends Fragment {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mAdapter.notifyDataSetChanged();
-        final String id = FirebaseAuth.getInstance().getCurrentUser().getUid();
         FirebaseDatabase.getInstance()
                 .getReference()
-                .child("posts").addValueEventListener(
-
-                new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        for (DataSnapshot child : dataSnapshot.getChildren()) {
-                            new_post = child.getValue(post.class);
-
-                        }
-                        posts.add(new_post);
-                        mRecyclerView.setAdapter(mAdapter);
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
-    }
-
-  /*  private void getUsers(String id, final post post) {
-        mDBase.child(Config.CHILD_TEACHER).orderByChild("id").equalTo(id).addValueEventListener(new ValueEventListener() {
+                .child("posts").addChildEventListener(new ChildEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                System.out.println(dataSnapshot.getValue() + "teacher");
-
-                try {
-
-                    Teacher teacher = dataSnapshot.getValue(Teacher.class);
-                    System.out.println("teacher :" + teacher);
-                    //teachers.add(position,teacher);
-                    post.setOwner(teacher);
-                    posts.add(post);
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                new_post = dataSnapshot.getValue(post.class);
+                System.out.println("classRoom");
+                if (new_post != null) {
+                    //creta a listener
+                    posts.add(new_post);
                     mRecyclerView.setAdapter(mAdapter);
-
-
-                } catch (Throwable e) {
-                    Log.e("errorTeacher", e.getMessage());
+                    mAdapter.notifyDataSetChanged();
                 }
+
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
             }
-        });  } */
+        });
+
+    }
 
     public void getInfomationUser() {
 

@@ -18,10 +18,12 @@ import com.education.innov.innoveducation.Activities.ChatActivity;
 import com.education.innov.innoveducation.Adapter.CoursesAdapter;
 import com.education.innov.innoveducation.Adapter.HomeAdapter;
 import com.education.innov.innoveducation.Adapter.HomeWorkAdapter;
+import com.education.innov.innoveducation.Entities.ClassRoom;
 import com.education.innov.innoveducation.Entities.HomeWork;
 import com.education.innov.innoveducation.Entities.post;
 import com.education.innov.innoveducation.R;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -34,10 +36,10 @@ public class HomeworksFragment extends Fragment {
 
     private RecyclerView mRecyclerView;
     private HomeWorkAdapter mAdapter;
-    private HomeWork new_homework ;
-    private RecyclerView.LayoutManager mLayoutManager ;
+    private HomeWork new_homework;
+    private RecyclerView.LayoutManager mLayoutManager;
     private FloatingActionButton btnAddHomeWork;
-    ArrayList<HomeWork> homeWorks = new ArrayList<>();
+    ArrayList<HomeWork> homeWorks;
 
 
     public HomeworksFragment() {
@@ -58,40 +60,53 @@ public class HomeworksFragment extends Fragment {
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
         //Adapter is created in the last step
-        mAdapter = new HomeWorkAdapter(getActivity(),homeWorks);
+
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         getAllHomeworks();
-        return view ;
+        return view;
     }
 
-    private void getAllHomeworks(){
+    private void getAllHomeworks() {
+        homeWorks = new ArrayList<>();
+        mAdapter = new HomeWorkAdapter(getActivity(), homeWorks);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        FirebaseDatabase.getInstance()
+                .getReference()
+                .child("homeworks").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                new_homework = dataSnapshot.getValue(HomeWork.class);
+                System.out.println("classRoom" );
+                if (new_homework != null) {
+                    //creta a listener
+                    homeWorks.add(new_homework);
+                    mRecyclerView.setAdapter(mAdapter);
+                    mAdapter.notifyDataSetChanged();
+                }
 
-            mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+            }
 
-            mAdapter.notifyDataSetChanged();
-            final String id = FirebaseAuth.getInstance().getCurrentUser().getUid();
-            FirebaseDatabase.getInstance()
-                    .getReference()
-                    .child("homeworks").addValueEventListener(
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+            }
 
-                    new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            for (DataSnapshot child : dataSnapshot.getChildren()) {
-                                new_homework = child.getValue(HomeWork.class);
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
 
-                            }
-                            homeWorks.add(new_homework);
-                            mRecyclerView.setAdapter(mAdapter);
-                            mRecyclerView.setAdapter(mAdapter);
-                        }
+            }
 
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
 
-                        }
-                    });
-        }
+            }
 
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
     }
+
+
+}

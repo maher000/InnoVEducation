@@ -6,6 +6,7 @@
     android:background="@color/color_background"
     android:orientation="vertical">
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -20,21 +21,39 @@
             android:orientation="vertical">
 
             <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/circleImageView"
+                android:id="@+id/imageProfile"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:paddingLeft="10dp"
                 android:src="@drawable/round_profile_pic" />
 
-            <TextView
-                android:id="@+id/textView9"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:autoText="true"
-                android:maxLines="1"
-                android:text="Laura Del Capo"
-                android:textColor="@color/overWhite"
-                android:textStyle="bold|italic" />
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/tvFirstName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:autoText="true"
+                    android:enabled="false"
+                    android:maxLines="1"
+                    android:text="Laura"
+                    android:textColor="@color/overWhite"
+                    android:textStyle="bold|italic" />
+
+                <EditText
+                    android:id="@+id/tvLastName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:autoText="true"
+                    android:enabled="false"
+                    android:maxLines="1"
+                    android:text="Del Capo"
+                    android:textColor="@color/overWhite"
+                    android:textStyle="bold|italic" />
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
@@ -56,289 +75,472 @@
                 android:text="update_profile"
                 android:textColor="@color/gray_dark"
                 android:textStyle="bold|italic" />
+
+            <Switch
+                android:id="@+id/SwitchUpdate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/overWhite"
+                android:foreground="@color/overWhite"
+                android:shadowColor="@color/overWhite"
+                app:buttonTint="@color/overWhite" />
         </LinearLayout>
+
     </LinearLayout>
 
-    <android.support.v7.widget.CardView
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginTop="5dp"
-        android:background="@color/overWhite"
-        app:cardBackgroundColor="@android:color/white"
-        app:cardCornerRadius="5dp">
+        android:fitsSystemWindows="true">
 
-        <TableLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <TableRow
+            <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp"
+                android:background="@color/overWhite"
+                app:cardBackgroundColor="@android:color/white"
+                app:cardCornerRadius="5dp">
 
-                <android.support.v7.widget.AppCompatImageView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:src="@drawable/icon_worldwide_location_48" />
+                    android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/textView3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:text="From : "
-                    android:textColor="@color/gray_dark" />
+                    <TableLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
 
-                <TextView
-                    android:id="@+id/tvLocation"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:text="Bizerte, Tunisia "
-                    android:textColor="@color/black"
-                    android:textStyle="bold|italic" />
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_vertical"
+                            android:gravity="center_vertical">
 
-            </TableRow>
+                            <android.support.v7.widget.AppCompatImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:src="@drawable/icon_worldwide_location_48" />
 
-            <TableRow
+                            <android.support.design.widget.TextInputLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:forceHasOverlappingRendering="true">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:layout_gravity="center_vertical"
+                                    android:text="City : "
+                                    android:gravity="center_vertical"
+                                    android:textColor="@color/gray_dark" />
+                            </android.support.design.widget.TextInputLayout>
+
+                            <android.support.design.widget.TextInputLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:forceHasOverlappingRendering="true"
+                                android:gravity="center_vertical|center">
+
+                                <EditText
+                                    android:id="@+id/tvCity"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:layout_gravity="center_vertical"
+                                    android:enabled="false"
+                                    android:gravity="center_vertical|center_horizontal"
+                                    android:text="Bizerte"
+                                    android:textColor="@color/black"
+                                    android:textSize="13dp"
+                                    android:textStyle="bold|italic" />
+                            </android.support.design.widget.TextInputLayout>
+
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <android.support.v7.widget.AppCompatImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:src="@drawable/icon_worldwide_location_48" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:text="Country : "
+                                android:textColor="@color/gray_dark" />
+
+                            <android.support.design.widget.TextInputLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:forceHasOverlappingRendering="true">
+
+                                <EditText
+                                    android:id="@+id/tvCountry"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:enabled="false"
+                                    android:text="Tunisia "
+                                    android:textColor="@color/black"
+                                    android:textSize="13dp"
+                                    android:textStyle="bold|italic" />
+                            </android.support.design.widget.TextInputLayout>
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <android.support.v7.widget.AppCompatImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:src="@drawable/icon_worldwide_location_48" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:text="Code postal : "
+                                android:textColor="@color/gray_dark" />
+
+                            <android.support.design.widget.TextInputLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:forceHasOverlappingRendering="true">
+
+                                <EditText
+                                    android:id="@+id/tvCodePostal"
+                                    android:layout_width="37dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_gravity="center_vertical"
+                                    android:enabled="false"
+                                    android:text="7035 "
+                                    android:textColor="@color/black"
+                                    android:textSize="13dp"
+                                    android:textStyle="bold|italic" />
+                            </android.support.design.widget.TextInputLayout>
+
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <android.support.v7.widget.AppCompatImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:src="@drawable/icon_worldwide_location_48" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:text="Role : "
+                                android:textColor="@color/gray_dark" />
+
+                            <android.support.design.widget.TextInputLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:forceHasOverlappingRendering="true">
+
+                                <EditText
+                                    android:id="@+id/tvRole"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:enabled="false"
+                                    android:text="Teacher"
+                                    android:textColor="@color/black"
+                                    android:textSize="13dp"
+                                    android:textStyle="bold|italic" />
+                            </android.support.design.widget.TextInputLayout>
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <android.support.v7.widget.AppCompatImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:src="@drawable/icon_worldwide_location_48" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:text="Class Room : "
+                                android:textColor="@color/gray_dark" />
+
+                            <android.support.design.widget.TextInputLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:forceHasOverlappingRendering="true">
+
+                                <EditText
+                                    android:id="@+id/tvClassRoom"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:enabled="false"
+                                    android:text="4 Sim 3 "
+                                    android:textColor="@color/black"
+                                    android:textSize="13dp"
+                                    android:textStyle="bold|italic" />
+                            </android.support.design.widget.TextInputLayout>
+
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <android.support.v7.widget.AppCompatImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_weight="0"
+                                android:src="@drawable/icon_birthday_48" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:text="Birthday: "
+                                android:textColor="@color/gray_dark" />
+
+                            <android.support.design.widget.TextInputLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:forceHasOverlappingRendering="true">
+
+                                <EditText
+                                    android:id="@+id/tvBirthday"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:enabled="false"
+                                    android:text="21/01/2017 "
+                                    android:textColor="@color/black"
+                                    android:textSize="13dp"
+                                    android:textStyle="bold|italic" />
+                            </android.support.design.widget.TextInputLayout>
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <android.support.v7.widget.AppCompatImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:src="@drawable/icon_smartphone_48" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:text="Phone: "
+                                android:textColor="@color/gray_dark" />
+
+                            <android.support.design.widget.TextInputLayout
+                                android:layout_width="match_parent"
+
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="8dp"
+                                android:layout_marginTop="8dp"
+                                android:forceHasOverlappingRendering="true">
+
+                                <EditText
+                                    android:id="@+id/tvPhone"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:enabled="false"
+                                    android:text="+ (216) 55 280 536"
+                                    android:textColor="@color/black"
+                                    android:textSize="13dp"
+                                    android:textStyle="bold|italic" />
+                            </android.support.design.widget.TextInputLayout>
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <android.support.v7.widget.AppCompatImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:src="@drawable/icon_email_48" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:text="Email : "
+                                android:textColor="@color/gray_dark" />
+
+                            <android.support.design.widget.TextInputLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:forceHasOverlappingRendering="true">
+
+                                <EditText
+                                    android:id="@+id/tvEmail"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:enabled="false"
+                                    android:text="laura.delcapo@gmail.com "
+                                    android:textColor="@color/black"
+                                    android:textSize="13dp"
+                                    android:textStyle="bold|italic" />
+                            </android.support.design.widget.TextInputLayout>
+
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <android.support.v7.widget.AppCompatImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:src="@drawable/icon_school_48" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:text="Education : "
+                                android:textColor="@color/gray_dark" />
+
+                            <android.support.design.widget.TextInputLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:forceHasOverlappingRendering="true">
+
+                                <EditText
+                                    android:id="@+id/tvEducation"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:enabled="false"
+                                    android:text="Business School"
+                                    android:textColor="@color/black"
+                                    android:textSize="13dp"
+                                    android:textStyle="bold|italic" />
+                            </android.support.design.widget.TextInputLayout>
+                        </TableRow>
+
+                    </TableLayout>
+
+
+                    <Button
+                        android:id="@+id/btnUpdateprofile"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right|end"
+                        android:background="@color/colorPrimary"
+                        android:visibility="gone"
+                        android:text="Create" />
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                xmlns:card_view="http://schemas.android.com/apk/res-auto"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <android.support.v7.widget.AppCompatImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="0"
-                    android:src="@drawable/icon_birthday_48" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:text="Biethday: "
-                    android:textColor="@color/gray_dark" />
-
-                <TextView
-                    android:id="@+id/tvBirthday"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:text="21/01/2017 "
-                    android:textColor="@color/black"
-                    android:textStyle="bold|italic" />
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <android.support.v7.widget.AppCompatImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:src="@drawable/icon_smartphone_48" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:text="Phone: "
-                    android:textColor="@color/gray_dark" />
-
-                <TextView
-                    android:id="@+id/tvPhone"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:text="+ (216) 55 280 536"
-                    android:textColor="@color/black"
-                    android:textStyle="bold|italic" />
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <android.support.v7.widget.AppCompatImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:src="@drawable/icon_email_48" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:text="Email : "
-                    android:textColor="@color/gray_dark" />
-
-                <TextView
-                    android:id="@+id/tvEmail"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:text="laura.delcapo@gmail.com "
-                    android:textColor="@color/black"
-                    android:textStyle="bold|italic" />
-
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <android.support.v7.widget.AppCompatImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:src="@drawable/icon_school_48" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:text="Education : "
-                    android:textColor="@color/gray_dark" />
-
-                <TextView
-                    android:id="@+id/tvEducation"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:text="Business School"
-                    android:textColor="@color/black"
-                    android:textStyle="bold|italic" />
-            </TableRow>
-        </TableLayout>
-
-
-    </android.support.v7.widget.CardView>
-
-    <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginTop="15dp"
-        android:background="@color/overWhite"
-        card_view:cardBackgroundColor="@color/overWhite"
-        card_view:cardCornerRadius="5dp">
-
-        <TableLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:layout_marginRight="5dp"
-                    android:src="@drawable/round_profile_pic" />
-
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="15dp"
+                android:background="@color/overWhite"
+                card_view:cardBackgroundColor="@color/overWhite"
+                card_view:cardCornerRadius="5dp">
 
                 <TableLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1.5">
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
                     <TableRow
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-                        <TextView
-                            android:id="@+id/tvFullNameFather"
-                            android:layout_width="wrap_content"
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:layout_marginRight="5dp"
+                            android:src="@drawable/round_profile_pic" />
+
+
+                        <TableLayout
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:lines="1"
-                            android:maxLines="1"
-                            android:paddingRight="10dp"
-                            android:paddingTop="10dp"
-                            android:singleLine="true"
-                            android:text="Paulo Del Caopoffhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhfff"
-                            android:textColor="@color/black"
-                            android:textSize="14dp"
-                            android:textStyle="bold|italic" />
-                    </TableRow>
+                            android:layout_weight="1.5">
 
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                            <TableRow
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Father"
-                            android:textColor="@color/gray_dark"
-                            android:textSize="12dp"
-                            android:textStyle="italic"
+                                <TextView
+                                    android:id="@+id/tvFullNameFather"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:lines="1"
+                                    android:maxLines="1"
+                                    android:paddingRight="10dp"
+                                    android:paddingTop="10dp"
+                                    android:singleLine="true"
+                                    android:text="Paulo Del Caopoffhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhfff"
+                                    android:textColor="@color/black"
+                                    android:textSize="14dp"
+                                    android:textStyle="bold|italic" />
+                            </TableRow>
 
-                            />
+                            <TableRow
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Father"
+                                    android:textColor="@color/gray_dark"
+                                    android:textSize="12dp"
+                                    android:textStyle="italic"
+
+                                    />
+                            </TableRow>
+
+                        </TableLayout>
+
                     </TableRow>
 
                 </TableLayout>
 
-            </TableRow>
+            </android.support.v7.widget.CardView>
 
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:layout_marginRight="5dp"
-                    android:src="@drawable/round_profile_pic" />
-
-                <TableLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1.5">
-
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            android:id="@+id/tvFullNameMother"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:lines="1"
-                            android:maxLines="1"
-                            android:paddingRight="10dp"
-                            android:paddingTop="10dp"
-                            android:singleLine="true"
-                            android:text="Natalina Del Caopoffhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhfff"
-                            android:textColor="@color/black"
-                            android:textSize="14dp"
-                            android:textStyle="bold|italic" />
-                    </TableRow>
-
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Mother"
-                            android:textColor="@color/gray_dark"
-                            android:textSize="12dp"
-                            android:textStyle="italic"
-
-                            />
-                    </TableRow>
-
-                </TableLayout>
-
-
-            </TableRow>
-        </TableLayout>
-
-    </android.support.v7.widget.CardView>
-
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>
