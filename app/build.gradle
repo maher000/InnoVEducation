@@ -22,8 +22,6 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     // import firebase links
-    
-
 
 
     compile 'com.android.support:appcompat-v7:25.3.1'

@@ -13,6 +13,7 @@ public class Course {
     private String name;
     private String description;
     private String Country;
+    private String Subject ;
     private String langage;
     private Teacher owner;//the owner must bu a teacher in order to add a course
     private ArrayList<User> followers; //
@@ -20,6 +21,7 @@ public class Course {
     private ArrayList<String > idFollowers; //
     private ArrayList<String> idVideos;
     private String creationDate;
+    private  String author ; 
     private String visibility; // true or false (public to all users or only visible in the classRoom where was created
     private ClassRoom classRoom;
     private ArrayList<String> idComments;
@@ -164,6 +166,14 @@ public class Course {
 
     public void setIdComments(ArrayList<String> idComments) {
         this.idComments = idComments;
+    }
+
+    public String getSubject() {
+        return Subject;
+    }
+
+    public void setSubject(String subject) {
+        Subject = subject;
     }
 
     @Override
