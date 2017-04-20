@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.education.innov.innoveducation.Activities.AddChildActivity;
 import com.education.innov.innoveducation.Activities.MainActivity;
 import com.education.innov.innoveducation.Adapter.MenuLeftNaviguationAdapter;
 import com.education.innov.innoveducation.R;
@@ -81,7 +82,12 @@ public class LeftFragmentNaviguation extends Fragment {
                 LeftFragmentNaviguation.Item = position;
                 System.out.println(position+"possyrine");
                 switch (position){
+                    case 1 : addChild();
+                        break;
                     case 5 : logOut();
+                        break;
+                    default:
+                        break;
                 }
             }
 
@@ -128,4 +134,8 @@ public class LeftFragmentNaviguation extends Fragment {
         FirebaseAuth.getInstance().signOut();
         startActivity(new Intent(getActivity(), MainActivity.class));
 }
+    private void addChild(){
+        System.out.println("gggghhhhjjjj");
+        startActivity(new Intent(getActivity(), AddChildActivity.class));
+    }
 }

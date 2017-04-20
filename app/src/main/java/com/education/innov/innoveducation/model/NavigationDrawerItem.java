@@ -42,7 +42,7 @@ public class NavigationDrawerItem {
 	private static String[] getTitles() {
 
 		return new String[] {
-				"Évènements à venir", "Associations", "Evénements à proximité", "Contacter nous","Profile","Déconnexion"
+				"Add Child", "Associations", "Evénements à proximité", "Contacter nous","Profile","Log out"
 		};
 	}
 

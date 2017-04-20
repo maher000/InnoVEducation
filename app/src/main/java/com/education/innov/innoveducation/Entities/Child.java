@@ -12,12 +12,10 @@ public class Child extends User {
     private ClassRoom classeRoom; // only set if function equal teacher
     // do not add to firbase
     private ArrayList<Parent> parents; // only set if function equal student;
-    private ArrayList<String > idParents;
-    private String id;
-
+    private String parentId;
 
     public Child() {
-        super("sex" ,"firstName", "lastName", "phone"," adresse", "urlImage", "active", "codePostal", "ontry", "connected", "id");
+        super("sex" ,"firstName", "lastName", "phone"," adresse", "urlImage", "false", "none", "none", "none", "id");
 
     }
 
@@ -120,22 +118,19 @@ public class Child extends User {
     }
 
 
-    public String getId() {
-        return id;
+    public String getParentId() {
+        return parentId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setParentId(String parentId) {
+        this.parentId = parentId;
     }
-
 
     @Override
     public String toString() {
         return "Child{" +
                 "classRommId='" + classRommId + '\'' +
                 ", classeRoom=" + classeRoom +
-                ", idParents=" + idParents +
-                ", id='" + id + '\'' +
                 '}';
     }
 }

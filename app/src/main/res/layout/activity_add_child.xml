@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:pb="http://schemas.android.com/apk/res-auto"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:background="@color/overWhite"
+tools:context="com.education.innov.innoveducation.Activities.AddChildActivity">
+
+
+<RelativeLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="10dp"
+    android:layout_marginTop="10dp">
+
+    <com.liuguangqiang.progressbar.CircleProgressBar
+        android:id="@+id/progressbar1"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        pb:background_color="@android:color/transparent"
+        pb:progress_color="@android:color/black"
+        pb:stroke_width="2dp" />
+
+    <ImageView
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_centerInParent="true"
+        android:background="@drawable/ic_action_name"
+        android:backgroundTint="@color/bb_darkBackgroundColor"/>
+</RelativeLayout>
+
+
+<com.liuguangqiang.swipeback.SwipeBackLayout
+    android:id="@+id/swipe_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="70dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp">
+
+            <TextView
+                android:id="@+id/textView12"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Please enter a valide email in order to add a new account that reference to your child.\nan email will be sent to the specified email adresse to activate the new account."
+                android:lineSpacingMultiplier="1.2"
+                android:textColor="@color/colorPrimary"
+                android:gravity="center"
+                android:layout_marginBottom="15dp"/>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:theme="@style/EditTextHint">
+
+                <EditText
+                    android:id="@+id/et_add_child_email"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:backgroundTint="@color/colorPrimary"
+                    android:drawableTint="#FF4081"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:foregroundTint="@color/black"
+                    android:hint="Email"
+                    android:inputType="textEmailAddress"
+                    android:singleLine="true"
+                    android:textColor="@color/black"
+                    android:theme="@style/EditTextHint" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:theme="@style/EditTextHint">
+
+
+                <EditText
+                    android:id="@+id/et_add_child_password"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:backgroundTint="@color/colorPrimary"
+                    android:drawableTint="#FF4081"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:foregroundTint="@color/black"
+                    android:hint="Password"
+                    android:singleLine="true"
+                    android:textColor="@color/black"
+                    android:theme="@style/EditTextHint" />
+            </android.support.design.widget.TextInputLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="right">
+
+                <Button
+                    android:id="@+id/btnSubmit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right|end"
+                    android:background="@color/colorPrimary"
+                    android:text="Create" />
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+</com.liuguangqiang.swipeback.SwipeBackLayout>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:id="@+id/LayoutErrorMessage"
+    android:layout_height="50dp"
+    android:alpha="0.8"
+    android:visibility="gone"
+    android:layout_alignBottom="@+id/swipe_layout">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/tvErrorMsg"
+        android:text=""
+        android:textSize="12dp"
+        android:lines="2"
+        android:maxLines="2"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:textColor="@color/overWhite"
+        android:background="@color/black"/>
+</LinearLayout>
+
+</RelativeLayout>
