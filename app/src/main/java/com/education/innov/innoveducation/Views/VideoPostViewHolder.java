@@ -12,15 +12,13 @@ import com.education.innov.innoveducation.R;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
-
 /**
  * Created by Syrine on 04/04/2017.
  */
 public class VideoPostViewHolder extends RecyclerView.ViewHolder {
 
    public CircleImageView image_profile_video ;
-   public TextView tvFullNameVideo , tvMatiereVideo , tvDateVideo , tvDescriptionVideo ,
-    tvDetailVideo ,  tvCommentsVideo  ;
+   public TextView tvFullNameVideo , tvMatiereVideo , tvDateVideo , tvDescriptionVideo , tvDetailVideo ,  tvCommentsVideo  ;
    public JCVideoPlayerStandard PostVideo ;
    public EditText EdtCommentVideo;
    public Button btnAddCommentVideo;
@@ -28,6 +26,8 @@ public class VideoPostViewHolder extends RecyclerView.ViewHolder {
     private TextView headerLabel;
 
     public VideoPostViewHolder(View view) {
+
+
         super(view);
 
 
