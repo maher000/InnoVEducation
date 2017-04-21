@@ -61,7 +61,7 @@ public class HomeFragment extends Fragment {
         mAdapter.notifyDataSetChanged();
         FirebaseDatabase.getInstance()
                 .getReference()
-                .child("posts").addChildEventListener(new ChildEventListener() {
+                .child("posts").orderByChild("visibility").equalTo("yes").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 new_post = dataSnapshot.getValue(post.class);

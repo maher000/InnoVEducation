@@ -106,8 +106,10 @@ public class ListClassroomsActivity extends AppCompatActivity {
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 ClassRoom classRoom=dataSnapshot.getValue(ClassRoom.class);
                 if(classRoom!=null){
-                    //creta a listener
-                    getOwner(classRoom);
+                    classRooms.add(classRoom);
+                    mRecyclerView.setAdapter(mAdapter);
+                    mDatabase.removeEventListener(this);
+
                 }
             }
 
@@ -132,35 +134,6 @@ public class ListClassroomsActivity extends AppCompatActivity {
         });
 
 
-
-    }
-    private void getOwner(ClassRoom classroom){
-        final ClassRoom c=classroom;
-        ChildEventListener listener = new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                Teacher teacher=dataSnapshot.getValue(Teacher.class);
-                if(teacher!=null)
-                    c.setAdministrator(teacher);
-                classRooms.add(c);
-                System.out.println("maherClassroom"+c);
-                mRecyclerView.setAdapter(mAdapter);
-                mDatabase.removeEventListener(this);
-            }
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-            }
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-            }
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        };
-        mDatabase.child(Config.CHILD_TEACHER).addChildEventListener(listener);
 
     }
 

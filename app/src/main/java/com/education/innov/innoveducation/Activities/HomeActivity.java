@@ -25,6 +25,7 @@ import com.education.innov.innoveducation.Entities.Child;
 import com.education.innov.innoveducation.Entities.Parent;
 import com.education.innov.innoveducation.Entities.Teacher;
 import com.education.innov.innoveducation.Fragment.ClasseFragment;
+import com.education.innov.innoveducation.Fragment.CoursesFragment;
 import com.education.innov.innoveducation.Fragment.GameFragment;
 import com.education.innov.innoveducation.Fragment.HomeFragment;
 import com.education.innov.innoveducation.Fragment.LeftFragmentNaviguation;
@@ -45,6 +46,8 @@ import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabReselectListener;
 import com.roughike.bottombar.OnTabSelectListener;
 
+import static android.content.Intent.FLAG_ACTIVITY_SINGLE_TOP;
+
 public class HomeActivity extends AppCompatActivity {
     private SearchView searchView;
     private Toolbar toolbar;
@@ -61,17 +64,16 @@ public class HomeActivity extends AppCompatActivity {
     String RoleUser;
     Teacher teacher;
     Child child;
-    public static String activeClassroom = null;
     SharedPreferences sharedpreferences;
     Parent parent;
 
     @Override
     protected void onResume() {
         super.onResume();
-        if (activeClassroom != null) {
+
             System.out.println("onresume lala ");
             // finish();
-        }
+
     }
 
     @Override
@@ -120,7 +122,8 @@ public class HomeActivity extends AppCompatActivity {
                         //      Toast.makeText(getApplicationContext(), tabId+"tabIdSelected", Toast.LENGTH_LONG).show();
                         break;
                     case R.id.tab_courses:
-                        startActivity(new Intent(HomeActivity.this, ListClassroomsActivity.class));
+                        currentFragment = new CoursesFragment();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.container_id, currentFragment).commit();
                         break;
                     case R.id.tab_friends:
                         currentFragment = new ProfileFragment();
@@ -226,7 +229,6 @@ public class HomeActivity extends AppCompatActivity {
         searchView.setSearchableInfo(
                 searchManager.getSearchableInfo(getComponentName()));
 
-
         return true;
     }
 
@@ -238,6 +240,8 @@ public class HomeActivity extends AppCompatActivity {
             case R.id.id_chat:
                 drawerLayout.openDrawer(GravityCompat.END); /*Opens the Right Drawer*/
                 return true;
+            case R.id.action_search1:
+                startActivity(new Intent(HomeActivity.this,ListClassroomsActivity.class).addFlags(FLAG_ACTIVITY_SINGLE_TOP));
 
 
         }

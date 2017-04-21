@@ -38,7 +38,7 @@ public class AddChildActivity extends SwipeBackActivity {
     private String email, password;
     private LinearLayout LayoutErrorMessage;
     private TextView tvErrorMsg;
-    ProgressDialog progress;
+    private ProgressDialog progress;
 
 
     StorageReference storageRef = Config.storage.getReference("images_users");

@@ -24,7 +24,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 
 
-public class CoursesFragment extends Fragment {
+public class ClassCoursesFragment extends Fragment {
 
     private RecyclerView mRecyclerView;
     private CoursesAdapter mAdapter;
@@ -32,13 +32,13 @@ public class CoursesFragment extends Fragment {
     ArrayList<Course> courses;
     Course new_coursse;
 
-    public CoursesFragment() {
+    public ClassCoursesFragment() {
     }
 
 
     // TODO: Rename and change types and number of parameters
-    public static CoursesFragment newInstance(int page, String title) {
-        CoursesFragment fragment = new CoursesFragment();
+    public static ClassCoursesFragment newInstance(int page, String title) {
+        ClassCoursesFragment fragment = new ClassCoursesFragment();
         return fragment;
     }
 
@@ -54,8 +54,8 @@ public class CoursesFragment extends Fragment {
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
         //Adapter is created in the last step
-
-        getAllPublicCourses();
+        if(MyApp.activeClassroom!=null)
+            getCoursesByClassroom();
         mRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), mRecyclerView, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
@@ -70,7 +70,7 @@ public class CoursesFragment extends Fragment {
         return view;
     }
 
-    private void getAllPublicCourses() {
+    private void getCoursesByClassroom() {
         courses = new ArrayList<>();
         mAdapter = new CoursesAdapter(getActivity(), courses);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -78,7 +78,7 @@ public class CoursesFragment extends Fragment {
         mAdapter.notifyDataSetChanged();
         FirebaseDatabase.getInstance()
                 .getReference()
-                .child("coursses").orderByChild("visibility").equalTo("yes").addChildEventListener(new ChildEventListener() {
+                .child("coursses").orderByChild("idClassRoom").equalTo(MyApp.activeClassroom).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 new_coursse = dataSnapshot.getValue(Course.class);

@@ -4,7 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.education.innov.innoveducation.Fragment.CoursesFragment;
+import com.education.innov.innoveducation.Fragment.ClassCoursesFragment;
 import com.education.innov.innoveducation.Fragment.HomeworksFragment;
 import com.education.innov.innoveducation.Fragment.ClassHomeFragment;
 
@@ -35,7 +35,7 @@ public class ClassePagerAdapter extends FragmentStatePagerAdapter {
             case 0: // Fragment # 0 - This will show FirstFragment
                 return ClassHomeFragment.newInstance(0, "Home");
             case 1:
-                return CoursesFragment.newInstance(1, "Courses");
+                return ClassCoursesFragment.newInstance(1, "Courses");
 
             case 2 :
                 return  HomeworksFragment.newInstance(2,"Homeworks");

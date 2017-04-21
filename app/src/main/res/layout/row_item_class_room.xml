@@ -11,40 +11,39 @@
     card_view:cardCornerRadius="5dp">
 
 
-
     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/overWhite"
         android:orientation="vertical"
         android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:background="@color/overWhite"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:paddingRight="10dp">
 
         <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:background="@color/overWhite"
             android:layout_height="wrap_content"
+            android:layout_marginTop="2px"
+            android:background="@color/overWhite"
+            android:orientation="horizontal"
             android:weightSum="1">
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/image_profile_text"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
                 android:layout_marginRight="5dp"
                 android:src="@drawable/round_profile_pic" />
 
             <LinearLayout
-                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                >
+                android:orientation="vertical">
 
                 <LinearLayout
-                    android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:paddingBottom="10dp"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingBottom="10dp">
 
 
                     <TextView
@@ -91,10 +90,12 @@
 
 
         </LinearLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/color_background" />
+
         <TextView
             android:id="@+id/tv_responsable"
             android:layout_width="match_parent"
@@ -102,19 +103,37 @@
             android:drawableLeft="@drawable/icon_admin"
             android:gravity="center_vertical|left"
             android:paddingRight="10dp"
-            android:text="Natalina Del Capo"
-            android:textColor="@color/gray_dark" />
-        <TextView
-            android:id="@+id/tvCountry"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/icon_worldwide_location_48"
-            android:gravity="center_vertical|left"
-            android:paddingRight="10dp"
-            android:text="Tunsisa"
-            android:layout_marginTop="6dp"
+            android:text=""
             android:textColor="@color/gray_dark" />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="10"
+            android:orientation="horizontal"
+            android:weightSum="10">
+
+            <TextView
+                android:id="@+id/tvCountry"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:layout_weight="3"
+                android:drawableLeft="@drawable/icon_worldwide_location_48"
+                android:gravity="center_vertical|left"
+                android:paddingRight="10dp"
+                android:text="Tunisia"
+                android:textColor="@color/gray_dark" />
+
+            <Button
+                android:id="@+id/btnJoinSearch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="7"
+                android:background="@drawable/button"
+                android:text="Join" />
+
+        </LinearLayout>
 
 
         <!--  Password Label -->

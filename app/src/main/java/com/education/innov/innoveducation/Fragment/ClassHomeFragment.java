@@ -62,7 +62,6 @@ public class ClassHomeFragment extends Fragment {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mAdapter.notifyDataSetChanged();
-        System.out.println(MyApp.activeClassroom+"mmmmmmmmm");
         FirebaseDatabase.getInstance()
                 .getReference()
                 .child("posts").orderByChild("classRoomId").equalTo(MyApp.activeClassroom).addChildEventListener(new ChildEventListener() {
