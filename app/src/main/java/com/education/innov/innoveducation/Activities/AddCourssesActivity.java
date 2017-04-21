@@ -33,6 +33,7 @@ public class AddCourssesActivity extends SwipeBackActivity {
     private DatabaseReference mDBase = Config.mDatabase;
     private CircleProgressBar progressBar;
     private SwipeBackLayout swipeBackLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,13 +49,10 @@ public class AddCourssesActivity extends SwipeBackActivity {
             @Override
             public void onClick(View v) {
                 AddCOursse();
-                ;
             }
         });
-
         initViews();
     }
-
     private void initViews() {
         progressBar = (CircleProgressBar) findViewById(R.id.progressbar1);
         swipeBackLayout = (SwipeBackLayout) findViewById(R.id.swipe_layout);
@@ -101,7 +99,6 @@ public class AddCourssesActivity extends SwipeBackActivity {
             }
         });
     }
-
     public void getInfomationUser() {
         MyApp.getInstance(this);
         switch (MyApp.role){
@@ -119,5 +116,4 @@ public class AddCourssesActivity extends SwipeBackActivity {
                 break;
         }
         System.out.println(MyApp.teacher+"pppppppppppppppp");
-    }
-}
+    }}

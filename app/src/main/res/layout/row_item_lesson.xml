@@ -4,11 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginLeft="5dp"
-    android:layout_marginRight="5dp"
-    android:layout_marginTop="5dp"
-    card_view:cardCornerRadius="5dp">
+    android:layout_height="wrap_content">
 
 
 
@@ -33,15 +29,18 @@
                 android:id="@+id/miniature_video"
                 android:layout_width="136dp"
                 android:layout_height="80dp"
+                android:scaleType="fitXY"
                 android:src="@drawable/video"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
+                android:layout_alignParentStart="true"
+                android:paddingBottom="2dp"
+                android:layout_marginTop="2dp"/>
 
     <ImageView
         android:id="@+id/play"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         android:backgroundTint="@color/black"
@@ -70,6 +69,7 @@
                         android:maxLines="1"
                         android:paddingBottom="10dp"
                         android:paddingRight="10dp"
+                        android:paddingLeft="10dp"
                         android:paddingTop="10dp"
                         android:singleLine="true"
                         android:text="Natal Del Caopoffffffffffffffff"
@@ -81,6 +81,7 @@
                         android:id="@+id/tvDateVideo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:paddingLeft="10dp"
                         android:text="2017-01-28 at 09:00AM"
                         android:textColor="@color/gray_dark"
                         android:textSize="10dp"

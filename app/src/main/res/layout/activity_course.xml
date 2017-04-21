@@ -13,7 +13,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context="com.education.innov.innoveducation.Activities.CourseActivity">
-
         <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -50,6 +49,7 @@
         android:layout_gravity="start"
         android:layout_marginTop="90dp"
         app:layout="@layout/fragment_list_lessons"
+        app:backgroundTint="@color/colorPrimary"
         tools:layout="@layout/fragment_list_lessons" />
 
 

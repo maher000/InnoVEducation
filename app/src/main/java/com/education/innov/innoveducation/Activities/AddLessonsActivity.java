@@ -46,23 +46,26 @@ import com.liuguangqiang.swipeback.SwipeBackLayout;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class AddLessonsActivity extends SwipeBackActivity {
     private CircleProgressBar progressBar;
     private SwipeBackLayout swipeBackLayout;
     LinearLayout attchementContainerLesson;
-    String title, description, idCoursses, id ,urlVideo  ;
+    String title, description, idCoursses, id, urlVideo, urlMiniature, dateStart;
     VideoView video;
     ProgressDialog circleProgressBar;
     DatabaseReference mDBase = Config.mDatabase;
     private static final int SELECT_VIDEO = 3;
-    Lesson new_lesson ;
+    Lesson new_lesson;
     String filePath;
     EditText EdtNameLesson, EdtDescriptionLesson;
     ImageView ImgAddVideoLesson;
     Button btnAddLesson;
     StorageReference ViedeoPostRef = Config.storage.getReference("lessons_videos");
     StorageReference videosRef;
+    Intent intent;
 
 
     @Override
@@ -74,6 +77,7 @@ public class AddLessonsActivity extends SwipeBackActivity {
         ImgAddVideoLesson = (ImageView) findViewById(R.id.ImgAddVideoLesson);
         btnAddLesson = (Button) findViewById(R.id.btnAddLesson);
         attchementContainerLesson = (LinearLayout) findViewById(R.id.attchementContainerLesson);
+        intent = getIntent();
 
         circleProgressBar = new ProgressDialog(this);
         circleProgressBar.setMax(100);
@@ -88,13 +92,11 @@ public class AddLessonsActivity extends SwipeBackActivity {
         btnAddLesson.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                id = mDBase.child("post").push().getKey();
+                id = mDBase.child("lessons").push().getKey();
                 upload_Video();
 
             }
         });
-
-
         initViews();
     }
 
@@ -109,6 +111,7 @@ public class AddLessonsActivity extends SwipeBackActivity {
             }
         });
     }
+
     private void ChooseVideo() {
 
         Intent intent = new Intent();
@@ -117,6 +120,7 @@ public class AddLessonsActivity extends SwipeBackActivity {
         startActivityForResult(Intent.createChooser(intent, "Select a Video "), SELECT_VIDEO);
 
     }
+
     private void upload_Video() {
         circleProgressBar.show();
         System.out.println("uploading video");
@@ -126,9 +130,7 @@ public class AddLessonsActivity extends SwipeBackActivity {
                     .setContentType("video/mp4")
                     .build();
             Uri file = Uri.fromFile(new File(filePath));
-
             System.out.println(file + "new file");
-
             UploadTask uploadTask = videosRef.putFile(file, metadata);
             uploadTask.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
                 @Override
@@ -147,6 +149,7 @@ public class AddLessonsActivity extends SwipeBackActivity {
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
                     Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                    urlVideo = downloadUrl.toString();
                     upload_thms(filePath);
                     System.out.println("url videoooo" + downloadUrl);
                 }
@@ -156,16 +159,19 @@ public class AddLessonsActivity extends SwipeBackActivity {
     }
 
 
-    private void AddLesson(String urlVideo) {
-
-        title = EdtNameLesson.getText().toString() ;
-        description = EdtDescriptionLesson.getText().toString() ;
-        idCoursses = ("") ;
+    private void AddLesson() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy MMMM dd 'at' hh:mm aaa");
+        dateStart = sdf.format(new Date());
+        title = EdtNameLesson.getText().toString();
+        description = EdtDescriptionLesson.getText().toString();
+        idCoursses = intent.getStringExtra("id_coursse");
         new_lesson = new Lesson();
         new_lesson.setDescription(description);
+        new_lesson.setDateCreation(dateStart);
         new_lesson.setTitle(title);
         new_lesson.setId(id);
         new_lesson.setUrlVideo(urlVideo);
+        new_lesson.setUrlMiniature(urlMiniature);
         new_lesson.setIdCoursse(idCoursses);
         mDBase.child("lessons").child(id).setValue(new_lesson).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
@@ -173,11 +179,12 @@ public class AddLessonsActivity extends SwipeBackActivity {
                 if (task.isSuccessful()) {
                     finish();
                 }
-            }});
-
+            }
+        });
 
 
     }
+
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
@@ -209,7 +216,8 @@ public class AddLessonsActivity extends SwipeBackActivity {
                 video.setMediaController(mc);
                 video.start();
 
-            }}
+            }
+        }
     }
 
     /***end select image ****/
@@ -220,7 +228,6 @@ public class AddLessonsActivity extends SwipeBackActivity {
         final String[] projection = {
                 column
         };
-
         try {
             cursor = context.getContentResolver().query(uri, projection, selection, selectionArgs, null);
             if (cursor != null && cursor.moveToFirst()) {
@@ -233,6 +240,7 @@ public class AddLessonsActivity extends SwipeBackActivity {
         }
         return null;
     }
+
     private void upload_thms(String urlFile) {
         Bitmap bmThumbnail;
         bmThumbnail = ThumbnailUtils.createVideoThumbnail(urlFile, MediaStore.Images.Thumbnails.FULL_SCREEN_KIND);
@@ -264,9 +272,9 @@ public class AddLessonsActivity extends SwipeBackActivity {
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
                 Uri downloadUrl = taskSnapshot.getDownloadUrl();
-                AddLesson(downloadUrl.toString());
+                urlMiniature = downloadUrl.toString();
+                AddLesson();
                 System.out.println("url image" + downloadUrl);
-
             }
 
         });

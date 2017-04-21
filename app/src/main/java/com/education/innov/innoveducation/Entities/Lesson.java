@@ -12,9 +12,15 @@ public class Lesson {
     private String description;
     private Course coursse;
     private String urlVideo;
+    private String urlMiniature ;
+    private String DateCreation ;
+
+
 
     public Lesson() {
     }
+
+
 
     public Lesson(String id, String title, String idCoursse, String description, Course coursse, String urlVideo) {
         this.id = id;
@@ -23,6 +29,23 @@ public class Lesson {
         this.description = description;
         this.coursse = coursse;
         this.urlVideo = urlVideo;
+    }
+
+
+    public String getUrlMiniature() {
+        return urlMiniature;
+    }
+
+    public void setUrlMiniature(String urlMiniature) {
+        this.urlMiniature = urlMiniature;
+    }
+
+    public String getDateCreation() {
+        return DateCreation;
+    }
+
+    public void setDateCreation(String dateCreation) {
+        DateCreation = dateCreation;
     }
 
     public String getId() {

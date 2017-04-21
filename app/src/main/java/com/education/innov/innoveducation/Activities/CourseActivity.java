@@ -35,7 +35,7 @@ public class CourseActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(CourseActivity.this, AddLessonsActivity.class);
-                intent.putExtra("id_coursses", "-KiCTI8u0EaSm-Vawqpu");
+                intent.putExtra("id_coursse", "-KiCTI8u0EaSm-Vawqpu");
                 startActivity(intent);
             }
         });
