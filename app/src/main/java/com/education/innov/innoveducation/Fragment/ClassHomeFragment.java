@@ -1,44 +1,31 @@
 package com.education.innov.innoveducation.Fragment;
 
-import android.app.Activity;
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.education.innov.innoveducation.Activities.HomeActivity;
 import com.education.innov.innoveducation.Adapter.HomeAdapter;
-import com.education.innov.innoveducation.Entities.Child;
-import com.education.innov.innoveducation.Entities.HomeWork;
-import com.education.innov.innoveducation.Entities.Parent;
 import com.education.innov.innoveducation.Entities.Teacher;
-import com.education.innov.innoveducation.Entities.User;
 import com.education.innov.innoveducation.Entities.post;
 import com.education.innov.innoveducation.R;
 import com.education.innov.innoveducation.Utils.Config;
-import com.google.firebase.auth.FirebaseAuth;
+import com.education.innov.innoveducation.Utils.MyApp;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.google.gson.Gson;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 
-public class ListActivitiesFragment extends Fragment {
+public class ClassHomeFragment extends Fragment {
     ArrayList<post> posts = new ArrayList<>();
     ;
     ArrayList<Teacher> teachers = new ArrayList<>();
@@ -49,8 +36,8 @@ public class ListActivitiesFragment extends Fragment {
     private HomeAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
-    public static ListActivitiesFragment newInstance(int param1, String param2) {
-        ListActivitiesFragment fragment = new ListActivitiesFragment();
+    public static ClassHomeFragment newInstance(int param1, String param2) {
+        ClassHomeFragment fragment = new ClassHomeFragment();
         return fragment;
     }
 
@@ -63,6 +50,7 @@ public class ListActivitiesFragment extends Fragment {
         mRecyclerView = (RecyclerView) view.findViewById(R.id.Activities_recycler_view);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
+        if(MyApp.activeClassroom!=null)
         getPosts();
         return view;
     }
@@ -70,13 +58,14 @@ public class ListActivitiesFragment extends Fragment {
     public void getPosts() {
 
         posts = new ArrayList<>();
-        mAdapter = new HomeAdapter(posts, teachers, getActivity());
+        mAdapter = new HomeAdapter(posts, getActivity());
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mAdapter.notifyDataSetChanged();
+        System.out.println(MyApp.activeClassroom+"mmmmmmmmm");
         FirebaseDatabase.getInstance()
                 .getReference()
-                .child("posts").addChildEventListener(new ChildEventListener() {
+                .child("posts").orderByChild("classRoomId").equalTo(MyApp.activeClassroom).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 new_post = dataSnapshot.getValue(post.class);

@@ -84,12 +84,12 @@ public class MyClassroomsAdapter extends RecyclerView.Adapter<MyClassroomsAdapte
         public void setData(ClassRoom current, int position) {
             this.tvName.setText(current.getName());
             this.tvCreatedAt.setText(current.getCreationDate());
-            this.tvResponsable.setText(current.getAdministrator().getFirstName() + " " + current.getAdministrator().getLastName());
+            this.tvResponsable.setText(current.getAuthor());
             this.tvCountry.setText(current.getCountry());
             this.tvInstitut.setText(current.getAdress());//institut
             this.position = position;
             this.current = current;
-            String source = current.getAdministrator().getUrlImage();
+            String source = current.getUrlImageAuthor();
             Picasso.with(context).load(source).into(imgProfile);
         }
 

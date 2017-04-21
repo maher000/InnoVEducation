@@ -67,7 +67,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public static final int ITEM_TYPE_Text = 2;
     public static final int ITEM_TYPE_FILE = 3;
 
-    public HomeAdapter(ArrayList<post> posts, ArrayList<Teacher> teachers, Context context) {
+    public HomeAdapter(ArrayList<post> posts, Context context) {
         inflater = LayoutInflater.from(context);
         this.context = context;
         this.posts = posts;
@@ -102,10 +102,9 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         if (itemType == ITEM_TYPE_NORMAL) {
             ImagePostViewHolder mHolder = (ImagePostViewHolder) holder;
             mHolder.tvDescriptionImage.setText(posts.get(position).getDescription().toString());
-            mHolder.tvFullNameImage.setText(posts.get(position).getAuthor().toString() );
+            mHolder.tvFullNameImage.setText(posts.get(position).getAuthor().toString());
             mHolder.tvMatiereImage.setText(posts.get(position).getSubject().toString());
-
-
+            Picasso.with(context).load(posts.get(position).getUrlFile().toString()).into(mHolder.image_post);
             Picasso.with(context).load(posts.get(position).getUrlImageAuthor().toString()).into(mHolder.image_profile_image);
             mHolder.tvCommentsImage.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -145,7 +144,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         } else if (itemType == ITEM_TYPE_Text) {
             TextPostViewHolder mHolder = (TextPostViewHolder) holder;
             mHolder.tvDescriptionText.setText(posts.get(position).getDescription().toString());
-            mHolder.tvFullNameText.setText(posts.get(position).getAuthor().toString() );
+            mHolder.tvFullNameText.setText(posts.get(position).getAuthor().toString());
             mHolder.tvMatiereText.setText(posts.get(position).getSubject().toString());
             Picasso.with(context).load(posts.get(position).getUrlImageAuthor().toString()).into(mHolder.image_profile_text);
             mHolder.tvCommentsText.setOnClickListener(new View.OnClickListener() {

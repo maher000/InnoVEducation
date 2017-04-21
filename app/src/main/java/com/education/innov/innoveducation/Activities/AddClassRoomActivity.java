@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.education.innov.innoveducation.Entities.ClassRoom;
 import com.education.innov.innoveducation.R;
 import com.education.innov.innoveducation.Utils.Config;
+import com.education.innov.innoveducation.Utils.MyApp;
 import com.education.innov.innoveducation.Utils.Test;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -91,6 +92,8 @@ public class AddClassRoomActivity extends SwipeBackActivity {
             classroom = new ClassRoom();
             id = mDBase.child("classrooms").push().getKey();
             classroom.setIdAdminstrator(FirebaseAuth.getInstance().getCurrentUser().getUid());
+            classroom.setAuthor(MyApp.teacher.getFirstName()+" "+MyApp.teacher.getLastName());
+            classroom.setUrlImageAuthor(MyApp.teacher.getUrlImage());
             classroom.setId(id);
             classroom.setName(name);
             classroom.setAdress(institut);

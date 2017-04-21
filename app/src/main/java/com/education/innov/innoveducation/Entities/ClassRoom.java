@@ -23,25 +23,25 @@ public class ClassRoom {
     private String creationDate;
     private String visibility;
     private String id;
+    String author ;
+    String urlImageAuthor ;
 
     public ClassRoom() {}
 
-    public ClassRoom(String name, String country, String adress, Teacher administrator, String idAdminstrator, ArrayList<String> idStudents, ArrayList<String> idTeachers, ArrayList<Child> students, ArrayList<Teacher> teachers, ArrayList<HomeWork> homeWorks, ArrayList<Course> courses, ArrayList<String> idHomeWorks, ArrayList<String> idCourses, String creationDate, String id) {
-        this.name = name;
-        Country = country;
-        this.adress = adress;
-        this.administrator = administrator;
-        this.idAdminstrator = idAdminstrator;
-        this.idStudents = idStudents;
-        this.idTeachers = idTeachers;
-        this.students = students;
-        this.teachers = teachers;
-        this.homeWorks = homeWorks;
-        this.courses = courses;
-        this.idHomeWorks = idHomeWorks;
-        this.idCourses = idCourses;
-        this.creationDate = creationDate;
-        this.id = id;
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public String getUrlImageAuthor() {
+        return urlImageAuthor;
+    }
+
+    public void setUrlImageAuthor(String urlImageAuthor) {
+        this.urlImageAuthor = urlImageAuthor;
     }
 
     public String getId() {

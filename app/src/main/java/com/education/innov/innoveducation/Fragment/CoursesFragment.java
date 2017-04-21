@@ -1,8 +1,6 @@
 package com.education.innov.innoveducation.Fragment;
 
-import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -14,9 +12,7 @@ import android.view.ViewGroup;
 
 import com.education.innov.innoveducation.Activities.CourseActivity;
 import com.education.innov.innoveducation.Adapter.CoursesAdapter;
-import com.education.innov.innoveducation.Adapter.HomeAdapter;
 import com.education.innov.innoveducation.Entities.Course;
-import com.education.innov.innoveducation.Entities.post;
 import com.education.innov.innoveducation.R;
 import com.education.innov.innoveducation.Utils.RecyclerItemClickListener;
 import com.google.firebase.database.ChildEventListener;

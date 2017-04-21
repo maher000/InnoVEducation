@@ -6,7 +6,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.education.innov.innoveducation.Fragment.CoursesFragment;
 import com.education.innov.innoveducation.Fragment.HomeworksFragment;
-import com.education.innov.innoveducation.Fragment.ListActivitiesFragment;
+import com.education.innov.innoveducation.Fragment.ClassHomeFragment;
 
 /**
  * Created by Syrine on 03/04/2017.
@@ -33,7 +33,7 @@ public class ClassePagerAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0: // Fragment # 0 - This will show FirstFragment
-                return ListActivitiesFragment.newInstance(0, "Home");
+                return ClassHomeFragment.newInstance(0, "Home");
             case 1:
                 return CoursesFragment.newInstance(1, "Courses");
 
