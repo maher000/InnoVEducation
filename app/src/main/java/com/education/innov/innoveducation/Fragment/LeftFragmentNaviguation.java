@@ -2,6 +2,7 @@ package com.education.innov.innoveducation.Fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.session.MediaSessionManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -132,6 +133,11 @@ public class LeftFragmentNaviguation extends Fragment {
     }
     private void logOut(){
         FirebaseAuth.getInstance().signOut();
+        SharedPreferences sharedpreferences = getActivity().getPreferences(getActivity().MODE_APPEND);
+        SharedPreferences.Editor prefsEditor = sharedpreferences.edit();
+        prefsEditor.remove("role_user");
+        prefsEditor.remove("current_user");
+        prefsEditor.commit();
         startActivity(new Intent(getActivity(), MainActivity.class));
 }
     private void addChild(){

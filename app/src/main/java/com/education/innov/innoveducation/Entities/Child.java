@@ -18,6 +18,10 @@ public class Child extends User {
         super("sex" ,"firstName", "lastName", "phone"," adresse", "urlImage", "false", "none", "none", "none", "id");
 
     }
+    public Child(String sex, String firstName, String lastName, String phone, String adresse, String urlImage, String active, String codePostal, String contry, String connected,  String id,String type,String classRommId) {
+        super( sex ,firstName, lastName,  phone, adresse, urlImage, active, codePostal, contry, connected, id);
+        this.classRommId = classRommId;
+    }
 
 
     public String getFirstName() {
@@ -126,11 +130,5 @@ public class Child extends User {
         this.parentId = parentId;
     }
 
-    @Override
-    public String toString() {
-        return "Child{" +
-                "classRommId='" + classRommId + '\'' +
-                ", classeRoom=" + classeRoom +
-                '}';
-    }
+
 }

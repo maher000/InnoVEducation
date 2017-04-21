@@ -92,6 +92,7 @@ public class HomeActivity extends AppCompatActivity {
         SharedPreferences sp = getSharedPreferences("role_user", Activity.MODE_PRIVATE);
         RoleUser = sp.getString("role", null);
         System.out.println("mon roole est" + RoleUser);
+        if(RoleUser!=null)
         getUserInformation(RoleUser);
         System.out.println("**********************************   "+FirebaseAuth.getInstance().getCurrentUser().getUid());
         /* *******************************************/

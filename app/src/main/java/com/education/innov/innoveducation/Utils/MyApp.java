@@ -27,7 +27,7 @@ public  class  MyApp extends Application {
     private static String json;
     public static String activeClassroom;
 
-    MyApp(){
+    public MyApp(){
 
     }
 
@@ -40,6 +40,7 @@ public  class  MyApp extends Application {
             json = mPrefs.getString("current_user", "");
             if (role != null) {
                 json = mPrefs.getString("current_user", "");
+                System.out.println(json+"ffggdd");
                 if (json != null) {
 
                     switch (role.trim()) {
@@ -52,6 +53,7 @@ public  class  MyApp extends Application {
                             break;
                         case "child":
                             child = gson.fromJson(json, Child.class);
+                            System.out.println(child+"ffggdds");
                             break;
                     }
                 }

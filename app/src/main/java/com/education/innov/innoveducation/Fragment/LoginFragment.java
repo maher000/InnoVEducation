@@ -117,7 +117,7 @@ public class LoginFragment extends Fragment {
                             mDBase.child("Tokens").child(auth.getCurrentUser().getUid()).child("Token").setValue(token);
 
 
-                            mDBase.child("teachers").orderByChild("id").equalTo(auth.getCurrentUser().getUid()).addListenerForSingleValueEvent(
+                            mDBase.child("teachers").orderByChild("idUser").equalTo(auth.getCurrentUser().getUid()).addListenerForSingleValueEvent(
                                     new ValueEventListener() {
                                         @Override
                                         public void onDataChange(DataSnapshot dataSnapshot) {
@@ -130,7 +130,7 @@ public class LoginFragment extends Fragment {
                                                 mDBase.removeEventListener(this);
 
                                             } else {
-                                                mDBase.child("parents").orderByChild("id").equalTo(auth.getCurrentUser().getUid()).addListenerForSingleValueEvent(
+                                                mDBase.child("parents").orderByChild("idUser").equalTo(auth.getCurrentUser().getUid()).addListenerForSingleValueEvent(
                                                         new ValueEventListener() {
                                                             @Override
                                                             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -144,7 +144,7 @@ public class LoginFragment extends Fragment {
 
                                                                 }
                                                                 else {
-                                                                    mDBase.child("child").orderByChild("id").equalTo(auth.getCurrentUser().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                                                                    mDBase.child("child").orderByChild("idUser").equalTo(auth.getCurrentUser().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
                                                                         @Override
                                                                         public void onDataChange(DataSnapshot dataSnapshot) {
                                                                             if (dataSnapshot.exists()) {
@@ -201,6 +201,7 @@ public class LoginFragment extends Fragment {
 
     private void getUserInformation(final String role) {
         DatabaseReference mBase =FirebaseDatabase.getInstance().getReference();
+        if(getActivity()!=null)
         sharedpreferences = getActivity().getPreferences(getActivity().MODE_APPEND);
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
         String id = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -239,12 +240,24 @@ public class LoginFragment extends Fragment {
                     prefsEditor.commit();
                     MyApp.getInstance(getActivity());
                 } else if (role.trim().equals("parent")) {
-                  Parent  parent = dataSnapshot.getValue(Parent.class);
+                    final  Parent  parent = dataSnapshot.getValue(Parent.class);
                     SharedPreferences.Editor prefsEditor = sharedpreferences.edit();
                     Gson gson = new Gson();
                     String json = gson.toJson(parent);
                     prefsEditor.putString("current_user", json);
                     prefsEditor.commit();
+                    getActivity().getSharedPreferences("current_user",getActivity().MODE_APPEND).registerOnSharedPreferenceChangeListener(new SharedPreferences.OnSharedPreferenceChangeListener() {
+                        @Override
+                        public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
+                            SharedPreferences.Editor prefsEditor = sharedpreferences.edit();
+                            Gson gson = new Gson();
+                            String json = gson.toJson(parent);
+                            prefsEditor.putString("current_user", json);
+                            prefsEditor.apply();
+                            prefsEditor.commit();
+                            MyApp.getInstance(getActivity());
+                        }
+                    });
                     MyApp.getInstance(getActivity());
                 }
 
