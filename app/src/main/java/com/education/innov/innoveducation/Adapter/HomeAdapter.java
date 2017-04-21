@@ -104,7 +104,8 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             mHolder.tvDescriptionImage.setText(posts.get(position).getDescription().toString());
             mHolder.tvFullNameImage.setText(posts.get(position).getAuthor().toString() );
             mHolder.tvMatiereImage.setText(posts.get(position).getSubject().toString());
-            Picasso.with(context).load(posts.get(position).getUrlFile().toString()).into(mHolder.image_post);
+
+
             Picasso.with(context).load(posts.get(position).getUrlImageAuthor().toString()).into(mHolder.image_profile_image);
             mHolder.tvCommentsImage.setOnClickListener(new View.OnClickListener() {
                 @Override

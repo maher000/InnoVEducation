@@ -6,40 +6,37 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.education.innov.innoveducation.Entities.Course;
 import com.education.innov.innoveducation.R;
 import com.education.innov.innoveducation.Views.CourseViewHolder;
 import com.education.innov.innoveducation.Views.ImagePostViewHolder;
 import com.education.innov.innoveducation.Views.TextPostViewHolder;
 import com.education.innov.innoveducation.Views.VideoPostViewHolder;
+import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
 
 /**
  * Created by Syrine on 05/04/2017.
  */
 public class CoursesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-
-    private String[] title = {
-            "Video",
-            "Image",
-            "Video",
-            "Video",
-            "Image",
-            "Texte"
-    };
+    ArrayList<Course> courses;
     private LayoutInflater inflater;
     private Context context;
 
-    public CoursesAdapter(Context context) {
+    public CoursesAdapter(Context context, ArrayList<Course> courses) {
         inflater = LayoutInflater.from(context);
         this.context = context;
+        this.courses = courses;
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
 
-            View CoursesRow = inflater.inflate(R.layout.row_item_course, parent, false);
-            return new CourseViewHolder(CoursesRow); // view holder for normal items
+        View CoursesRow = inflater.inflate(R.layout.row_item_course, parent, false);
+        return new CourseViewHolder(CoursesRow); // view holder for normal items
 
     }
 
@@ -48,18 +45,17 @@ public class CoursesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
 
         final int itemType = getItemViewType(position);
-
-
         CourseViewHolder mHolder = (CourseViewHolder) holder;
-            //    MainOption mo = mainOptionlist.get(position);
-            //    mHolder.tv_title.setText(mo.title);
-            //    mHolder.iv_icon.setImageResource(mo.icon);
-            //   mHolder.itemView.setSelected(selectedPos == position);
+        mHolder.dateCoursses.setText(courses.get(position).getCreationDate());
+        mHolder.tvFullNameCourses.setText(courses.get(position).getAuthor());
+        mHolder.tvMatiereCourses.setText(courses.get(position).getName());
+        Picasso.with(context).load(courses.get(position).getUrlImageAuthor().toString()).into(mHolder.image_profile_courses);
+
 
     }
 
     @Override
     public int getItemCount() {
-        return title.length;
+        return courses.size();
     }
 }

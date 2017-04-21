@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Toolbar;
 
 import com.education.innov.innoveducation.Activities.AddClassRoomActivity;
+import com.education.innov.innoveducation.Activities.AddCourssesActivity;
 import com.education.innov.innoveducation.Activities.AddHomeWorkActivity;
 import com.education.innov.innoveducation.Activities.AddPostActivity;
 import com.education.innov.innoveducation.Adapter.ClassePagerAdapter;
@@ -24,7 +25,7 @@ import com.education.innov.innoveducation.R;
 
 public class ClasseFragment extends Fragment {
 
-    FloatingActionButton btnAddHomeWork,btnAddClassroom ,btn_add_post_layout_post;
+    FloatingActionButton btnAddHomeWork,btnAddClassroom ,btn_add_post_layout_post ,btn_add_course_layout;
     public ClasseFragment() {
         // Required empty public constructor
     }
@@ -53,6 +54,7 @@ public class ClasseFragment extends Fragment {
         btnAddHomeWork =(FloatingActionButton) view.findViewById(R.id.btn_add_home_work_layout_homework);
         btnAddClassroom =(FloatingActionButton) view.findViewById(R.id.btn_add_classroom_layout_homework);
         btn_add_post_layout_post =(FloatingActionButton) view.findViewById(R.id.btn_add_post_layout_post);
+        btn_add_course_layout =(FloatingActionButton) view.findViewById(R.id.btn_add_course_layout);
         btnAddHomeWork.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -69,6 +71,12 @@ public class ClasseFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 addPost();
+            }
+        });
+        btn_add_course_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addCoursse();
             }
         });
         return view ;
@@ -90,5 +98,9 @@ public class ClasseFragment extends Fragment {
     private void addPost()
     {
         startActivity(new Intent(getActivity(), AddPostActivity.class).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP));
+    }
+
+    private void addCoursse() {
+        startActivity(new Intent(getActivity(), AddCourssesActivity.class).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP));
     }
 }

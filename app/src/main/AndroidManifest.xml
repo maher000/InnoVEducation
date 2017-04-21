@@ -56,7 +56,8 @@
 
         <activity android:name=".Activities.ListClassroomsActivity" />
         <activity android:name=".Activities.AddCourssesActivity" />
-        <activity android:name=".Activities.AddChildActivity"></activity>
+        <activity android:name=".Activities.AddChildActivity" />
+        <activity android:name=".Activities.AddLessonsActivity"></activity>
     </application>
 
 </manifest>

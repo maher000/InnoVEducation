@@ -27,7 +27,19 @@
                 app:popupTheme="@style/AppTheme.PopupOverlay" />
         </android.support.design.widget.AppBarLayout>
 
-        <include layout="@layout/content_course" />
+        <include layout="@layout/content_course"
+            android:id="@+id/include" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
+            android:layout_margin="16dp"
+            android:src="@drawable/icon_plus_48"
+            android:id="@+id/btnAddLesson"
+            app:layout_anchorGravity="bottom|right|end" />
+
+
     </android.support.design.widget.CoordinatorLayout>
 
     <fragment
@@ -39,4 +51,6 @@
         android:layout_marginTop="90dp"
         app:layout="@layout/fragment_list_lessons"
         tools:layout="@layout/fragment_list_lessons" />
+
+
 </android.support.v4.widget.DrawerLayout>

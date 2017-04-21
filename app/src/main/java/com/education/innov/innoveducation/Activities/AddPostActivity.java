@@ -350,7 +350,7 @@ public class AddPostActivity extends SwipeBackActivity {
                     .setContentType("video/mp4")
                     .build();
             Uri file = Uri.fromFile(new File(filePath));
-            upload_thms(filePath);
+
             System.out.println(file + "new file");
 
             UploadTask uploadTask = videosRef.putFile(file, metadata);
@@ -371,7 +371,7 @@ public class AddPostActivity extends SwipeBackActivity {
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
                     Uri downloadUrl = taskSnapshot.getDownloadUrl();
-                    AddPost(downloadUrl.toString());
+                    upload_thms(filePath);
                     System.out.println("url videoooo" + downloadUrl);
                 }
             });

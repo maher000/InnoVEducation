@@ -14,6 +14,7 @@ public class Course {
     private String description;
     private String Country;
     private String Subject ;
+    private String IdClassRoom ;
     private String langage;
     private Teacher owner;//the owner must bu a teacher in order to add a course
     private ArrayList<User> followers; //
@@ -21,7 +22,8 @@ public class Course {
     private ArrayList<String > idFollowers; //
     private ArrayList<String> idVideos;
     private String creationDate;
-    private  String author ; 
+    private  String author ;
+    private String urlImageAuthor ;
     private String visibility; // true or false (public to all users or only visible in the classRoom where was created
     private ClassRoom classRoom;
     private ArrayList<String> idComments;
@@ -46,6 +48,30 @@ public class Course {
         this.classRoom = classRoom;
         this.idComments = idComments;
         this.comments = comments;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public String getIdClassRoom() {
+        return IdClassRoom;
+    }
+
+    public void setIdClassRoom(String idClassRoom) {
+        IdClassRoom = idClassRoom;
+    }
+
+    public String getUrlImageAuthor() {
+        return urlImageAuthor;
+    }
+
+    public void setUrlImageAuthor(String urlImageAuthor) {
+        this.urlImageAuthor = urlImageAuthor;
     }
 
     public String getId() {

@@ -11,19 +11,18 @@ import de.hdodenhof.circleimageview.CircleImageView;
 /**
  * Created by Syrine on 05/04/2017.
  */
-public class CourseViewHolder  extends RecyclerView.ViewHolder {
+public class CourseViewHolder extends RecyclerView.ViewHolder {
 
 
-CircleImageView image_profile_courses;
-    TextView tvFullNameCourses , tvMatiereCourses , dateCoursses ;
+    public CircleImageView image_profile_courses;
+    public TextView tvFullNameCourses, tvMatiereCourses, dateCoursses;
 
     public CourseViewHolder(View view) {
         super(view);
-        image_profile_courses = (CircleImageView) view.findViewById(R.id.image_profile_courses) ;
+        image_profile_courses = (CircleImageView) view.findViewById(R.id.image_profile_courses);
         tvFullNameCourses = (TextView) view.findViewById(R.id.tvFullNameCourses);
         tvMatiereCourses = (TextView) view.findViewById(R.id.tvMatiereCourses);
         dateCoursses = (TextView) view.findViewById(R.id.tvdateCoursses);
-
 
 
     }

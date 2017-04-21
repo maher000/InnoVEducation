@@ -1,6 +1,7 @@
 package com.education.innov.innoveducation.Activities;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -23,11 +24,21 @@ import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
 public class CourseActivity extends AppCompatActivity {
     Toolbar toolbar;
     VideoView videoView;
+    FloatingActionButton btnAddLesson;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_course);
+        btnAddLesson = (FloatingActionButton) findViewById(R.id.btnAddLesson);
+        btnAddLesson.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CourseActivity.this, AddLessonsActivity.class);
+                intent.putExtra("id_coursses", "-KiCTI8u0EaSm-Vawqpu");
+                startActivity(intent);
+            }
+        });
         setUpToolbar();
         JCVideoPlayerStandard jcVideoPlayerStandard = (JCVideoPlayerStandard) findViewById(R.id.videoplayer);
         jcVideoPlayerStandard.setUp("http://2449.vod.myqcloud.com/2449_22ca37a6ea9011e5acaaf51d105342e3.f20.mp4"
@@ -36,6 +47,7 @@ public class CourseActivity extends AppCompatActivity {
 
 
     }
+
     /*
     private void fullScreen(){
         if(isFullScreen==true){
@@ -115,6 +127,7 @@ public class CourseActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
+
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();
@@ -128,6 +141,7 @@ public class CourseActivity extends AppCompatActivity {
         }
         super.onBackPressed();
     }
+
     @Override
     protected void onPause() {
         super.onPause();
