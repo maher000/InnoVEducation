@@ -25,6 +25,7 @@ import com.education.innov.innoveducation.Entities.Teacher;
 import com.education.innov.innoveducation.R;
 import com.education.innov.innoveducation.Utils.Config;
 import com.education.innov.innoveducation.Utils.MyApp;
+import com.education.innov.innoveducation.Utils.psuhNotificationAllUsers;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
@@ -207,7 +208,7 @@ public class AddHomeWorkActivity extends SwipeBackActivity {
         description = EdtDescriptionHomework.getText().toString();
         dateEnd = eEndDateView.getText().toString();
         String endTime = eEndTimeView.getText().toString();
-        String id = mDBase.child("homeworks").push().getKey();
+        final String id = mDBase.child("homeworks").push().getKey();
         new_homework = new HomeWork();
         new_homework.setStartDate(dateStart.toString());
         new_homework.setTitle(title);
@@ -223,6 +224,7 @@ public class AddHomeWorkActivity extends SwipeBackActivity {
                 if (task.isSuccessful()) {
                     circleProgressBar.dismiss();
                     System.out.println("post added successfully");
+                    psuhNotificationAllUsers.sendAndroidNotification(id,"maher","sds");
                 }
             }
 

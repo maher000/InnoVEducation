@@ -35,10 +35,12 @@ import com.education.innov.innoveducation.R;
 import com.education.innov.innoveducation.Utils.Config;
 import com.education.innov.innoveducation.Utils.MyApp;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
@@ -91,6 +93,46 @@ public class HomeActivity extends AppCompatActivity {
         RoleUser = sp.getString("role", null);
         System.out.println("mon roole est" + RoleUser);
         getUserInformation(RoleUser);
+        System.out.println("**********************************   "+FirebaseAuth.getInstance().getCurrentUser().getUid());
+        /* *******************************************/
+        Config.mDatabase.child("child").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                System.out.println("********* " + MyApp.role);
+               // if ( MyApp.role.equals("child") ){
+                    Toast.makeText(getBaseContext(), MyApp.child.getClassRommId(),
+                            Toast.LENGTH_LONG).show();
+                    FirebaseMessaging.getInstance().subscribeToTopic(MyApp.child.getClassRommId());
+                    System.out.println(FirebaseAuth.getInstance().getCurrentUser());
+
+               // }
+
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+         /* *******************************************/
+
         /*** ToolBar ***.
          *
          */
