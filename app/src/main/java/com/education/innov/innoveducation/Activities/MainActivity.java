@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     LinearLayout LayoutErrorMessage;
     TextView tvErrorMsg;
 
-    FirebaseUser mFirebaseUser = Config.user_connected;
+    FirebaseUser mFirebaseUser =FirebaseAuth.getInstance().getCurrentUser();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

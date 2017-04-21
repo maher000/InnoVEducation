@@ -19,8 +19,7 @@ import com.google.firebase.storage.StorageReference;
 
 public class Config {
 
-    public static FirebaseAuth mAuth =  FirebaseAuth.getInstance();
-    public static FirebaseUser user_connected = FirebaseAuth.getInstance().getCurrentUser() ;
+
     public static  DatabaseReference mDatabase  = FirebaseDatabase.getInstance().getReference();
     public static FirebaseStorage storage = FirebaseStorage.getInstance();
     public static StorageReference storageRef = storage.getReference("images");
@@ -30,9 +29,7 @@ public class Config {
     public static String CHILD_TOKEN="Tokens";
     public static String CHILD_PARENT="parents";
     public static String CHILD_STUDENT="students";
-    public static Teacher currentTeacher=null;
-    public static Parent currentParent=null;
-    public static Child currentChild=null;
+
 
 
 

@@ -21,6 +21,7 @@ import com.education.innov.innoveducation.Entities.Parent;
 import com.education.innov.innoveducation.Entities.Teacher;
 import com.education.innov.innoveducation.R;
 import com.education.innov.innoveducation.Utils.Config;
+import com.education.innov.innoveducation.Utils.MyApp;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -121,16 +122,13 @@ public class ProfileFragment extends Fragment {
 
     public void getInfomationUser() {
 
-        SharedPreferences sp = getActivity().getSharedPreferences("role_user", Activity.MODE_PRIVATE);
-        String role = sp.getString("role", null);
-        SharedPreferences mPrefs = getActivity().getPreferences(Context.MODE_PRIVATE);
-        Gson gson = new Gson();
-        System.out.println("le role est" + role);
-        String json = mPrefs.getString("current_user", "");
-        if (role == "child") {
-        } else if (role.trim().equals("teacher")) {
+        String role= MyApp.role;
+        if (role.trim().equals("child")) {
+
+        }
+        else if (role.trim().equals("teacher")) {
             System.out.println("bras bouk");
-            teacher = gson.fromJson(json, Teacher.class);
+            teacher = MyApp.teacher;
             System.out.println(teacher + "hohougou");
             id = teacher.getIdUser();
             city = "Bizerte";
@@ -152,14 +150,10 @@ public class ProfileFragment extends Fragment {
             tvPhone.setText(phone);
             tvEducation.setText(Education);
             Picasso.with(getActivity()).load(teacher.getUrlImage().toString()).into(imageProfile);
-            if (Config.currentTeacher == null)
-                Config.currentTeacher = gson.fromJson(json, Teacher.class);
-            System.out.println("this is information of user connected" + gson.fromJson(json, Teacher.class));
+
+
         } else if (role == "parent") {
-            if (Config.currentParent == null)
-                Config.currentParent = gson.fromJson(json, Parent.class);
-            //   obj = gson.fromJson(json, Parent.class);
-            //  System.out.println("this is information of user connected" + obj);
+
         }
     }
 

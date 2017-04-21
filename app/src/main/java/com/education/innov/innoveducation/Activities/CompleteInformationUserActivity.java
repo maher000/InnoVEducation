@@ -42,7 +42,7 @@ public class CompleteInformationUserActivity extends AppCompatActivity {
     RadioButton RbMen, RbWomen;
     Button btnLater, btnSubmit;
     DatabaseReference mDbase = Config.mDatabase;
-    FirebaseUser current_user = Config.user_connected;
+    FirebaseUser current_user = FirebaseAuth.getInstance().getCurrentUser();
     String id = FirebaseAuth.getInstance().getCurrentUser().getUid();
     Parent parent;
     Teacher teacher;

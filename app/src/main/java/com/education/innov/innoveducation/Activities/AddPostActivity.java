@@ -43,6 +43,7 @@ import com.education.innov.innoveducation.R;
 import com.education.innov.innoveducation.Utils.Config;
 import com.education.innov.innoveducation.Utils.FileChooser;
 import com.education.innov.innoveducation.Utils.FilePath;
+import com.education.innov.innoveducation.Utils.MyApp;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -118,8 +119,8 @@ public class AddPostActivity extends SwipeBackActivity {
         ImgAddPhoto = (ImageView) findViewById(R.id.ImgAddPhoto);
         ImgAddFile = (ImageView) findViewById(R.id.ImgAddFile);
 
-        RbVYes = (RadioButton) findViewById(R.id.RbVYes);
-        RbVNo = (RadioButton) findViewById(R.id.RbNo);
+        RbVYes = (RadioButton) findViewById(R.id.RbVYesPoste);
+        RbVNo = (RadioButton) findViewById(R.id.RbVNoPoste);
 
         btnAddPost = (Button) findViewById(R.id.btnAddPost);
 
@@ -562,11 +563,22 @@ public class AddPostActivity extends SwipeBackActivity {
 
       }*/
     public void getInfomationUser() {
-
-        if (Config.currentTeacher != null)
-            System.out.println(Config.currentTeacher);
-        author = Config.currentTeacher.getFirstName() + " " + Config.currentTeacher.getLastName();
-        urlImageAuthor = Config.currentTeacher.getUrlImage();
+        MyApp.getInstance(this);
+        switch (MyApp.role){
+            case "teacher":
+                author = MyApp.teacher.getFirstName() + " " + MyApp.teacher.getLastName();
+                urlImageAuthor = MyApp.teacher.getUrlImage();
+                break;
+            case "child":
+                author = MyApp.child.getFirstName() + " " + MyApp.child.getLastName();
+                urlImageAuthor = MyApp.child.getUrlImage();
+                break;
+            case "parent":
+                author = MyApp.parent.getFirstName() + " " + MyApp.parent.getLastName();
+                urlImageAuthor = MyApp.parent.getUrlImage();
+                break;
+        }
+        System.out.println(MyApp.teacher+"pppppppppppppppp");
     }
 
     private void upload_thms(String urlFile) {

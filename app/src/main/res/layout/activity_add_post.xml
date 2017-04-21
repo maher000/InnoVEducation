@@ -228,7 +228,7 @@
                         android:orientation="horizontal">
 
                         <RadioButton
-                            android:id="@+id/RbVYes"
+                            android:id="@+id/RbVYesPoste"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="0.5"
@@ -239,8 +239,8 @@
                             android:text="Yes"
                             android:textColor="@color/black" />
 
-                        n              <RadioButton
-                        android:id="@+id/RbVNo"
+                        <RadioButton
+                        android:id="@+id/RbVNoPoste"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.5"

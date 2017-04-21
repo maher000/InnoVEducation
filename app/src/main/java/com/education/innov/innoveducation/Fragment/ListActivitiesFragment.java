@@ -48,10 +48,6 @@ public class ListActivitiesFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private HomeAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    String id_user;
-    Teacher owner;
-    Object obj;
-    Map<post, Teacher> list;
 
     public static ListActivitiesFragment newInstance(int param1, String param2) {
         ListActivitiesFragment fragment = new ListActivitiesFragment();
@@ -67,7 +63,6 @@ public class ListActivitiesFragment extends Fragment {
         mRecyclerView = (RecyclerView) view.findViewById(R.id.Activities_recycler_view);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
-        getInfomationUser();
         getPosts();
         return view;
     }
@@ -117,31 +112,5 @@ public class ListActivitiesFragment extends Fragment {
 
     }
 
-    public void getInfomationUser() {
 
-        SharedPreferences sp = getActivity().getSharedPreferences("role_user", Activity.MODE_PRIVATE);
-        String role = sp.getString("role", null);
-        SharedPreferences mPrefs = getActivity().getPreferences(Context.MODE_PRIVATE);
-        Gson gson = new Gson();
-        System.out.println("le role est" + role);
-        String json = mPrefs.getString("current_user", "");
-        if (role == "child") {
-            obj = gson.fromJson(json, Child.class);
-            System.out.println("this is information of user connected" + obj);
-            if(Config.currentChild==null)
-                Config.currentChild=gson.fromJson(json, Child.class);
-        } else if (role.trim().equals("teacher")) {
-            System.out.println("bras bouk");
-            obj = gson.fromJson(json, Teacher.class);
-            if(Config.currentTeacher==null)
-                Config.currentTeacher=gson.fromJson(json, Teacher.class);
-            System.out.println("this is information of user connected" + gson.fromJson(json, Teacher.class));
-            System.out.println("this is information of user connected" + obj);
-        } else if (role == "parent") {
-            if(Config.currentParent==null)
-                Config.currentParent=gson.fromJson(json, Parent.class);
-            obj = gson.fromJson(json, Parent.class);
-            System.out.println("this is information of user connected" + obj);
-        }
-    }
 }

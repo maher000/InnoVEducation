@@ -1,8 +1,11 @@
 package com.education.innov.innoveducation.Activities;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
@@ -16,12 +19,16 @@ import android.widget.EditText;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.education.innov.innoveducation.Entities.Child;
 import com.education.innov.innoveducation.Entities.HomeWork;
+import com.education.innov.innoveducation.Entities.Teacher;
 import com.education.innov.innoveducation.R;
 import com.education.innov.innoveducation.Utils.Config;
+import com.education.innov.innoveducation.Utils.MyApp;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
+import com.google.gson.Gson;
 import com.liuguangqiang.progressbar.CircleProgressBar;
 import com.liuguangqiang.swipeback.SwipeBackActivity;
 import com.liuguangqiang.swipeback.SwipeBackLayout;
@@ -43,11 +50,16 @@ public class AddHomeWorkActivity extends SwipeBackActivity {
     private int hour, minute;
     DatabaseReference mDBase = Config.mDatabase;
     ProgressDialog circleProgressBar;
+    Teacher teacher;
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_home_work);
+        MyApp.getInstance(this);
 
         eEndDateView = (EditText) findViewById(R.id.txtDateEnd);
         eEndTimeView = (EditText) findViewById(R.id.txtTimeEnd);
@@ -168,13 +180,23 @@ public class AddHomeWorkActivity extends SwipeBackActivity {
     }
 
     public void getInfomationUser() {
-
-        if (Config.currentTeacher != null)
-            System.out.println(Config.currentTeacher);
-        author = Config.currentTeacher.getFirstName() + " " + Config.currentTeacher.getLastName();
-        urlImageAuthor = Config.currentTeacher.getUrlImage();
+        MyApp.getInstance(this);
+        switch (MyApp.role){
+            case "teacher":
+                author = MyApp.teacher.getFirstName() + " " + MyApp.teacher.getLastName();
+                urlImageAuthor = MyApp.teacher.getUrlImage();
+                break;
+            case "child":
+                author = MyApp.child.getFirstName() + " " + MyApp.child.getLastName();
+                urlImageAuthor = MyApp.child.getUrlImage();
+                break;
+            case "parent":
+                author = MyApp.parent.getFirstName() + " " + MyApp.parent.getLastName();
+                urlImageAuthor = MyApp.parent.getUrlImage();
+                break;
+        }
+        System.out.println(MyApp.teacher+"pppppppppppppppp");
     }
-
     private void AddHomeWork() {
         circleProgressBar.show();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy MMMM dd 'at' hh:mm aaa");

@@ -39,11 +39,13 @@ import com.education.innov.innoveducation.Fragment.ProfileFragment;
 import com.education.innov.innoveducation.Fragment.RightFragmentNaviguation;
 import com.education.innov.innoveducation.R;
 import com.education.innov.innoveducation.Utils.Config;
+import com.education.innov.innoveducation.Utils.MyApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
@@ -85,6 +87,7 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+
         /*
                 Subscribe users To receive Notification
          */
@@ -92,9 +95,8 @@ public class HomeActivity extends AppCompatActivity {
 //store and retreive data from shared prefernces
         SharedPreferences sp = getSharedPreferences("role_user", Activity.MODE_PRIVATE);
         RoleUser = sp.getString("role", null);
-        getUserInformation(RoleUser);
-
         System.out.println("mon roole est" + RoleUser);
+        getUserInformation(RoleUser);
         /*** ToolBar ***.
          *
          */
@@ -133,6 +135,10 @@ public class HomeActivity extends AppCompatActivity {
                         getSupportFragmentManager().beginTransaction().replace(R.id.container_id, currentFragment).commit();
                         break;
                     case R.id.tab_bis:
+                        currentFragment = new GameFragment();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.container_id, currentFragment).commit();
+                        break;
+                    case R.id.tab_home:
                         currentFragment = new GameFragment();
                         getSupportFragmentManager().beginTransaction().replace(R.id.container_id, currentFragment).commit();
                         break;
@@ -277,25 +283,25 @@ public class HomeActivity extends AppCompatActivity {
 
 
     private void getUserInformation(final String role) {
+        DatabaseReference mBase = FirebaseDatabase.getInstance().getReference();
         sharedpreferences = getPreferences(MODE_APPEND);
-        DatabaseReference ref = Config.mDatabase;
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
         String id = FirebaseAuth.getInstance().getCurrentUser().getUid();
         System.out.println("the id is " + id);
-        if (role == "child") {
-            ref = mBase.child("students").child(id);
+        if (role.trim().equals("child")) {
+            ref = mBase.child("child").child(id);
         } else if (role.trim().equals("teacher")) {
             ref = mBase.child(Config.CHILD_TEACHER).child(id);
-            System.out.println("user no yes ");
             System.out.println("the id is nn" + id);
-        } else if (role == "parent") {
+        } else if (role.trim().equals("parent")) {
             ref = mBase.child("parents").child(id);
         }
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if (role == "child") {
+                if (role.trim().equals("child")) {
 
-                    child = dataSnapshot.getValue(Child.class);
+                    Child  child = dataSnapshot.getValue(Child.class);
                     System.out.println("priiiint" + child);
                     SharedPreferences.Editor prefsEditor = sharedpreferences.edit();
                     Gson gson = new Gson();
@@ -303,37 +309,38 @@ public class HomeActivity extends AppCompatActivity {
                     prefsEditor.putString("current_user", json);
                     System.out.println("dfghjklm" + json);
                     prefsEditor.commit();
+                    MyApp.getInstance(HomeActivity.this);
 
                 } else if (role.trim().equals("teacher")) {
-                    teacher = dataSnapshot.getValue(Teacher.class);
-                    System.out.println("maher i love you walaah " + teacher);
+                    Teacher teacher = dataSnapshot.getValue(Teacher.class);
+                    System.out.println(" i love you  " + teacher);
                     SharedPreferences.Editor prefsEditor = sharedpreferences.edit();
                     Gson gson = new Gson();
                     String json = gson.toJson(teacher);
                     System.out.println("dfghjklm" + json);
                     prefsEditor.putString("current_user", json);
                     prefsEditor.commit();
-                } else if (role == "parent") {
-                    parent = dataSnapshot.getValue(Parent.class);
+                    MyApp.getInstance(HomeActivity.this);
+                } else if (role.trim().equals("parent")) {
+                    Parent  parent = dataSnapshot.getValue(Parent.class);
                     SharedPreferences.Editor prefsEditor = sharedpreferences.edit();
                     Gson gson = new Gson();
                     String json = gson.toJson(parent);
                     prefsEditor.putString("current_user", json);
                     prefsEditor.commit();
+                    MyApp.getInstance(HomeActivity.this);
                 }
+
+
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
             }
+            ;
         });
 
     }
-
-    public static void selectClassRomm() {
-
-    }
-
 
 }

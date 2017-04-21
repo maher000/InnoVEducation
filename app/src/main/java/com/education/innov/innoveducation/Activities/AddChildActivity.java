@@ -44,7 +44,7 @@ public class AddChildActivity extends SwipeBackActivity {
     StorageReference storageRef = Config.storage.getReference("images_users");
     StorageReference imagesRef;
     DatabaseReference mDBase = Config.mDatabase;
-    FirebaseAuth auth = Config.mAuth;
+    FirebaseAuth auth = FirebaseAuth.getInstance();
     private FirebaseAuth mAuth2 =FirebaseAuth.getInstance();
 
     @Override
@@ -75,7 +75,7 @@ public class AddChildActivity extends SwipeBackActivity {
             progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
             progress.setIndeterminate(true);
             progress.show();
-            final String parentId=Config.mAuth.getCurrentUser().getUid();
+            final String parentId=FirebaseAuth.getInstance().getCurrentUser().getUid();
 
             mAuth2.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {

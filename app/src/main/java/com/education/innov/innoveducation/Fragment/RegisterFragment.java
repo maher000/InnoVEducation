@@ -79,7 +79,7 @@ public class RegisterFragment extends Fragment {
     Button btnRegister;
     String email, password, firstname, lastname, confirmpassword, role;
     Parent parent;
-    FirebaseAuth auth = Config.mAuth;
+    FirebaseAuth auth = FirebaseAuth.getInstance();
     Teacher teacher;
     Activity activity;
     User user;
@@ -177,9 +177,9 @@ public class RegisterFragment extends Fragment {
 
                             /*******************************************/
                             String token = FirebaseInstanceId.getInstance().getToken();
-                            Config.mDatabase.child("Tokens").child(Config.mAuth.getCurrentUser().getUid()).child("Token").setValue(token);
+                            Config.mDatabase.child("Tokens").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Token").setValue(token);
                             /*******************************************/
-                            id = Config.mAuth.getCurrentUser().getUid();
+                            id = FirebaseAuth.getInstance().getCurrentUser().getUid();
                             storageImage();
 
                         } else {

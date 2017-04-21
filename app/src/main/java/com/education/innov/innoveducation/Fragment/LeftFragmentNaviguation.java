@@ -135,7 +135,6 @@ public class LeftFragmentNaviguation extends Fragment {
         startActivity(new Intent(getActivity(), MainActivity.class));
 }
     private void addChild(){
-        System.out.println("gggghhhhjjjj");
         startActivity(new Intent(getActivity(), AddChildActivity.class));
     }
 }
