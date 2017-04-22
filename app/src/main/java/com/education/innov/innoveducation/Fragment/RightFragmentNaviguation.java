@@ -163,6 +163,14 @@ public class RightFragmentNaviguation extends Fragment {
                     List<SimpleSectionedRecyclerViewAdapter.Section> sections =
                             new ArrayList<SimpleSectionedRecyclerViewAdapter.Section>();
 
+                    sections.add(new SimpleSectionedRecyclerViewAdapter.Section(0, "Teachers"));
+                    sections.add(new SimpleSectionedRecyclerViewAdapter.Section(teachers.size(), "Classemates"));
+                    sections.add(new SimpleSectionedRecyclerViewAdapter.Section((children.size()+teachers.size()), "Parents"));
+
+                    SimpleSectionedRecyclerViewAdapter.Section[] dummy = new SimpleSectionedRecyclerViewAdapter.Section[sections.size()];
+                    SimpleSectionedRecyclerViewAdapter mSectionedAdapter = new SimpleSectionedRecyclerViewAdapter(getActivity(), R.layout.section_recycle_view, R.id.section_text, adapter);
+                    mSectionedAdapter.setSections(sections.toArray(dummy));
+                    recyclerView.setAdapter(mSectionedAdapter);
 
                 }
 
