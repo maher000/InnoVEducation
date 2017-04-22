@@ -1,6 +1,11 @@
 package com.education.innov.innoveducation.Activities;
 
+import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.RequiresPermission;
+import android.support.v4.content.IntentCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -26,12 +31,20 @@ public class ChatActivity extends AppCompatActivity {
     private DatabaseReference mDatabase=Config.mDatabase;;
     private String mMessageId;
     private ChatView chatView;
-    FirebaseUser mFirebaseUser = null;
+    private FirebaseUser mFirebaseUser = null;
+    private String recieverName="";
+    private String recieverId="";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
+
+        Intent intent=getIntent();
+        recieverName=intent.getStringExtra("name");
+        recieverId=intent.getStringExtra("id");
+
         setUpToolbar();
         chatView = (ChatView) findViewById(R.id.chat_view);
         if(mFirebaseAuth !=null) {
@@ -40,7 +53,7 @@ public class ChatActivity extends AppCompatActivity {
             chatView.setOnSentMessageListener(new ChatView.OnSentMessageListener() {
                 @Override
                 public boolean sendMessage(ChatMessage chatMessage) {
-                        Message m = new Message(chatMessage.getMessage(), chatMessage.getTimestamp(), chatMessage.getType(), mFirebaseUser.getUid(), "jOhgluEJPLgXK37HyMHPBzXRBB53");
+                        Message m = new Message(chatMessage.getMessage(), chatMessage.getTimestamp(), chatMessage.getType(), mFirebaseUser.getUid(), recieverId);
                         addMessage(m);
                     chatView.getInputEditText().setText(""); 
                     return false;
@@ -68,14 +81,13 @@ public class ChatActivity extends AppCompatActivity {
 
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                System.out.println("syrine");
                 System.out.println("maher"+dataSnapshot.getValue(Message.class));
                 Message m = dataSnapshot.getValue(Message.class);
 
-               if (mFirebaseUser.getUid().equals(m.getSenderId()) && "jOhgluEJPLgXK37HyMHPBzXRBB53".equals(m.getReciverId())) {
+               if (mFirebaseUser.getUid().equals(m.getSenderId()) && recieverId.equals(m.getReciverId())) {
 
                     chatView.addMessage(new ChatMessage(m.getMessage(), m.getTimestamp(),  ChatMessage.Type.SENT));
-                }else if (mFirebaseUser.getUid().equals(m.getReciverId()) && "jOhgluEJPLgXK37HyMHPBzXRBB53".equals(m.getSenderId())) {
+                }else if (mFirebaseUser.getUid().equals(m.getReciverId()) && recieverId.equals(m.getSenderId())) {
 
                    chatView.addMessage(new ChatMessage(m.getMessage(), m.getTimestamp(), ChatMessage.Type.RECEIVED));
 
@@ -114,7 +126,7 @@ public class ChatActivity extends AppCompatActivity {
     private void setUpToolbar() {
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("natalina del capo");
+        toolbar.setTitle(recieverName);
         toolbar.inflateMenu(R.menu.menu_main);
         setSupportActionBar(toolbar);
        getSupportActionBar().setDisplayHomeAsUpEnabled(true);

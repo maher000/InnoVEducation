@@ -78,7 +78,11 @@ public class RightFragmentNaviguation extends Fragment {
         recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                startActivity(new Intent(getActivity(), ChatActivity.class).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP));
+                Intent intent=new Intent(getActivity(),ChatActivity.class);
+                intent.putExtra("name",users.get(position).getFirstName()+" "+users.get(position).getLastName());
+                intent.putExtra("id",users.get(position).getIdUser());
+                intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivity(intent);
             }
 
             @Override
@@ -163,7 +167,8 @@ public class RightFragmentNaviguation extends Fragment {
                     List<SimpleSectionedRecyclerViewAdapter.Section> sections =
                             new ArrayList<SimpleSectionedRecyclerViewAdapter.Section>();
 
-                    sections.add(new SimpleSectionedRecyclerViewAdapter.Section(0, "Teachers"));
+                    sections.add(new SimpleSectionedRecyclerViewAdapter.Section(0, "Teachers" +
+                            ""));
                     sections.add(new SimpleSectionedRecyclerViewAdapter.Section(teachers.size(), "Classemates"));
                     sections.add(new SimpleSectionedRecyclerViewAdapter.Section((children.size()+teachers.size()), "Parents"));
 
