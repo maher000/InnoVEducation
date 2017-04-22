@@ -95,30 +95,29 @@ public class CourseActivity extends AppCompatActivity {
         //  setUpDrawer();
 
 
-      /*  if (getCallingActivity() != null) {
+        if (getCallingActivity() != null) {
             Log.d("taaag", getCallingActivity().getClassName());
             System.out.println("couuuucouuu this is a try " + getCallingActivity().getClassName());
-        } */
-
-
-       if (getCallingActivity().equals(HomeActivity.class)) {
-           intent = getIntent();
-           coursse = intent.getExtras().getParcelable("coursse");
-           GetCoursseDetail();
-            System.out.println("couuuucouuu this is a try " + getCallingActivity().getClassName());
         }
-        else {
-           intent = getIntent();
-           coursse = intent.getExtras().getParcelable("coursse");
-           GetCoursseDetail();
-           System.out.println("le cours est " + coursse);
-           lesson = intent.getExtras().getParcelable("lesson");
-           if (lesson != null) {
-               System.out.println("le cours est " + coursse);
-               System.out.println("le leçon est " + lesson);
-               getLessonDetail();
-           }
-       }
+        System.out.println("yes no baby " + getIntent());
+
+        if (getCallingActivity().getClassName().equals(HomeActivity.class.getName())) {
+            intent = getIntent();
+            coursse = intent.getExtras().getParcelable("coursse");
+            GetCoursseDetail();
+            System.out.println("couuuucouuu this is a try " + getCallingActivity().getClassName());
+        } else {
+            intent = getIntent();
+            coursse = intent.getExtras().getParcelable("coursse");
+            GetCoursseDetail();
+            System.out.println("le cours est " + coursse);
+            lesson = intent.getExtras().getParcelable("lesson");
+            if (lesson != null) {
+                System.out.println("le cours est " + coursse);
+                System.out.println("le leçon est " + lesson);
+                getLessonDetail();
+            }
+        }
 
     }
 

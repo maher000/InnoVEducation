@@ -65,7 +65,7 @@ public class CoursesFragment extends Fragment {
             @Override
             public void onItemClick(View view, int position) {
 
-                Intent intent = new Intent(getActivity(), CourseActivity.class).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP) ;
+                Intent intent = new Intent(getActivity(), CourseActivity.class) ;
                 Course course = courses.get(position);
                 intent.putExtra("coursse", course);
                 startActivityForResult(intent,1);
