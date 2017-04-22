@@ -137,7 +137,7 @@ public class RightFragmentNaviguation extends Fragment {
         parents = new ArrayList<>();
         teachers = new ArrayList<>();
         users = new ArrayList<>();
-       user =new User();
+        user =new User();
         adapter = new OnLineFrreindsAdapter(getContext(), users);
         adapter.notifyDataSetChanged();
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -152,7 +152,6 @@ public class RightFragmentNaviguation extends Fragment {
                 User user = new User();
                 System.out.println("classRoom");
                 if (new_child != null) {
-                    //creta a listener
                     children.add(new_child);
 
                     user.setIdUser(new_child.getIdUser());
