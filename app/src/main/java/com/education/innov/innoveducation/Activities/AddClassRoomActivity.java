@@ -1,8 +1,12 @@
 package com.education.innov.innoveducation.Activities;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentManager;
+import android.view.ContextThemeWrapper;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
@@ -50,6 +54,7 @@ public class AddClassRoomActivity extends SwipeBackActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_class_room);
         picker = CountryPicker.newInstance("Select Country");
+
         LayoutErrorMessage = (LinearLayout) findViewById(R.id.LayoutErrorMessage);
         tvErrorMsg = (TextView) findViewById(R.id.tvErrorMsg);
         etName = (EditText) findViewById(R.id.et_classe_room_name);
@@ -131,11 +136,15 @@ public class AddClassRoomActivity extends SwipeBackActivity {
         });
     }
     private void SelectCountry() {
+        picker.setStyle(1,R.style.CountryPicker);
 
-        picker.show(getSupportFragmentManager(), "COUNTRY_PICKER");
+        picker.show(getSupportFragmentManager(), "COUNTRY_PICKER" );
+
+
         picker.setListener(new CountryPickerListener() {
             @Override
             public void onSelectCountry(String name, String code, String dialCode, int flagDrawableResID) {
+
                 country=name;
                 etCountry.setText(country);
                 picker.dismiss();

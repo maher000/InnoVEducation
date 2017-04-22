@@ -5,6 +5,17 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/overWhite</item>
+
+    </style>
+
+    <style name="DialogTheme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">@color/colorPrimary</item>
+    </style>
+    <style name="CountryPicker" parent="Theme.AppCompat.Dialog">
+        <item name="colorAccent">@color/colorPrimary</item>
+        <item name="android:textColorHint">@android:color/darker_gray</item>
+        <item name="android:background">@color/dark_gray</item>
     </style>
 
     <style name="EditTextHintBlack" parent="TextAppearance.AppCompat">

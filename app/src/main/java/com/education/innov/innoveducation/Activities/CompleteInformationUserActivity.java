@@ -3,6 +3,7 @@ package com.education.innov.innoveducation.Activities;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -58,6 +59,8 @@ public class CompleteInformationUserActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_complete_information_user);
         picker = CountryPicker.newInstance("Select Country");
+        picker.getCountryListView().setBackgroundColor(Color.WHITE);
+
         EdtCodePostal = (EditText) findViewById(R.id.EdtCodePostal);
         EdtCountry = (EditText) findViewById(R.id.EdtCountry);
         EdtAdress = (EditText) findViewById(R.id.EdtAdress);
@@ -217,6 +220,7 @@ public class CompleteInformationUserActivity extends AppCompatActivity {
     private void SelectCountry() {
 
         picker.show(getSupportFragmentManager(), "COUNTRY_PICKER");
+
         picker.setListener(new CountryPickerListener() {
             @Override
             public void onSelectCountry(String name, String code, String dialCode, int flagDrawableResID) {
