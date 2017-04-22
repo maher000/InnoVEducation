@@ -339,7 +339,6 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (role.trim().equals("child")) {
-
                     Child  child = dataSnapshot.getValue(Child.class);
                     System.out.println("priiiint" + child);
                     SharedPreferences.Editor prefsEditor = sharedpreferences.edit();

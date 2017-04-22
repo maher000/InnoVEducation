@@ -26,7 +26,7 @@
             app:srcCompat="@drawable/icon_menu_48" />
 
         <TextView
-            android:id="@+id/textView4"
+            android:id="@+id/tvTiteCoursse"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -39,6 +39,7 @@
             android:textStyle="bold" />
 
     </LinearLayout>
+
 
     <ScrollView
         android:layout_width="match_parent"
@@ -118,7 +119,7 @@
 
 
                         <TextView
-                            android:id="@+id/tvLecons_courses"
+                            android:id="@+id/tvNameLesson"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="0.4"
@@ -140,14 +141,10 @@
                             android:textStyle="italic" />
 
                     </LinearLayout>
-
                 </LinearLayout>
-
-
             </LinearLayout>
-
             <TextView
-                android:id="@+id/textView5"
+                android:id="@+id/tvDescriptionVideo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingBottom="5dp"

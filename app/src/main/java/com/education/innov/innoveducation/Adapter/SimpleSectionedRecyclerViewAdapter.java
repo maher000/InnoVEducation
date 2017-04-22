@@ -17,19 +17,19 @@ import java.util.Comparator;
 
 public class SimpleSectionedRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-private final Context mContext;
-private static final int SECTION_TYPE = 0;
+    private final Context mContext;
+    private static final int SECTION_TYPE = 0;
 
-private boolean mValid = true;
-private int mSectionResourceId;
-private int mTextResourceId;
-private LayoutInflater mLayoutInflater;
-private RecyclerView.Adapter mBaseAdapter;
-private SparseArray<Section> mSections = new SparseArray<Section>();
+    private boolean mValid = true;
+    private int mSectionResourceId;
+    private int mTextResourceId;
+    private LayoutInflater mLayoutInflater;
+    private RecyclerView.Adapter mBaseAdapter;
+    private SparseArray<Section> mSections = new SparseArray<Section>();
 
 
-public SimpleSectionedRecyclerViewAdapter(Context context, int sectionResourceId, int textResourceId,
-        RecyclerView.Adapter baseAdapter) {
+    public SimpleSectionedRecyclerViewAdapter(Context context, int sectionResourceId, int textResourceId,
+                                              RecyclerView.Adapter baseAdapter) {
 
         mLayoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mSectionResourceId = sectionResourceId;
@@ -38,59 +38,59 @@ public SimpleSectionedRecyclerViewAdapter(Context context, int sectionResourceId
         mContext = context;
 
         mBaseAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
-@Override
-public void onChanged() {
-        mValid = mBaseAdapter.getItemCount()>0;
-        notifyDataSetChanged();
-        }
+            @Override
+            public void onChanged() {
+                mValid = mBaseAdapter.getItemCount() > 0;
+                notifyDataSetChanged();
+            }
 
-@Override
-public void onItemRangeChanged(int positionStart, int itemCount) {
-        mValid = mBaseAdapter.getItemCount()>0;
-        notifyItemRangeChanged(positionStart, itemCount);
-        }
+            @Override
+            public void onItemRangeChanged(int positionStart, int itemCount) {
+                mValid = mBaseAdapter.getItemCount() > 0;
+                notifyItemRangeChanged(positionStart, itemCount);
+            }
 
-@Override
-public void onItemRangeInserted(int positionStart, int itemCount) {
-        mValid = mBaseAdapter.getItemCount()>0;
-        notifyItemRangeInserted(positionStart, itemCount);
-        }
+            @Override
+            public void onItemRangeInserted(int positionStart, int itemCount) {
+                mValid = mBaseAdapter.getItemCount() > 0;
+                notifyItemRangeInserted(positionStart, itemCount);
+            }
 
-@Override
-public void onItemRangeRemoved(int positionStart, int itemCount) {
-        mValid = mBaseAdapter.getItemCount()>0;
-        notifyItemRangeRemoved(positionStart, itemCount);
-        }
+            @Override
+            public void onItemRangeRemoved(int positionStart, int itemCount) {
+                mValid = mBaseAdapter.getItemCount() > 0;
+                notifyItemRangeRemoved(positionStart, itemCount);
+            }
         });
-        }
-
-
-public static class SectionViewHolder extends RecyclerView.ViewHolder {
-
-    public TextView title;
-
-    public SectionViewHolder(View view, int mTextResourceid) {
-        super(view);
-        title = (TextView) view.findViewById(mTextResourceid);
     }
-}
+
+
+    public static class SectionViewHolder extends RecyclerView.ViewHolder {
+
+        public TextView title;
+
+        public SectionViewHolder(View view, int mTextResourceid) {
+            super(view);
+            title = (TextView) view.findViewById(mTextResourceid);
+        }
+    }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int typeView) {
         if (typeView == SECTION_TYPE) {
             final View view = LayoutInflater.from(mContext).inflate(mSectionResourceId, parent, false);
-            return new SectionViewHolder(view,mTextResourceId);
-        }else{
-            return mBaseAdapter.onCreateViewHolder(parent, typeView -1);
+            return new SectionViewHolder(view, mTextResourceId);
+        } else {
+            return mBaseAdapter.onCreateViewHolder(parent, typeView - 1);
         }
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder sectionViewHolder, int position) {
         if (isSectionHeaderPosition(position)) {
-            ((SectionViewHolder)sectionViewHolder).title.setText(mSections.get(position).title);
-        }else{
-            mBaseAdapter.onBindViewHolder(sectionViewHolder,sectionedPositionToPosition(position));
+            ((SectionViewHolder) sectionViewHolder).title.setText(mSections.get(position).title);
+        } else {
+            mBaseAdapter.onBindViewHolder(sectionViewHolder, sectionedPositionToPosition(position));
         }
 
     }
@@ -99,24 +99,24 @@ public static class SectionViewHolder extends RecyclerView.ViewHolder {
     public int getItemViewType(int position) {
         return isSectionHeaderPosition(position)
                 ? SECTION_TYPE
-                : mBaseAdapter.getItemViewType(sectionedPositionToPosition(position)) +1 ;
+                : mBaseAdapter.getItemViewType(sectionedPositionToPosition(position)) + 1;
     }
 
 
-public static class Section {
-    int firstPosition;
-    int sectionedPosition;
-    CharSequence title;
+    public static class Section {
+        int firstPosition;
+        int sectionedPosition;
+        CharSequence title;
 
-    public Section(int firstPosition, CharSequence title) {
-        this.firstPosition = firstPosition;
-        this.title = title;
-    }
+        public Section(int firstPosition, CharSequence title) {
+            this.firstPosition = firstPosition;
+            this.title = title;
+        }
 
-    public CharSequence getTitle() {
-        return title;
+        public CharSequence getTitle() {
+            return title;
+        }
     }
-}
 
 
     public void setSections(Section[] sections) {

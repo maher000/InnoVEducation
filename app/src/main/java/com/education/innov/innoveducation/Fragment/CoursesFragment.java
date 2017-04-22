@@ -1,6 +1,7 @@
 package com.education.innov.innoveducation.Fragment;
 
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -9,10 +10,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.education.innov.innoveducation.Activities.CourseActivity;
 import com.education.innov.innoveducation.Adapter.CoursesAdapter;
 import com.education.innov.innoveducation.Entities.Course;
+import com.education.innov.innoveducation.Entities.Lesson;
 import com.education.innov.innoveducation.R;
 import com.education.innov.innoveducation.Utils.MyApp;
 import com.education.innov.innoveducation.Utils.RecyclerItemClickListener;
@@ -31,6 +34,8 @@ public class CoursesFragment extends Fragment {
     private RecyclerView.LayoutManager mLayoutManager;
     ArrayList<Course> courses;
     Course new_coursse;
+
+
 
     public CoursesFragment() {
     }
@@ -59,7 +64,11 @@ public class CoursesFragment extends Fragment {
         mRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), mRecyclerView, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                startActivity(new Intent(getActivity(), CourseActivity.class).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP));
+
+                Intent intent = new Intent(getActivity(), CourseActivity.class).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP) ;
+                Course course = courses.get(position);
+                intent.putExtra("coursse", course);
+                startActivityForResult(intent,1);
             }
 
             @Override
@@ -113,4 +122,6 @@ public class CoursesFragment extends Fragment {
         });
 
     }
+
+
 }

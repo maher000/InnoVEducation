@@ -1,10 +1,13 @@
 package com.education.innov.innoveducation.Entities;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by Syrine on 21/04/2017.
  */
 
-public class Lesson {
+public class Lesson  implements Parcelable {
 
     private String id;
     private String title;
@@ -12,14 +15,12 @@ public class Lesson {
     private String description;
     private Course coursse;
     private String urlVideo;
-    private String urlMiniature ;
-    private String DateCreation ;
-
+    private String urlMiniature;
+    private String DateCreation;
 
 
     public Lesson() {
     }
-
 
 
     public Lesson(String id, String title, String idCoursse, String description, Course coursse, String urlVideo) {
@@ -107,4 +108,48 @@ public class Lesson {
                 ", urlVideo=" + urlVideo +
                 '}';
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+
+        dest.writeString(id);
+        dest.writeString(title);
+        dest.writeString(idCoursse);
+        dest.writeString(description);
+        dest.writeString(urlVideo);
+        dest.writeString(urlMiniature);
+        dest.writeString(description);
+        dest.writeString(DateCreation);
+    }
+
+    private Lesson(Parcel in) {
+        id = in.readString();
+        description = in.readString();
+        idCoursse = in.readString();
+        title = in.readString();
+        urlVideo = in.readString();
+        urlMiniature = in.readString();
+        description = in.readString();
+        DateCreation = in.readString();
+    }
+
+    public static final Parcelable.Creator<Lesson> CREATOR = new Parcelable.Creator<Lesson>() {
+
+        @Override
+        public Lesson createFromParcel(Parcel source) {
+            return new Lesson(source);
+        }
+
+        @Override
+        public Lesson[] newArray(int size) {
+            return new Lesson[size];
+        }
+    };
+
 }

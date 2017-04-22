@@ -1,5 +1,8 @@
 package com.education.innov.innoveducation.Entities;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import org.w3c.dom.Comment;
 
 import java.util.ArrayList;
@@ -8,22 +11,23 @@ import java.util.ArrayList;
  * Created by maher on 10/04/2017.
  */
 
-public class Course {
+public class Course implements Parcelable {
     private String id;
     private String name;
     private String description;
     private String Country;
-    private String Subject ;
-    private String IdClassRoom ;
+    private String Subject;
+    private String IdClassRoom;
+    private String IdUser;
     private String langage;
     private Teacher owner;//the owner must bu a teacher in order to add a course
     private ArrayList<User> followers; //
     private ArrayList<Video> videos;
-    private ArrayList<String > idFollowers; //
+    private ArrayList<String> idFollowers; //
     private ArrayList<String> idVideos;
     private String creationDate;
-    private  String author ;
-    private String urlImageAuthor ;
+    private String author;
+    private String urlImageAuthor;
     private String visibility; // true or false (public to all users or only visible in the classRoom where was created
     private ClassRoom classRoom;
     private ArrayList<String> idComments;
@@ -48,6 +52,14 @@ public class Course {
         this.classRoom = classRoom;
         this.idComments = idComments;
         this.comments = comments;
+    }
+
+    public String getIdUser() {
+        return IdUser;
+    }
+
+    public void setIdUser(String idUser) {
+        IdUser = idUser;
     }
 
     public String getAuthor() {
@@ -219,4 +231,51 @@ public class Course {
                 ", idComments=" + idComments +
                 '}';
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+
+        dest.writeString(name);
+        dest.writeString(urlImageAuthor);
+        dest.writeString(author);
+        dest.writeString(creationDate);
+        dest.writeString(id);
+        dest.writeString(visibility);
+        dest.writeString(description);
+        dest.writeString(IdClassRoom);
+        dest.writeString(IdUser);
+
+    }
+
+    private Course(Parcel in) {
+        name = in.readString();
+        description = in.readString();
+        author = in.readString();
+        urlImageAuthor = in.readString();
+        creationDate = in.readString();
+        visibility = in.readString();
+        IdClassRoom = in.readString();
+        id = in.readString();
+        IdUser = in.readString();
+    }
+
+    public static final Creator<Course> CREATOR = new Creator<Course>() {
+
+        @Override
+        public Course createFromParcel(Parcel source) {
+            return new Course(source);
+        }
+
+        @Override
+        public Course[] newArray(int size) {
+            return new Course[size];
+        }
+    };
+
 }

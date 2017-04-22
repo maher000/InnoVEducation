@@ -1,23 +1,40 @@
 package com.education.innov.innoveducation.Activities;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.MediaController;
+import android.widget.TextView;
 import android.widget.VideoView;
 
+import com.education.innov.innoveducation.Entities.Course;
+import com.education.innov.innoveducation.Entities.Lesson;
+import com.education.innov.innoveducation.Fragment.CoursesFragment;
+import com.education.innov.innoveducation.Fragment.HomeFragment;
+import com.education.innov.innoveducation.Fragment.LeftFragmentNaviguation;
+import com.education.innov.innoveducation.Fragment.ListLessonsFragment;
+import com.education.innov.innoveducation.Fragment.RightFragmentNaviguation;
 import com.education.innov.innoveducation.R;
+import com.squareup.picasso.Picasso;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
 
@@ -25,103 +42,91 @@ public class CourseActivity extends AppCompatActivity {
     Toolbar toolbar;
     VideoView videoView;
     FloatingActionButton btnAddLesson;
+    private DrawerLayout drawerLayout;
+    private CircleImageView image_profile_courses_activity;
+    private ListLessonsFragment drawerlessonFragment;
+    private TextView tvTiteCoursse, tvDescriptionVideo,
+            tvdateCoursses_activity, tvNameLesson, tvFullNameCourses_activity;
+    private String author, urlImageAuthor, titleCoursses, TitleLesson, description, dateLesson, urlVideo, urlMiniature;
+    private ImageView course_menu_btn;
+    public static Course coursse;
+    private Lesson lesson;
+    private Intent intent;
+
+
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
+        outState.putParcelable("theCoursse", coursse);
+        System.out.println("geet");
+    }
+
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        System.out.println("restauré");
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_course);
+
         btnAddLesson = (FloatingActionButton) findViewById(R.id.btnAddLesson);
-        btnAddLesson.setOnClickListener(new View.OnClickListener() {
+
+
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout_lessons);
+        image_profile_courses_activity = (CircleImageView) findViewById(R.id.image_profile_courses_activity);
+        tvTiteCoursse = (TextView) findViewById(R.id.tvTiteCoursse);
+        tvFullNameCourses_activity = (TextView) findViewById(R.id.tvFullNameCourses_activity);
+        tvDescriptionVideo = (TextView) findViewById(R.id.tvDescriptionVideo);
+        tvdateCoursses_activity = (TextView) findViewById(R.id.tvdateCoursses_activity);
+        tvNameLesson = (TextView) findViewById(R.id.tvNameLesson);
+
+
+        drawerlessonFragment = (ListLessonsFragment) getSupportFragmentManager().findFragmentById(R.id.nav_drw_lessons_drawer);
+        setUpToolbar();
+        course_menu_btn = (ImageView) findViewById(R.id.course_menu_btn);
+        course_menu_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(CourseActivity.this, AddLessonsActivity.class);
-                intent.putExtra("id_coursse", "-KiCTI8u0EaSm-Vawqpu");
-                startActivity(intent);
+                drawerLayout.openDrawer(Gravity.LEFT); /*Opens the Right Drawer*/
             }
         });
-        setUpToolbar();
-        JCVideoPlayerStandard jcVideoPlayerStandard = (JCVideoPlayerStandard) findViewById(R.id.videoplayer);
-        jcVideoPlayerStandard.setUp("http://2449.vod.myqcloud.com/2449_22ca37a6ea9011e5acaaf51d105342e3.f20.mp4"
-                , JCVideoPlayerStandard.SCREEN_LAYOUT_NORMAL, "video name");
-        jcVideoPlayerStandard.thumbImageView.setImageURI(Uri.parse("http://p.qpic.cn/vide5oyun/0/2449_43b6f696980311e59ed467f22794e792_1/640"));
+        //  setUpDrawer();
 
 
-    }
+      /*  if (getCallingActivity() != null) {
+            Log.d("taaag", getCallingActivity().getClassName());
+            System.out.println("couuuucouuu this is a try " + getCallingActivity().getClassName());
+        } */
 
-    /*
-    private void fullScreen(){
-        if(isFullScreen==true){
-            isFullScreen=false;
-            // set the video to full screnn mode
-            DisplayMetrics metrics = new DisplayMetrics();
-            getWindowManager().getDefaultDisplay().getMetrics(metrics);
-            android.widget.RelativeLayout.LayoutParams params = (android.widget.RelativeLayout.LayoutParams) videoView.getLayoutParams();
-            params.width = (int) (300*metrics.density);
-            params.height = (int) (250*metrics.density);
-            params.leftMargin = 30;
-            videoView.setLayoutParams(params);
+
+       if (getCallingActivity().equals(HomeActivity.class)) {
+           intent = getIntent();
+           coursse = intent.getExtras().getParcelable("coursse");
+           GetCoursseDetail();
+            System.out.println("couuuucouuu this is a try " + getCallingActivity().getClassName());
         }
         else {
-            isFullScreen=true;
-            DisplayMetrics metrics = new DisplayMetrics();
-            getWindowManager().getDefaultDisplay().getMetrics(metrics);
-            android.widget.RelativeLayout.LayoutParams params = (android.widget.RelativeLayout.LayoutParams) videoView.getLayoutParams();
-            params.width =  metrics.widthPixels;
-            params.height = metrics.heightPixels;
-            params.leftMargin = 0;
-            videoView.setLayoutParams(params);
-        }
-    }
-
-    private void setUpVideoView(){
-        // create a progress bar while the video file is loading
-        progressDialog = new ProgressDialog(CourseActivity.this);
-        // set a title for the progress bar
-        progressDialog.setTitle("course number...");
-        // set a message for the progress bar
-        progressDialog.setMessage("Loading...");
-        //set the progress bar not cancelable on users' touch
-        progressDialog.setCancelable(false);
-        // show the progress bar
-        progressDialog.show();
-
-        try {
-            //set the media controller in the VideoView
-            videoView.setMediaController(mediaControls);
-            //set the uri of the video to be played
-            videoView.setVideoURI(Uri.parse("https://firebasestorage.googleapis.com/v0/b/innoveducation-a76b3.appspot.com/o/videos_users%2F20160914215632.mp4?alt=media&token=d6d55236-9576-42f0-bcd6-bf97e574c81f"));
-        } catch (Exception e) {
-
-            Log.e("Error", e.getMessage());
-            e.printStackTrace();
-        }
-        videoView.requestFocus();
-        //we also set an setOnPreparedListener in order to know when the video file is ready for playback
-        videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            public void onPrepared(MediaPlayer mediaPlayer) {
-                // close the progress bar and play the video
-                progressDialog.dismiss();
-                //if we have a position on savedInstanceState, the video playback should start from here
-                videoView.seekTo(position);
-                if (position == 0) {
-                    videoView.start();
-                } else {
-                    //if we come from a resumed activity, video playback will be paused
-                    videoView.pause();
-
-                }
-
-            }
-        });
-
-
+           intent = getIntent();
+           coursse = intent.getExtras().getParcelable("coursse");
+           GetCoursseDetail();
+           System.out.println("le cours est " + coursse);
+           lesson = intent.getExtras().getParcelable("lesson");
+           if (lesson != null) {
+               System.out.println("le cours est " + coursse);
+               System.out.println("le leçon est " + lesson);
+               getLessonDetail();
+           }
+       }
 
     }
-    */
+
+
     private void setUpToolbar() {
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Android");
+        toolbar.setTitle("Back");
         toolbar.inflateMenu(R.menu.menu_main);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -147,5 +152,45 @@ public class CourseActivity extends AppCompatActivity {
         super.onPause();
         JCVideoPlayer.releaseAllVideos();
     }
+
+
+    private void setUpDrawer() {
+
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout_lessons);
+        drawerlessonFragment = (ListLessonsFragment) getSupportFragmentManager().findFragmentById(R.id.nav_drw_lessons_drawer);
+        drawerlessonFragment.setUpDrawer(drawerLayout, toolbar);
+
+    }
+
+    private void GetCoursseDetail() {
+        author = coursse.getAuthor();
+        urlImageAuthor = coursse.getUrlImageAuthor();
+        titleCoursses = coursse.getName();
+        tvTiteCoursse.setText(author);
+        tvFullNameCourses_activity.setText(titleCoursses);
+        Picasso.with(getApplicationContext()).load(urlImageAuthor).into(image_profile_courses_activity);
+
+
+    }
+
+    private void getLessonDetail() {
+        System.out.println("yeeeeeeeees it works fine");
+        urlMiniature = lesson.getUrlMiniature();
+        urlVideo = lesson.getUrlVideo();
+        TitleLesson = lesson.getTitle();
+        description = lesson.getDescription();
+        dateLesson = lesson.getDateCreation();
+        tvDescriptionVideo.setText(description);
+        tvdateCoursses_activity.setText(dateLesson);
+
+        tvNameLesson.setText(TitleLesson);
+
+        JCVideoPlayerStandard jcVideoPlayerStandard = (JCVideoPlayerStandard) findViewById(R.id.videoplayer);
+        jcVideoPlayerStandard.setUp(lesson.getUrlVideo()
+                , JCVideoPlayerStandard.SCREEN_LAYOUT_NORMAL, TitleLesson);
+        jcVideoPlayerStandard.thumbImageView.setImageURI(Uri.parse(lesson.getUrlMiniature()));
+
+    }
+
 
 }
