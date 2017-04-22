@@ -21,6 +21,8 @@ public class User {
     protected String idUser;
 
 
+    public User() {
+    }
 
     public String getFirstName() {
         return firstName;

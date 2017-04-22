@@ -6,9 +6,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.education.innov.innoveducation.Entities.User;
 import com.education.innov.innoveducation.R;
 import com.education.innov.innoveducation.Views.FreindsOnlineViewHolder;
 import com.education.innov.innoveducation.Views.HomeWorkViewHolder;
+import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
 
 /**
  * Created by Syrine on 08/04/2017.
@@ -16,21 +20,15 @@ import com.education.innov.innoveducation.Views.HomeWorkViewHolder;
 
 public class OnLineFrreindsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+    ArrayList<User> users;
 
-    private String[] title = {
-            "Video",
-            "Image",
-            "Video",
-            "Video",
-            "Image",
-            "Texte"
-    };
     private LayoutInflater inflater;
     private Context context;
 
-    public OnLineFrreindsAdapter(Context context) {
+    public OnLineFrreindsAdapter(Context context, ArrayList<User> users) {
         inflater = LayoutInflater.from(context);
         this.context = context;
+        this.users = users;
     }
 
     @Override
@@ -51,15 +49,13 @@ public class OnLineFrreindsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
         FreindsOnlineViewHolder mHolder = (FreindsOnlineViewHolder) holder;
 
-        //    MainOption mo = mainOptionlist.get(position);
-        //    mHolder.tv_title.setText(mo.title);
-        //    mHolder.iv_icon.setImageResource(mo.icon);
-        //    mHolder.itemView.setSelected(selectedPos == position);
+       mHolder.tvFullNameOnline.setText(users.get(position).getFirstName() + " " + users.get(position).getLastName());
+        Picasso.with(context).load(users.get(position).getUrlImage()).into(mHolder.profile_image_online);
 
     }
 
     @Override
     public int getItemCount() {
-        return title.length - 1;
+        return users.size();
     }
 }

@@ -224,7 +224,7 @@ public class AddHomeWorkActivity extends SwipeBackActivity {
                 if (task.isSuccessful()) {
                     circleProgressBar.dismiss();
                     System.out.println("post added successfully");
-                    psuhNotificationAllUsers.sendAndroidNotification(id,"maher","sds");
+                    psuhNotificationAllUsers.sendAndroidNotification("-KhfjglYFioLuyKlDIif","maher","sds");
                 }
             }
 

@@ -15,18 +15,17 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class FreindsOnlineViewHolder extends RecyclerView.ViewHolder {
 
-    CircleImageView profile_image_online ;
-    TextView tvFullNameOnline ;
-    ImageView icon_online ;
+    public CircleImageView profile_image_online;
+    public TextView tvFullNameOnline;
+    public ImageView icon_online;
 
 
-    public FreindsOnlineViewHolder (View view) {
+    public FreindsOnlineViewHolder(View view) {
         super(view);
 
-        profile_image_online = ( CircleImageView) view.findViewById(R.id.profile_image_online) ;
-        tvFullNameOnline = ( TextView) view.findViewById(R.id.tvFullNameOnline) ;
-        icon_online = ( ImageView) view.findViewById(R.id.icon_online) ;
-
+        profile_image_online = (CircleImageView) view.findViewById(R.id.profile_image_online);
+        tvFullNameOnline = (TextView) view.findViewById(R.id.tvFullNameOnline);
+        icon_online = (ImageView) view.findViewById(R.id.icon_online);
 
 
     }
