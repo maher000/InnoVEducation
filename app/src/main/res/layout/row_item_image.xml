@@ -94,7 +94,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Lorem ipsum dolor sit amet, eam nullam aperiam feugiat ex. Illud commodo est an, ius cu nibh legimus necessitatibus, quem quis intellegat ei eos. An suas feugiat nusquam pro, commodo necessi..."
-            android:textColor="@color/black" />
+            android:textColor="@color/black"
+            android:maxLines="3"/>
 
         <TextView
             android:id="@+id/tvDetailImage"

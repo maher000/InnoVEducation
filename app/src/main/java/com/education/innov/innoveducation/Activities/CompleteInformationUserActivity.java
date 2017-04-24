@@ -59,7 +59,6 @@ public class CompleteInformationUserActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_complete_information_user);
         picker = CountryPicker.newInstance("Select Country");
-        picker.getCountryListView().setBackgroundColor(Color.WHITE);
 
         EdtCodePostal = (EditText) findViewById(R.id.EdtCodePostal);
         EdtCountry = (EditText) findViewById(R.id.EdtCountry);

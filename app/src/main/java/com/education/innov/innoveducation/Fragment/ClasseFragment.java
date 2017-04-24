@@ -12,20 +12,25 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toolbar;
 
 import com.education.innov.innoveducation.Activities.AddClassRoomActivity;
 import com.education.innov.innoveducation.Activities.AddCourssesActivity;
 import com.education.innov.innoveducation.Activities.AddHomeWorkActivity;
 import com.education.innov.innoveducation.Activities.AddPostActivity;
+import com.education.innov.innoveducation.Activities.ClassroomInfoActivity;
 import com.education.innov.innoveducation.Adapter.ClassePagerAdapter;
 import com.education.innov.innoveducation.Adapter.ViewPagerAdapter;
 import com.education.innov.innoveducation.R;
+import com.education.innov.innoveducation.Utils.MyApp;
 
 
 public class ClasseFragment extends Fragment {
 
     FloatingActionButton btnAddHomeWork,btnAddClassroom ,btn_add_post_layout_post ,btn_add_course_layout;
+    ImageView btnInfo;
     public ClasseFragment() {
         // Required empty public constructor
     }
@@ -55,6 +60,7 @@ public class ClasseFragment extends Fragment {
         btnAddClassroom =(FloatingActionButton) view.findViewById(R.id.btn_add_classroom_layout_homework);
         btn_add_post_layout_post =(FloatingActionButton) view.findViewById(R.id.btn_add_post_layout_post);
         btn_add_course_layout =(FloatingActionButton) view.findViewById(R.id.btn_add_course_layout);
+        btnInfo=(ImageView) view.findViewById(R.id.iv_class_room_info);
         btnAddHomeWork.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -79,6 +85,17 @@ public class ClasseFragment extends Fragment {
                 addCoursse();
             }
         });
+        btnInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i=new Intent(getActivity(), ClassroomInfoActivity.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivity(i);
+
+
+            }
+        });
+
         return view ;
     }
 

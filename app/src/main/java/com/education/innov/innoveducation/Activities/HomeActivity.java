@@ -265,12 +265,23 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
+        final MenuItem itemNotification = m.findItem(R.id.id_notification);
+        itemNotification.getActionView().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("viewselected");
+                onOptionsItemSelected(itemNotification);
+            }
+        });
+
         SearchManager searchManager =
                 (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         SearchView searchView =
                 (SearchView) menu.findItem(R.id.action_search).getActionView();
         searchView.setSearchableInfo(
                 searchManager.getSearchableInfo(getComponentName()));
+        searchView.setSubmitButtonEnabled(true);
+       // searchView.setOnQueryTextListener(this);
 
         return true;
     }
@@ -285,6 +296,11 @@ public class HomeActivity extends AppCompatActivity {
                 return true;
             case R.id.action_search1:
                 startActivity(new Intent(HomeActivity.this,ListClassroomsActivity.class).addFlags(FLAG_ACTIVITY_SINGLE_TOP));
+                return true;
+
+            case R.id.id_notification:
+                startActivity(new Intent(HomeActivity.this,NotificationsActivity.class).addFlags(FLAG_ACTIVITY_SINGLE_TOP));
+                return true;
 
 
         }

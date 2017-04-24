@@ -142,7 +142,7 @@ public class MyClassroomsAdapter extends RecyclerView.Adapter<MyClassroomsAdapte
             btnJoin.setText("request sent");
             ClassroomRequest req=new ClassroomRequest();
             req.setAdminClassroomId(current.getIdAdminstrator());
-            req.setClassroomd(current.getId());
+            req.setClassroomId(current.getId());
             req.setSenderId(FirebaseAuth.getInstance().getCurrentUser().getUid());
             if(MyApp.teacher!=null){
                 req.setUrlImgSender(MyApp.teacher.getUrlImage());
@@ -168,6 +168,7 @@ public class MyClassroomsAdapter extends RecyclerView.Adapter<MyClassroomsAdapte
             req.setClassroomName(current.getName());
 
             String id=current.getId()+FirebaseAuth.getInstance().getCurrentUser().getUid();
+            req.setId(id);
 
             mDBase.child("classroomRequest").child(id).setValue(req).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override

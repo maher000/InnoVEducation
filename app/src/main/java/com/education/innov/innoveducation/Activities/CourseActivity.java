@@ -92,6 +92,12 @@ public class CourseActivity extends AppCompatActivity {
                 drawerLayout.openDrawer(Gravity.LEFT); /*Opens the Right Drawer*/
             }
         });
+        btnAddLesson.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(CourseActivity.this,AddLessonsActivity.class).setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP));
+            }
+        });
         //  setUpDrawer();
 
 

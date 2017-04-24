@@ -19,6 +19,52 @@
 </RelativeLayout>
 
 
+    <com.sa90.materialarcmenu.ArcMenu
+
+        android:id="@+id/arcmenu_android_example_layout"
+        android:layout_width="wrap_content"
+        android:layout_gravity="right|bottom"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        app:menu_color="@color/colorPrimary"
+        app:menu_open="arc_left"
+        app:menu_scr="@drawable/icon_plus_48"
+        android:layout_marginBottom="40dp"
+        android:layout_alignParentStart="false"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentLeft="false">
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/btn_add_course_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon_courses_48_blanc"
+            app:backgroundTint="@color/colorPrimary"  />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/btn_add_classroom_layout_homework"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon_classroom_48_blanc"
+            app:backgroundTint="@color/colorPrimary"  />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/btn_add_home_work_layout_homework"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:src="@drawable/icon_book_open"
+            app:backgroundTint="@color/colorPrimary" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/btn_add_post_layout_post"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:src="@drawable/icon_post_48"
+            app:backgroundTint="@color/colorPrimary" />
+    </com.sa90.materialarcmenu.ArcMenu>
+
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="150dp"
@@ -72,7 +118,7 @@
                                 android:layout_width="67dp"
                                 android:layout_height="73dp"
                                 android:paddingLeft="10dp"
-                                android:src="@drawable/profil_image" />
+                                android:src="@drawable/profil_maher" />
 
                             <TextView
                                 android:id="@+id/textView9"
@@ -80,7 +126,7 @@
                                 android:layout_height="wrap_content"
                                 android:autoText="true"
                                 android:maxLines="1"
-                                android:text="Laura Del Capo"
+                                android:text="Maher Gafsi"
                                 android:textColor="@color/overWhite"
                                 android:textStyle="bold|italic" />
                         </LinearLayout>
@@ -92,6 +138,7 @@
                             android:layout_gravity="center_vertical"
                             android:maxLines="2"
                             android:text="4 Sim 3 2016/2017"
+                            android:paddingLeft="4px"
                             android:textColor="@color/black" />
 
                         <LinearLayout
@@ -106,8 +153,8 @@
                                 android:id="@+id/iv_class_room_info"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                app:srcCompat="@drawable/icon_info_96"
-                                android:layout_marginBottom="20dp"/>
+                                android:layout_marginBottom="20dp"
+                                android:src="@drawable/icon_info_96"/>
 
 
                             <TextView
@@ -117,7 +164,7 @@
                                 android:layout_gravity="center_vertical|right"
                                 android:layout_marginBottom="12dp"
                                 android:gravity="center|right"
-                                android:text="Cette Classe contient"
+                                android:text=""
                                 android:textColor="@color/overWhite"
                                 android:textStyle="bold|italic" />
 
@@ -130,7 +177,7 @@
                                 android:lines="1"
                                 android:maxLines="1"
                                 android:singleLine="true"
-                                android:text="30 étudiant et 45 parents"
+                                android:text=""
                                 android:textColor="@color/overWhite"
                                 android:textStyle="bold|italic" />
                         </LinearLayout>
@@ -159,49 +206,4 @@
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"></android.support.v7.widget.Toolbar>
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
-    <com.sa90.materialarcmenu.ArcMenu
-
-        android:id="@+id/arcmenu_android_example_layout"
-        android:layout_width="wrap_content"
-        android:layout_gravity="right|bottom"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        app:menu_color="@color/colorPrimary"
-        app:menu_open="arc_left"
-        app:menu_scr="@drawable/icon_plus_48"
-        android:layout_marginBottom="40dp"
-        android:layout_alignParentStart="false"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentLeft="false">
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/btn_add_course_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/icon_courses_48_blanc"
-            app:backgroundTint="@color/colorPrimary"  />
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/btn_add_classroom_layout_homework"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/icon_classroom_48_blanc"
-            app:backgroundTint="@color/colorPrimary"  />
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/btn_add_home_work_layout_homework"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:src="@drawable/icon_book_open"
-            app:backgroundTint="@color/colorPrimary" />
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/btn_add_post_layout_post"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:src="@drawable/icon_post_48"
-            app:backgroundTint="@color/colorPrimary" />
-    </com.sa90.materialarcmenu.ArcMenu>
 </android.support.design.widget.CoordinatorLayout>
