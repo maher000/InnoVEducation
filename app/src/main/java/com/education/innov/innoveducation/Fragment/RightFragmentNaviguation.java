@@ -12,6 +12,7 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,10 +30,13 @@ import com.education.innov.innoveducation.Entities.User;
 import com.education.innov.innoveducation.R;
 import com.education.innov.innoveducation.Utils.RecyclerItemClickListener;
 import com.education.innov.innoveducation.model.NavigationDrawerItem;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -286,10 +290,49 @@ public class RightFragmentNaviguation extends Fragment {
 
     }
 
+    public void getDbCount() {
+        DatabaseReference listRef =  FirebaseDatabase.getInstance()
+                .getReference().child("presence");
+        final DatabaseReference userRef = listRef.child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+
+        // Add ourselves to presence list when online.
+        DatabaseReference presenceRef = FirebaseDatabase.getInstance()
+                .getReference().child("/.info/connected");
 
 
+        ValueEventListener myPresence = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                // Remove ourselves when we disconnect.
+                userRef.onDisconnect().removeValue();
+                userRef.setValue(true);
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        };
 
+        presenceRef.addValueEventListener(myPresence);
+
+        // Number of online users is the number of objects in the presence list.
+        ValueEventListener myList = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                // Remove ourselves when we disconnect.
+                Log.i("DBCount", "# of online users = " + String.valueOf(snapshot.getChildrenCount()));
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
+
+        listRef.addValueEventListener(myList);
     }
+
+
+}
 
 
 
