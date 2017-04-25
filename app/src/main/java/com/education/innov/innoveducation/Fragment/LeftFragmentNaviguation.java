@@ -12,6 +12,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,11 +22,18 @@ import android.widget.TextView;
 import com.education.innov.innoveducation.Activities.AddChildActivity;
 import com.education.innov.innoveducation.Activities.MainActivity;
 import com.education.innov.innoveducation.Adapter.MenuLeftNaviguationAdapter;
+import com.education.innov.innoveducation.Entities.Presence;
 import com.education.innov.innoveducation.R;
+import com.education.innov.innoveducation.Utils.ComplexPreferences;
 import com.education.innov.innoveducation.Utils.Config;
 import com.education.innov.innoveducation.Utils.RecyclerItemClickListener;
 import com.education.innov.innoveducation.model.NavigationDrawerItem;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 import java.util.List;
@@ -38,6 +46,7 @@ public class LeftFragmentNaviguation extends Fragment {
 
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
+    ComplexPreferences co ;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -132,6 +141,8 @@ public class LeftFragmentNaviguation extends Fragment {
         });
     }
     private void logOut(){
+
+        setUserOffline();
         FirebaseAuth.getInstance().signOut();
         SharedPreferences sharedpreferences = getActivity().getPreferences(getActivity().MODE_APPEND);
         SharedPreferences.Editor prefsEditor = sharedpreferences.edit();
@@ -142,5 +153,33 @@ public class LeftFragmentNaviguation extends Fragment {
 }
     private void addChild(){
         startActivity(new Intent(getActivity(), AddChildActivity.class));
+    }
+
+    private void setUserOffline() {
+        String id = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        final DatabaseReference presenceRef = FirebaseDatabase.getInstance()
+                .getReference().child(".info/connected");
+        final DatabaseReference userRef = FirebaseDatabase.getInstance()
+                .getReference().child("presence").child(id);
+
+        ValueEventListener myPresence = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                // Remove ourselves when we disconnect.
+
+                    userRef.onDisconnect().removeValue();
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError firebaseError) {
+                Log.e("DBCount", "The read failed: " + firebaseError.getMessage());
+            }
+        };
+
+        presenceRef.addValueEventListener(myPresence);
+
+
     }
 }

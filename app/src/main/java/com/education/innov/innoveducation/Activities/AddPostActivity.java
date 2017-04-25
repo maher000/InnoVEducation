@@ -40,6 +40,7 @@ import com.education.innov.innoveducation.Entities.Teacher;
 import com.education.innov.innoveducation.Entities.User;
 import com.education.innov.innoveducation.Entities.post;
 import com.education.innov.innoveducation.R;
+import com.education.innov.innoveducation.Utils.ComplexPreferences;
 import com.education.innov.innoveducation.Utils.Config;
 import com.education.innov.innoveducation.Utils.FileChooser;
 import com.education.innov.innoveducation.Utils.FilePath;
@@ -81,31 +82,33 @@ public class AddPostActivity extends SwipeBackActivity {
     private CircleProgressBar progressBar;
     private static final int SELECT_VIDEO = 3;
     private static final int SELECT_PICTURE = 0;
-    VideoView video;
-    TextView name_file;
-    ImageView image_post;
-    String filePath;
-    String id;
-    Teacher teacher;
-    Parent parent;
-    Child child;
-    ProgressDialog circleProgressBar;
-    StorageReference ViedeoPostRef = Config.storage.getReference("posts_videos");
-    StorageReference videosRef;
-    StorageReference FilePostRef = Config.storage.getReference("posts_files");
-    StorageReference fileRef;
-    StorageReference ImagePostRef = Config.storage.getReference("posts_images");
-    StorageReference imagesRef;
-    RadioButton RbVYes, RbVNo;
-    DatabaseReference mDBase = Config.mDatabase;
-    Bitmap bmpImagePost;
-    String typePost = "text";
-    String title, subject, description, urlPostStorage, visibility, author, urlImageAuthor;
-    post new_post;
-    Object obj;
-
+    private VideoView video;
+    private TextView name_file;
+    private ImageView image_post;
+    private String filePath;
+    private String id;
+    private Teacher teacher;
+    private Parent parent;
+    private Child child;
+    private ProgressDialog circleProgressBar;
+    private StorageReference ViedeoPostRef = Config.storage.getReference("posts_videos");
+    private StorageReference videosRef;
+    private StorageReference FilePostRef = Config.storage.getReference("posts_files");
+    private StorageReference fileRef;
+    private StorageReference ImagePostRef = Config.storage.getReference("posts_images");
+    private StorageReference imagesRef;
+    private RadioButton RbVYes, RbVNo;
+    private DatabaseReference mDBase = Config.mDatabase;
+    private Bitmap bmpImagePost;
+    private String typePost = "text";
+    private String title, subject, description, urlPostStorage, visibility, author, urlImageAuthor, Role;
+    private post new_post;
+    private SharedPreferences shared;
+    private SharedPreferences sp;
+    private static Gson gson = new Gson();
+    private static String json;
+    private ComplexPreferences complexPreferences;
     String extentionFile;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,7 +117,6 @@ public class AddPostActivity extends SwipeBackActivity {
         EdtNamePost = (EditText) findViewById(R.id.EdtNamePost);
         EdtSubjectPost = (EditText) findViewById(R.id.EdtSubjectPost);
         EdtDescriptionPost = (EditText) findViewById(R.id.EdtDescriptionPost);
-
         ImgAddVideo = (ImageView) findViewById(R.id.ImgAddVideo);
         ImgAddPhoto = (ImageView) findViewById(R.id.ImgAddPhoto);
         ImgAddFile = (ImageView) findViewById(R.id.ImgAddFile);
@@ -126,14 +128,18 @@ public class AddPostActivity extends SwipeBackActivity {
 
         attchementContainer = (LinearLayout) findViewById(R.id.attchementContainer);
         getInfomationUser();
-        //   System.out.println("name author is "+author);
-        //  System.out.println("url image is "+urlImageAuthor);
         circleProgressBar = new ProgressDialog(this);
         circleProgressBar.setMax(100);
         circleProgressBar.setCancelable(false);
         btnAddPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                shared = getSharedPreferences("role_user", Activity.MODE_PRIVATE);
+                Role = shared.getString("role", null);
+                if (Role != null) {
+                    getInfomationUser();
+                }
 
                 id = mDBase.child("post").push().getKey();
                 switch (typePost) {
@@ -455,32 +461,6 @@ public class AddPostActivity extends SwipeBackActivity {
         }
     }
 
-
- /*   public void getInfomationUser() {
-
-        SharedPreferences sp = getSharedPreferences("role_user", Activity.MODE_PRIVATE);
-        String role = sp.getString("role", null);
-        SharedPreferences mPrefs = getPreferences(Context.MODE_PRIVATE);
-        Gson gson = new Gson();
-        System.out.println("le role est" + role);
-        String json = mPrefs.getString("current_user", "");
-        if (role == "child") {
-          //  obj = gson.fromJson(json, Child.class);
-        //    System.out.println("this is information of user connected" + obj);
-        } else if (role.trim().equals("teacher")) {
-            Teacher obj = gson.fromJson(json, Teacher.class);
-            System.out.println("this is information of user connected" + gson.fromJson(json, Teacher.class));
-            System.out.println("this is information of user connected" + obj);
-        } else if (role == "parent") {
-         //   obj = gson.fromJson(json, Parent.class);
-         //   System.out.println("this is information of user connected" + obj);
-        }
-
-
-    //    author = obj.getFirstName() + " " +obj.getLastName();
-     //   urlImageAuthor = obj.getUrlImage();
-    }*/
-
     private void AddPost(String urlPost) {
 
         title = EdtNamePost.getText().toString();
@@ -492,7 +472,6 @@ public class AddPostActivity extends SwipeBackActivity {
         if (RbVYes.isChecked()) {
             visibility = "Yes";
         }
-
         urlPostStorage = urlPost;
         new_post = new post();
         new_post.setId(id);
@@ -516,69 +495,6 @@ public class AddPostActivity extends SwipeBackActivity {
             }
         });
         System.out.println("type of post is " + typePost);
-    }
-
-    /*  public void getInfomationUser() {
-
-          SharedPreferences sp = getSharedPreferences("role_user", Activity.MODE_PRIVATE);
-          final String role = sp.getString("role", null);
-          DatabaseReference ref = Config.mDatabase;
-          String id = FirebaseAuth.getInstance().getCurrentUser().getUid();
-          System.out.println("the id is " + id);
-          if (role == "child") {
-              ref = mDBase.child("students").child(id);
-          } else if (role.trim().equals("teacher")) {
-              ref = mDBase.child(Config.CHILD_TEACHER).child(id);
-              System.out.println("user no yes ");
-              System.out.println("the id is nn" + id);
-          } else if (role == "parent") {
-              ref = mDBase.child("parents").child(id);
-          }
-          ref.addValueEventListener(new ValueEventListener() {
-              @Override
-              public void onDataChange(DataSnapshot dataSnapshot) {
-                  if (role == "child") {
-
-                      child = dataSnapshot.getValue(Child.class);
-                      author = child.getFirstName() + " " + child.getLastName();
-                      urlImageAuthor = child.getUrlImage();
-
-                  } else if (role.trim().equals("teacher")) {
-                      teacher = dataSnapshot.getValue(Teacher.class);
-                      author = teacher.getFirstName() + " " + teacher.getLastName();
-                      urlImageAuthor = teacher.getUrlImage();
-                      System.out.println("maher i love you walaah " + teacher);
-                  } else if (role == "parent") {
-                      parent = dataSnapshot.getValue(Parent.class);
-                      author = parent.getFirstName() + " " + parent.getLastName();
-                      urlImageAuthor = parent.getUrlImage();
-                  }
-              }
-
-              @Override
-              public void onCancelled(DatabaseError databaseError) {
-
-              }
-          });
-
-      }*/
-    public void getInfomationUser() {
-        MyApp.getInstance(this);
-        switch (MyApp.role){
-            case "teacher":
-                author = MyApp.teacher.getFirstName() + " " + MyApp.teacher.getLastName();
-                urlImageAuthor = MyApp.teacher.getUrlImage();
-                break;
-            case "child":
-                author = MyApp.child.getFirstName() + " " + MyApp.child.getLastName();
-                urlImageAuthor = MyApp.child.getUrlImage();
-                break;
-            case "parent":
-                author = MyApp.parent.getFirstName() + " " + MyApp.parent.getLastName();
-                urlImageAuthor = MyApp.parent.getUrlImage();
-                break;
-        }
-        System.out.println(MyApp.teacher+"pppppppppppppppp");
     }
 
     private void upload_thms(String urlFile) {
@@ -615,10 +531,41 @@ public class AddPostActivity extends SwipeBackActivity {
                 Uri downloadUrl = taskSnapshot.getDownloadUrl();
                 AddPost(downloadUrl.toString());
                 System.out.println("url image" + downloadUrl);
-
             }
 
         });
     }
 
+    public void getInfomationUser() {
+        sp = getPreferences(Context.MODE_PRIVATE);
+        json = sp.getString("current_user", "");
+        if (Role != null) {
+            json = sp.getString("current_user", "");
+            System.out.println(json + "ffggdd");
+            if (json != null) {
+                switch (Role.trim()) {
+                    case "teacher":
+                        complexPreferences = ComplexPreferences.getComplexPreferences(this, "mypref", this.MODE_PRIVATE);
+                        teacher = complexPreferences.getObject("current_user", Teacher.class);
+                        author = teacher.getFirstName() + " " + teacher.getLastName();
+                        urlImageAuthor = teacher.getUrlImage();
+                        System.out.println(teacher + "tttttttttttttt");
+                        break;
+                    case "parent":
+                        complexPreferences = ComplexPreferences.getComplexPreferences(this, "mypref", this.MODE_PRIVATE);
+                        parent = complexPreferences.getObject("current_user", Parent.class);
+                        author = parent.getFirstName() + " " + parent.getLastName();
+                        urlImageAuthor = parent.getUrlImage();
+                        break;
+                    case "child":
+                        complexPreferences = ComplexPreferences.getComplexPreferences(this, "mypref", MODE_PRIVATE);
+                        child = complexPreferences.getObject("current_user", Child.class);
+                        System.out.println(child + "ffggdds");
+                        author = child.getFirstName() + " " + child.getLastName();
+                        urlImageAuthor = child.getUrlImage();
+                        break;
+                }
+            }
+        }
+    }
 }

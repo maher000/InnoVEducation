@@ -1,16 +1,27 @@
 package com.education.innov.innoveducation.Entities;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by maher on 11/04/2017.
  */
 
-public class Teacher extends User{
+public class Teacher extends User  implements Serializable{
 
 
     private String classRommId;
     private ClassRoom classeRoom; // only set if function equal teacher
+
+    private static Teacher userInstance = null;
+    public static User getInstance()
+    {
+        if (userInstance == null)
+        {
+            userInstance = new Teacher();
+        }
+        return userInstance;
+    }
 
 public Teacher(){
     super("NONE","NONE","NONE","NONE","NONE","NONE" ,"NONE","NONE","NONE","NONE",

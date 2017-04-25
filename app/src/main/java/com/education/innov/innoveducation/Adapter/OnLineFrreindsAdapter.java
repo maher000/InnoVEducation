@@ -49,7 +49,7 @@ public class OnLineFrreindsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
         FreindsOnlineViewHolder mHolder = (FreindsOnlineViewHolder) holder;
 
-       mHolder.tvFullNameOnline.setText(users.get(position).getFirstName() + " " + users.get(position).getLastName());
+        mHolder.tvFullNameOnline.setText(users.get(position).getFirstName() + " " + users.get(position).getLastName());
         Picasso.with(context).load(users.get(position).getUrlImage()).into(mHolder.profile_image_online);
 
     }

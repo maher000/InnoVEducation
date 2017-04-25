@@ -101,7 +101,7 @@ public class CourseActivity extends AppCompatActivity {
         }
         System.out.println("yes no baby " + getIntent());
 
-        if (getCallingActivity().getClassName().equals(HomeActivity.class.getName())) {
+        if (getIntent().getClass().equals(HomeActivity.class)) {
             intent = getIntent();
             coursse = intent.getExtras().getParcelable("coursse");
             GetCoursseDetail();

@@ -14,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -23,6 +24,7 @@ import android.widget.Toast;
 
 import com.education.innov.innoveducation.Entities.Child;
 import com.education.innov.innoveducation.Entities.Parent;
+import com.education.innov.innoveducation.Entities.Presence;
 import com.education.innov.innoveducation.Entities.Teacher;
 import com.education.innov.innoveducation.Fragment.ClasseFragment;
 import com.education.innov.innoveducation.Fragment.CoursesFragment;
@@ -32,6 +34,7 @@ import com.education.innov.innoveducation.Fragment.LeftFragmentNaviguation;
 import com.education.innov.innoveducation.Fragment.ProfileFragment;
 import com.education.innov.innoveducation.Fragment.RightFragmentNaviguation;
 import com.education.innov.innoveducation.R;
+import com.education.innov.innoveducation.Utils.ComplexPreferences;
 import com.education.innov.innoveducation.Utils.Config;
 import com.education.innov.innoveducation.Utils.MyApp;
 import com.google.firebase.auth.FirebaseAuth;
@@ -63,18 +66,25 @@ public class HomeActivity extends AppCompatActivity {
     private RelativeLayout chatLaout;
     private int position = R.id.tab_home;
     private BottomBar bottomBar = null;
-    String RoleUser;
+
     Teacher teacher;
     Child child;
-    SharedPreferences sharedpreferences;
     Parent parent;
+    Presence presence;
+    private String firstname, lastname, id, urlImage;
+    String Role;
+    private static Gson gson = new Gson();
+    private static String json;
+    private SharedPreferences shared;
+    SharedPreferences sp;
+    private ComplexPreferences complexPreferences;
 
     @Override
     protected void onResume() {
         super.onResume();
 
-            System.out.println("onresume lala ");
-            // finish();
+        System.out.println("onresume lala ");
+        // finish();
 
     }
 
@@ -84,17 +94,20 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
 
 
+
+
         /*
                 Subscribe users To receive Notification
          */
         FirebaseMessaging.getInstance().subscribeToTopic("09428835");
 //store and retreive data from shared prefernces
-        SharedPreferences sp = getSharedPreferences("role_user", Activity.MODE_PRIVATE);
-        RoleUser = sp.getString("role", null);
-        System.out.println("mon roole est" + RoleUser);
-        if(RoleUser!=null)
-        getUserInformation(RoleUser);
-        System.out.println("**********************************   "+FirebaseAuth.getInstance().getCurrentUser().getUid());
+        shared = getSharedPreferences("role_user", Activity.MODE_PRIVATE);
+        Role = shared.getString("role", null);
+        if (Role != null) {
+            getInfomationUser();
+            setUserOnline();
+        }
+        System.out.println("**********************************   " + FirebaseAuth.getInstance().getCurrentUser().getUid());
         /* *******************************************/
         Config.mDatabase.child("child").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).addChildEventListener(new ChildEventListener() {
             @Override
@@ -105,14 +118,11 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
 
-                System.out.println("********* " + MyApp.role);
-               // if ( MyApp.role.equals("child") ){
-                    Toast.makeText(getBaseContext(), MyApp.child.getClassRommId(),
-                            Toast.LENGTH_LONG).show();
-                    FirebaseMessaging.getInstance().subscribeToTopic(MyApp.child.getClassRommId());
-                    System.out.println(FirebaseAuth.getInstance().getCurrentUser());
-
-               // }
+                System.out.println("********* " + Role);
+                Toast.makeText(getBaseContext(), child.getClassRommId(),
+                        Toast.LENGTH_LONG).show();
+                FirebaseMessaging.getInstance().subscribeToTopic(child.getClassRommId());
+                System.out.println(FirebaseAuth.getInstance().getCurrentUser());
 
 
             }
@@ -284,7 +294,7 @@ public class HomeActivity extends AppCompatActivity {
                 drawerLayout.openDrawer(GravityCompat.END); /*Opens the Right Drawer*/
                 return true;
             case R.id.action_search1:
-                startActivity(new Intent(HomeActivity.this,ListClassroomsActivity.class).addFlags(FLAG_ACTIVITY_SINGLE_TOP));
+                startActivity(new Intent(HomeActivity.this, ListClassroomsActivity.class).addFlags(FLAG_ACTIVITY_SINGLE_TOP));
 
 
         }
@@ -320,65 +330,79 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
+    public void getInfomationUser() {
+        sp = getPreferences(Context.MODE_PRIVATE);
+        json = sp.getString("current_user", "");
+        if (Role != null) {
+            json = sp.getString("current_user", "");
+            System.out.println(json + "ffggdd");
+            if (json != null) {
 
-    private void getUserInformation(final String role) {
-        DatabaseReference mBase = FirebaseDatabase.getInstance().getReference();
-        sharedpreferences = getPreferences(MODE_APPEND);
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
-        String id = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        System.out.println("the id is " + id);
-        if (role.trim().equals("child")) {
-            ref = mBase.child("child").child(id);
-        } else if (role.trim().equals("teacher")) {
-            ref = mBase.child(Config.CHILD_TEACHER).child(id);
-            System.out.println("the id is nn" + id);
-        } else if (role.trim().equals("parent")) {
-            ref = mBase.child("parents").child(id);
-        }
-        ref.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (role.trim().equals("child")) {
-                    Child  child = dataSnapshot.getValue(Child.class);
-                    System.out.println("priiiint" + child);
-                    SharedPreferences.Editor prefsEditor = sharedpreferences.edit();
-                    Gson gson = new Gson();
-                    String json = gson.toJson(child);
-                    prefsEditor.putString("current_user", json);
-                    System.out.println("dfghjklm" + json);
-                    prefsEditor.commit();
-                    MyApp.getInstance(HomeActivity.this);
-
-                } else if (role.trim().equals("teacher")) {
-                    Teacher teacher = dataSnapshot.getValue(Teacher.class);
-                    System.out.println(" i love you  " + teacher);
-                    SharedPreferences.Editor prefsEditor = sharedpreferences.edit();
-                    Gson gson = new Gson();
-                    String json = gson.toJson(teacher);
-                    System.out.println("dfghjklm" + json);
-                    prefsEditor.putString("current_user", json);
-                    prefsEditor.commit();
-                    MyApp.getInstance(HomeActivity.this);
-                } else if (role.trim().equals("parent")) {
-                    Parent  parent = dataSnapshot.getValue(Parent.class);
-                    SharedPreferences.Editor prefsEditor = sharedpreferences.edit();
-                    Gson gson = new Gson();
-                    String json = gson.toJson(parent);
-                    prefsEditor.putString("current_user", json);
-                    prefsEditor.commit();
-                    MyApp.getInstance(HomeActivity.this);
+                switch (Role.trim()) {
+                    case "teacher":
+                        complexPreferences = ComplexPreferences.getComplexPreferences(this, "mypref", this.MODE_PRIVATE);
+                        teacher = complexPreferences.getObject("current_user", Teacher.class);
+                        firstname = teacher.getFirstName();
+                        lastname = teacher.getLastName();
+                        urlImage = teacher.getUrlImage();
+                        System.out.println(firstname + lastname + urlImage + "syriiine is trying");
+                        System.out.println(teacher + "tttttttttttttt");
+                        break;
+                    case "parent":
+                        complexPreferences = ComplexPreferences.getComplexPreferences(this, "mypref", this.MODE_PRIVATE);
+                        parent = complexPreferences.getObject("current_user", Parent.class);
+                        firstname = parent.getFirstName();
+                        lastname = parent.getLastName();
+                        urlImage = parent.getUrlImage();
+                        break;
+                    case "child":
+                        complexPreferences = ComplexPreferences.getComplexPreferences(this, "mypref", MODE_PRIVATE);
+                        child = complexPreferences.getObject("current_user", Child.class);
+                        System.out.println(child + "ffggdds");
+                        firstname = child.getFirstName();
+                        lastname = child.getLastName();
+                        urlImage = child.getUrlImage();
+                        break;
                 }
-
-
             }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
 
-            }
-            ;
-        });
-
+        }
     }
 
+    private void setUserOnline() {
+        String id = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        presence = new Presence(id, lastname, firstname, urlImage, "true", Role);
+        presence.setId(id);
+        presence.setConnected("true");
+        presence.setLastname(lastname);
+        presence.setFirstname(firstname);
+        presence.setUrlImageUser(urlImage);
+        presence.setRole(Role);
+
+        final DatabaseReference presenceRef = FirebaseDatabase.getInstance()
+                .getReference().child(".info/connected");
+        final DatabaseReference userRef = FirebaseDatabase.getInstance()
+                .getReference().child("presence").child(id);
+
+        ValueEventListener myPresence = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                // Remove ourselves when we disconnect.
+                if (snapshot.getValue(Boolean.class)) {
+                    userRef.onDisconnect().removeValue();
+                    userRef.setValue(presence);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError firebaseError) {
+                Log.e("DBCount", "The read failed: " + firebaseError.getMessage());
+            }
+        };
+
+        presenceRef.addValueEventListener(myPresence);
+
+
+    }
 }
