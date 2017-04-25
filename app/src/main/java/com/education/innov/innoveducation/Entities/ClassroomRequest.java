@@ -5,14 +5,23 @@ package com.education.innov.innoveducation.Entities;
  */
 
 public class ClassroomRequest {
+    private String id;
     private String senderId;
-    private String classroomd;
+    private String classroomId;
     private String AdminClassroomId;
     private String urlImgSender;
     private String senderName;
     private String senderType;
     private String date;
     private String classroomName;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public ClassroomRequest() {}
 
@@ -24,12 +33,12 @@ public class ClassroomRequest {
         this.senderId = senderId;
     }
 
-    public String getClassroomd() {
-        return classroomd;
+    public String getClassroomId() {
+        return classroomId;
     }
 
-    public void setClassroomd(String classroomd) {
-        this.classroomd = classroomd;
+    public void setClassroomId(String classroomd) {
+        this.classroomId = classroomd;
     }
 
     public String getAdminClassroomId() {

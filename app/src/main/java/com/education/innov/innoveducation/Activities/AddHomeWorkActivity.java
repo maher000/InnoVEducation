@@ -91,14 +91,14 @@ public class AddHomeWorkActivity extends SwipeBackActivity {
                 int mYear = c.get(Calendar.YEAR);
                 int mMonth = c.get(Calendar.MONTH);
                 int mDay = c.get(Calendar.DAY_OF_MONTH);
-                new DatePickerDialog(AddHomeWorkActivity.this, myStartDateListener,
+                new DatePickerDialog(AddHomeWorkActivity.this, R.style.DialogTheme, myStartDateListener,
                         mYear, mMonth, mDay).show();
             }
         });
         eEndTimeView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new TimePickerDialog(AddHomeWorkActivity.this, myEndTimeListener,
+                new TimePickerDialog(AddHomeWorkActivity.this, R.style.DialogTheme, myEndTimeListener,
                         hour, minute, true).show();
             }
         });
@@ -143,6 +143,7 @@ public class AddHomeWorkActivity extends SwipeBackActivity {
      **************/
     private TimePickerDialog.OnTimeSetListener myEndTimeListener = new
             TimePickerDialog.OnTimeSetListener() {
+
                 @Override
                 public void onTimeSet(TimePicker p, int hourOfDay, int minuteOfDay) {
                     hour = hourOfDay;

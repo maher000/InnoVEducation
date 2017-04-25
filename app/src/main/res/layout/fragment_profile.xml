@@ -6,7 +6,6 @@
     android:background="@color/color_background"
     android:orientation="vertical">
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -88,6 +87,7 @@
 
     </LinearLayout>
 
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -117,54 +117,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-                        <TableRow
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_gravity="center_vertical"
-                            android:gravity="center_vertical">
 
-                            <android.support.v7.widget.AppCompatImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:src="@drawable/icon_worldwide_location_48" />
-
-                            <android.support.design.widget.TextInputLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:forceHasOverlappingRendering="true">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="match_parent"
-                                    android:layout_gravity="center_vertical"
-                                    android:text="City : "
-                                    android:gravity="center_vertical"
-                                    android:textColor="@color/gray_dark" />
-                            </android.support.design.widget.TextInputLayout>
-
-                            <android.support.design.widget.TextInputLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:forceHasOverlappingRendering="true"
-                                android:gravity="center_vertical|center">
-
-                                <EditText
-                                    android:id="@+id/tvCity"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="match_parent"
-                                    android:layout_gravity="center_vertical"
-                                    android:enabled="false"
-                                    android:gravity="center_vertical|center_horizontal"
-                                    android:text="Bizerte"
-                                    android:textColor="@color/black"
-                                    android:textSize="13dp"
-                                    android:textStyle="bold|italic" />
-                            </android.support.design.widget.TextInputLayout>
-
-                        </TableRow>
 
                         <TableRow
                             android:layout_width="match_parent"
@@ -203,13 +156,62 @@
 
                         <TableRow
                             android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_vertical"
+                            android:gravity="center_vertical">
+
+                            <android.support.v7.widget.AppCompatImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:src="@drawable/icon_city_48" />
+
+                            <android.support.design.widget.TextInputLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:forceHasOverlappingRendering="true">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:layout_gravity="center_vertical"
+                                    android:gravity="center_vertical"
+                                    android:text="City : "
+                                    android:textColor="@color/gray_dark" />
+                            </android.support.design.widget.TextInputLayout>
+
+                            <android.support.design.widget.TextInputLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:forceHasOverlappingRendering="true"
+                                android:gravity="center_vertical|center">
+
+                                <EditText
+                                    android:id="@+id/tvCity"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:layout_gravity="center_vertical"
+                                    android:enabled="false"
+                                    android:gravity="center_vertical|center_horizontal"
+                                    android:text="Bizerte"
+                                    android:textColor="@color/black"
+                                    android:textSize="13dp"
+                                    android:textStyle="bold|italic" />
+                            </android.support.design.widget.TextInputLayout>
+
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_width="match_parent"
                             android:layout_height="match_parent">
 
                             <android.support.v7.widget.AppCompatImageView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
-                                android:src="@drawable/icon_worldwide_location_48" />
+                                android:src="@drawable/icon_postal_48" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -245,7 +247,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
-                                android:src="@drawable/icon_worldwide_location_48" />
+                                android:src="@drawable/icon_role_50" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -280,7 +282,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
-                                android:src="@drawable/icon_worldwide_location_48" />
+                                android:src="@drawable/icon_classroom_48" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -463,13 +465,12 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="right|end"
                         android:background="@color/colorPrimary"
-                        android:visibility="gone"
-                        android:text="Create" />
+                        android:text="Create"
+                        android:visibility="gone" />
                 </LinearLayout>
             </android.support.v7.widget.CardView>
 
-            <android.support.v7.widget.CardView
-                xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
@@ -543,4 +544,7 @@
 
         </LinearLayout>
     </ScrollView>
+
+
+
 </LinearLayout>

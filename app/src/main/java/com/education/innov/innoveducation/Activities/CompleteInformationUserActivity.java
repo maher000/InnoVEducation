@@ -1,10 +1,9 @@
 package com.education.innov.innoveducation.Activities;
 
-import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,8 +14,6 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
-import com.education.innov.innoveducation.Activities.HomeActivity;
-import com.education.innov.innoveducation.Entities.Child;
 import com.education.innov.innoveducation.Entities.HomeWork;
 import com.education.innov.innoveducation.Entities.Parent;
 import com.education.innov.innoveducation.Entities.Teacher;
@@ -41,23 +38,20 @@ import java.util.Map;
 
 public class CompleteInformationUserActivity extends AppCompatActivity {
 
-    private EditText EdtAdress, EdtPhone, EdtCodePostal;
-    private TextView EdtBirthday, EdtCountry;
-    private RadioButton RbMen, RbWomen;
-    private Button btnLater, btnSubmit;
-    private SharedPreferences sharedP;
-    private DatabaseReference mDbase = Config.mDatabase;
-    private FirebaseUser current_user = FirebaseAuth.getInstance().getCurrentUser();
-    private String id = FirebaseAuth.getInstance().getCurrentUser().getUid();
-    private Parent parent;
-    private Teacher teacher;
-    private Child child;
-    private String RoleUser;
+    EditText EdtAdress, EdtPhone, EdtCodePostal;
+    TextView EdtBirthday, EdtCountry;
+    RadioButton RbMen, RbWomen;
+    Button btnLater, btnSubmit;
+    DatabaseReference mDbase = Config.mDatabase;
+    FirebaseUser current_user = FirebaseAuth.getInstance().getCurrentUser();
+    String id = FirebaseAuth.getInstance().getCurrentUser().getUid();
+    Parent parent;
+    Teacher teacher;
     private int yearStart, monthStart, dayStart;
     private int year, month, day;
-    private CountryPicker picker;
-    private ProgressDialog progress;
-    private String country, address, phone, birthday, sex, code_postal;
+    CountryPicker picker ;
+    ProgressDialog progress;
+    String country, address, phone, birthday, sex, code_postal;
 
 
     @Override
@@ -65,6 +59,7 @@ public class CompleteInformationUserActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_complete_information_user);
         picker = CountryPicker.newInstance("Select Country");
+
         EdtCodePostal = (EditText) findViewById(R.id.EdtCodePostal);
         EdtCountry = (EditText) findViewById(R.id.EdtCountry);
         EdtAdress = (EditText) findViewById(R.id.EdtAdress);
@@ -75,14 +70,11 @@ public class CompleteInformationUserActivity extends AppCompatActivity {
         btnLater = (Button) findViewById(R.id.btnLater);
         btnSubmit = (Button) findViewById(R.id.btnSubmit);
 
-        sharedP = getSharedPreferences("role_user", Activity.MODE_PRIVATE);
-        RoleUser = sharedP.getString("role", null);
-
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 progress = new ProgressDialog(CompleteInformationUserActivity.this);
-                progress.setMessage("Uploading data");
+                progress.setMessage("Uploading dat ...");
                 progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                 progress.setIndeterminate(true);
                 progress.show();
@@ -97,14 +89,8 @@ public class CompleteInformationUserActivity extends AppCompatActivity {
                 phone = EdtPhone.getText().toString();
                 address = EdtAdress.getText().toString();
                 code_postal = EdtCodePostal.getText().toString();
-                if (RoleUser.trim().equals("teacher")) {
-                    CompleteInformationTeacher();
-                } else if (RoleUser.trim().equals("parent")) {
-                    CompleteInformationParent();
-                } else {
-                    CompleteInformationChild();
-                }
 
+                CompleteInformationParent();
             }
         });
         EdtCountry.setOnClickListener(new View.OnClickListener() {
@@ -201,45 +187,6 @@ public class CompleteInformationUserActivity extends AppCompatActivity {
                             }
                         });
                     }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                    }
-                });
-    }
-
-    public void CompleteInformationChild() {
-
-        mDbase.child("child").orderByChild("id").equalTo(id).addListenerForSingleValueEvent(
-                new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        child = dataSnapshot.getValue(Child.class);
-                        Teacher user = new Teacher();
-                        String firstName = teacher.getFirstName();
-                        String lastName = teacher.getLastName();
-                        String urlImage = teacher.getUrlImage();
-                        user.setFirstName(firstName);
-                        user.setLastName(lastName);
-                        user.setUrlImage(urlImage);
-                        user.setIdUser(id);
-                        user.setAdresse(address);
-                        user.setCodePostal(code_postal);
-                        user.setContry(country);
-                        user.setPhone(phone);
-                        user.setSex(sex);
-                        user.setClassRommId("NONE");
-                        mDbase.child("child").child(id).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if (task.isSuccessful()) {
-                                    progress.dismiss();
-                                    startActivity(new Intent(CompleteInformationUserActivity.this, HomeActivity.class));
-                                }
-                            }
-                        });
-                    }
-
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
                     }
@@ -272,6 +219,7 @@ public class CompleteInformationUserActivity extends AppCompatActivity {
     private void SelectCountry() {
 
         picker.show(getSupportFragmentManager(), "COUNTRY_PICKER");
+
         picker.setListener(new CountryPickerListener() {
             @Override
             public void onSelectCountry(String name, String code, String dialCode, int flagDrawableResID) {

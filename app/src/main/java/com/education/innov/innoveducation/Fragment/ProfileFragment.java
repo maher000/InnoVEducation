@@ -143,12 +143,13 @@ public class ProfileFragment extends Fragment {
             tvCountry.setText(country);
             tvCodePostal.setText(codePostale);
             tvRole.setText("teacher");
-            tvClassRoom.setText(teacher.getClassRommId());
+            tvClassRoom.setText("4 SIm 3 ");
             tvEmail.setText(email);
             tvFirstName.setText(firstname);
             tvLastName.setText(lastname);
             tvPhone.setText(phone);
             tvEducation.setText(Education);
+            tvBirthday.setText("21/06/1993");
             Picasso.with(getActivity()).load(teacher.getUrlImage().toString()).into(imageProfile);
 
 

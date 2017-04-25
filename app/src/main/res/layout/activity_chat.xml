@@ -18,8 +18,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         chatview:backgroundColor="@color/off_white"
+        chatview:sendBtnBackgroundTint="@color/colorPrimary"
         chatview:bubbleElevation="elevated"
-        chatview:bubbleBackgroundRcv="@color/blue"
+        chatview:bubbleBackgroundRcv="@color/colorPrimary"
         chatview:bubbleBackgroundSend="@color/white" />
 
 </LinearLayout>

@@ -17,7 +17,9 @@
                 android:id="@+id/button1"
                 android:layout_width="40dip"
                 android:layout_height="40dip"
-                android:background="@drawable/icon_notification_48" />
+                android:background="@drawable/icon_notification_48"
+                android:backgroundTint="@color/overWhite"
+                android:clickable="false"/>
         </RelativeLayout>
 
         <TextView
@@ -26,7 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_alignRight="@id/relative_layout_item_count"
             android:background="@android:drawable/ic_notification_overlay"
-            android:text="99"
+            android:text="5"
             android:textColor="#FFF"
             android:textSize="12sp"
             android:textStyle="bold" />

@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_alignRight="@id/relative_layout_item_count"
             android:background="@android:drawable/ic_notification_overlay"
-            android:text="27"
+            android:text="11"
             android:textColor="#FFF"
             android:textSize="12sp"
             android:textStyle="bold" />
