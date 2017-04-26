@@ -489,6 +489,7 @@ public class AddPostActivity extends SwipeBackActivity {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
+                System.out.println("yees baby "+task.getResult());
                     circleProgressBar.dismiss();
                     System.out.println("post added successfully");
                 }

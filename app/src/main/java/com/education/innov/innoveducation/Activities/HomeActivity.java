@@ -91,15 +91,8 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
-
-
-
-        /*
-                Subscribe users To receive Notification
-         */
         FirebaseMessaging.getInstance().subscribeToTopic("09428835");
-//store and retreive data from shared prefernces
+        //store and retreive data from shared prefernces
         shared = getSharedPreferences("role_user", Activity.MODE_PRIVATE);
         Role = shared.getString("role", null);
         if (Role != null) {
@@ -226,20 +219,15 @@ public class HomeActivity extends AppCompatActivity {
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         position = savedInstanceState.getInt("position");
-
     }
 
-
     private void setUpToolbar() {
-
         //toolbar.setTitle("Associations Tunisiennes");
         toolbar.inflateMenu(R.menu.menu_main);
         //toolbar.setVisibility(View.INVISIBLE);
         m = toolbar.getMenu();
         //m.getItem(0).getsetVisible(false);
         setSupportActionBar(toolbar);
-
-
     }
 
     private void setUpDrawer() {
@@ -364,8 +352,6 @@ public class HomeActivity extends AppCompatActivity {
                         break;
                 }
             }
-
-
         }
     }
 
@@ -378,17 +364,12 @@ public class HomeActivity extends AppCompatActivity {
         presence.setFirstname(firstname);
         presence.setUrlImageUser(urlImage);
         presence.setRole(Role);
-
-        final DatabaseReference presenceRef = FirebaseDatabase.getInstance()
-                .getReference("https://innoveducation-a76b3.firebaseio.com/.info/connected"
-                );
+        final DatabaseReference presenceRef = FirebaseDatabase.getInstance().getReference().child("/.info/connected");
         final DatabaseReference userRef = FirebaseDatabase.getInstance()
                 .getReference().child("presence").child(id);
-
         ValueEventListener myPresence = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-                // Remove ourselves when we disconnect.
                 if (snapshot.getValue(Boolean.class)) {
                     userRef.onDisconnect().removeValue();
                     userRef.setValue(presence);
@@ -400,9 +381,6 @@ public class HomeActivity extends AppCompatActivity {
                 Log.e("DBCount", "The read failed: " + firebaseError.getMessage());
             }
         };
-
         presenceRef.addValueEventListener(myPresence);
-
-
     }
 }
