@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toolbar;
 
 import com.education.innov.innoveducation.Activities.AddClassRoomActivity;
@@ -26,6 +27,7 @@ import com.education.innov.innoveducation.Activities.ClassroomInfoActivity;
 import com.education.innov.innoveducation.Adapter.ClassePagerAdapter;
 import com.education.innov.innoveducation.Adapter.ViewPagerAdapter;
 import com.education.innov.innoveducation.Entities.Child;
+import com.education.innov.innoveducation.Entities.ClassRoom;
 import com.education.innov.innoveducation.Entities.Parent;
 import com.education.innov.innoveducation.Entities.Teacher;
 import com.education.innov.innoveducation.R;
@@ -33,6 +35,9 @@ import com.education.innov.innoveducation.Utils.ComplexPreferences;
 import com.education.innov.innoveducation.Utils.MyApp;
 import com.google.gson.Gson;
 import com.sa90.materialarcmenu.ArcMenu;
+import com.squareup.picasso.Picasso;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 
 public class ClasseFragment extends Fragment {
@@ -41,13 +46,16 @@ public class ClasseFragment extends Fragment {
     private String firstname, lastname, id, urlImage;
     private SharedPreferences shared;
     private SharedPreferences sp;
-    private ComplexPreferences complexPreferences;
+    private ComplexPreferences complexPreferences, complexPreferencesClassRoom;
     private FloatingActionButton btnAddHomeWork, btnAddClassroom, btn_add_post_layout_post, btn_add_course_layout, btn_add_post_teacher;
+    private TextView tvName_AdminClassRoom, tvName_ClassRomm;
+    private CircleImageView ImgAdminClassRoom;
     private ImageView btnInfo;
     private Teacher teacher;
     private Child child;
     private Parent parent;
     private String Role;
+    private ClassRoom classroom;
     private static String json;
     private ArcMenu arcmenu_android_example_layout;
 
@@ -75,6 +83,10 @@ public class ClasseFragment extends Fragment {
         shared = getActivity().getSharedPreferences("role_user", Activity.MODE_PRIVATE);
         Role = shared.getString("role", null);
         System.out.println("le role est" + Role);
+        complexPreferencesClassRoom = ComplexPreferences.getComplexPreferences(getActivity(), "prefs_classrooms", getActivity().MODE_PRIVATE);
+        classroom = complexPreferencesClassRoom.getObject("my_class_room", ClassRoom.class);
+
+
         View view = inflater.inflate(R.layout.fragment_classe, container, false);
         ViewPager pager = (ViewPager) view.findViewById(R.id.VpPagerClasse);
         pager.setAdapter(buildAdapter());
@@ -88,7 +100,14 @@ public class ClasseFragment extends Fragment {
         btn_add_course_layout = (FloatingActionButton) view.findViewById(R.id.btn_add_course_layout);
         btnInfo = (ImageView) view.findViewById(R.id.iv_class_room_info);
 
-
+        tvName_AdminClassRoom = (TextView) view.findViewById(R.id.tvName_AdminClassRoom);
+        tvName_ClassRomm = (TextView) view.findViewById(R.id.tvName_ClassRomm);
+        ImgAdminClassRoom = (CircleImageView) view.findViewById(R.id.ImgAdminClassRoom);
+        if (classroom != null) {
+            tvName_AdminClassRoom.setText(classroom.getAuthor());
+            tvName_ClassRomm.setText(classroom.getName());
+            Picasso.with(getActivity()).load(classroom.getUrlImageAuthor()).into(ImgAdminClassRoom);
+        }
         if (Role != null) {
             getInfomationUser();
             switch (Role.trim()) {
@@ -209,5 +228,9 @@ public class ClasseFragment extends Fragment {
                 }
             }
         }
+    }
+
+    public void getInfoClass() {
+
     }
 }

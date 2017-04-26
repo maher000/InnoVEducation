@@ -213,11 +213,8 @@ public class LoginFragment extends Fragment {
                         Intent intent = new Intent(getActivity(), CompleteInformationChildActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        startActivity(intent);
-                    }
-
+                        startActivity(intent);}
                 }}
-
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {}
             @Override

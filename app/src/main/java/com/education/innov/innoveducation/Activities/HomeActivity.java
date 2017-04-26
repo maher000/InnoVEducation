@@ -23,6 +23,7 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.education.innov.innoveducation.Entities.Child;
+import com.education.innov.innoveducation.Entities.ClassRoom;
 import com.education.innov.innoveducation.Entities.Parent;
 import com.education.innov.innoveducation.Entities.Presence;
 import com.education.innov.innoveducation.Entities.Teacher;
@@ -77,6 +78,8 @@ public class HomeActivity extends AppCompatActivity {
     private SharedPreferences shared;
     private SharedPreferences sp;
     private ComplexPreferences complexPreferences;
+    private ComplexPreferences complexPreferencesClassRoom;
+    private ClassRoom classRoom ;
 
     @Override
     protected void onResume() {
@@ -112,9 +115,9 @@ public class HomeActivity extends AppCompatActivity {
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                child=dataSnapshot.getValue(Child.class);
-                if(child!=null) {
-                    if(child.getClassRommId()!=null) {
+                child = dataSnapshot.getValue(Child.class);
+                if (child != null) {
+                    if (child.getClassRommId() != null) {
                         System.out.println("********* " + Role);
                         Toast.makeText(getBaseContext(), child.getClassRommId(),
                                 Toast.LENGTH_LONG).show();
@@ -165,10 +168,49 @@ public class HomeActivity extends AppCompatActivity {
                 position = tabId;
                 switch (tabId) {
                     case R.id.tab_classroom:
-                        currentFragment = new ClasseFragment();
-                        getSupportFragmentManager().beginTransaction().replace(R.id.container_id, currentFragment)
-                                .addToBackStack("gg")
-                                .commit();
+
+                        switch (Role){
+                            case  "teacher" :
+                                complexPreferencesClassRoom = ComplexPreferences.getComplexPreferences(HomeActivity.this, "prefs_classrooms", MODE_PRIVATE);
+                                classRoom = complexPreferencesClassRoom.getObject("my_class_room", ClassRoom.class);
+
+                                if(classRoom != null) {
+                                    currentFragment = new ClasseFragment();
+                                    getSupportFragmentManager().beginTransaction().replace(R.id.container_id, currentFragment)
+                                            .addToBackStack("gg")
+                                            .commit();
+                                }
+                                else {
+                                    startActivity(new Intent(HomeActivity.this, MyClassRoomsActivity.class));
+                                }
+                                break;
+                            case "parent" :
+                                complexPreferencesClassRoom = ComplexPreferences.getComplexPreferences(HomeActivity.this, "prefs_classrooms", MODE_PRIVATE);
+                                classRoom = complexPreferencesClassRoom.getObject("my_class_room", ClassRoom.class);
+
+                                if(classRoom != null) {
+                                    currentFragment = new ClasseFragment();
+                                    getSupportFragmentManager().beginTransaction().replace(R.id.container_id, currentFragment)
+                                            .addToBackStack("gg")
+                                            .commit();
+                                }
+                                else {
+                                    startActivity(new Intent(HomeActivity.this, MyClassRoomsActivity.class));
+                                }
+                                break;
+                            case "child" :
+                                complexPreferencesClassRoom = ComplexPreferences.getComplexPreferences(HomeActivity.this, "prefs_classrooms", MODE_PRIVATE);
+                                classRoom = complexPreferencesClassRoom.getObject("my_class_room", ClassRoom.class);
+
+                                if(classRoom != null) {
+                                    currentFragment = new ClasseFragment();
+                                    getSupportFragmentManager().beginTransaction().replace(R.id.container_id, currentFragment)
+                                            .addToBackStack("gg")
+                                            .commit();
+                                }
+                               break;
+                        }
+
 
                         //      Toast.makeText(getApplicationContext(), tabId+"tabIdSelected", Toast.LENGTH_LONG).show();
                         break;
@@ -367,6 +409,7 @@ public class HomeActivity extends AppCompatActivity {
 
         }
     }
+
     private void setUserOnline() {
         String id = FirebaseAuth.getInstance().getCurrentUser().getUid();
         presence = new Presence(id, lastname, firstname, urlImage, "true", Role);

@@ -127,13 +127,14 @@
                                 android:textColor="@color/overWhite" />
 
                             <de.hdodenhof.circleimageview.CircleImageView
+                               android:id="@+id/ImgAdminClassRoom"
                                 android:layout_width="67dp"
                                 android:layout_height="73dp"
                                 android:paddingLeft="10dp"
                                 android:src="@drawable/profil_maher" />
 
                             <TextView
-                                android:id="@+id/textView9"
+                                android:id="@+id/tvName_AdminClassRoom"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:autoText="true"
@@ -144,7 +145,7 @@
                         </LinearLayout>
 
                         <TextView
-                            android:id="@+id/textView10"
+                            android:id="@+id/tvName_ClassRomm"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"

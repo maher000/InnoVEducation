@@ -124,6 +124,15 @@
                 android:paddingRight="10dp"
                 android:text="Tunisia"
                 android:textColor="@color/gray_dark" />
+
+            <Button
+                android:id="@+id/btnJoinSearch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="7"
+                android:background="@drawable/button"
+                android:text="Join" />
+
         </LinearLayout>
 
 
