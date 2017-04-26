@@ -1,5 +1,6 @@
 package com.education.innov.innoveducation.Views;
 
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
@@ -25,6 +26,7 @@ public class ImagePostViewHolder extends RecyclerView.ViewHolder {
     public EditText EdtCommentImage;
     public Button btnAddCommentImage;
     public ImageView image_post;
+    public CardView mainLayout;
 
     public ImagePostViewHolder(View view) {
         super(view);
@@ -39,6 +41,7 @@ public class ImagePostViewHolder extends RecyclerView.ViewHolder {
         EdtCommentImage = (EditText) view.findViewById(R.id.EdtCommentImage);
         btnAddCommentImage = (Button) view.findViewById(R.id.btnAddCommentImage);
         image_post = (ImageView) view.findViewById(R.id.image_post);
+        mainLayout=(CardView) view.findViewById(R.id.mainLayout);
 
 
     }

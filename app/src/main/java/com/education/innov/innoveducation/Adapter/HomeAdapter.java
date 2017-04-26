@@ -100,7 +100,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 
         if (itemType == ITEM_TYPE_NORMAL) {
-            ImagePostViewHolder mHolder = (ImagePostViewHolder) holder;
+            final ImagePostViewHolder mHolder = (ImagePostViewHolder) holder;
             mHolder.tvDescriptionImage.setText(posts.get(position).getDescription().toString());
             mHolder.tvFullNameImage.setText(posts.get(position).getAuthor().toString());
             mHolder.tvMatiereImage.setText(posts.get(position).getSubject().toString());
@@ -115,13 +115,51 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     context.startActivity(intent);
                 }
             });
+            mHolder.tvDetailImage.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View view) {
+                    boolean  v=true;
+                    if( mHolder.tvDescriptionImage.getMaxLines()==6)
+                        v=true;
+                    else v=false;
+
+                    if(v==true){
+                        mHolder.tvDescriptionImage.setMaxLines(100);
+                        mHolder.tvDetailImage.setText("view less");
+                        mHolder.tvCommentsImage.setFocusable(false);
+                        mHolder.tvCommentsImage.setNextFocusUpId(mHolder.tvCommentsImage.getId());
+                        mHolder.tvCommentsImage.setNextFocusLeftId(mHolder.tvCommentsImage.getId());
+                        v=false;
+                    }else{
+                        mHolder.tvDescriptionImage.setMaxLines(6);
+                        mHolder.tvDetailImage.setText("view more");
+                        mHolder.tvCommentsImage.setFocusable(false);
+                        mHolder.tvCommentsImage.setNextFocusUpId(mHolder.tvCommentsImage.getId());
+                        mHolder.tvCommentsImage.setNextFocusLeftId(mHolder.tvCommentsImage.getId());
+                        v=true;
+                    }
+
+                    mHolder.mainLayout.requestFocus();
+                    mHolder.mainLayout.clearFocus();
+                    notifyDataSetChanged();
+
+                }
+            });
         } else if (itemType == ITEM_TYPE_HEADER) {
             MediaController mediaControls = new MediaController(context);
-            VideoPostViewHolder mHolder = (VideoPostViewHolder) holder;
+            final VideoPostViewHolder mHolder = (VideoPostViewHolder) holder;
             mHolder.tvDescriptionVideo.setText(posts.get(position).getDescription().toString());
             mHolder.tvFullNameVideo.setText(posts.get(position).getAuthor().toString());
             mHolder.tvMatiereVideo.setText(posts.get(position).getSubject().toString());
             Picasso.with(context).load(posts.get(position).getUrlImageAuthor().toString()).into(mHolder.image_profile_video);
+
+            if( mHolder.tvDescriptionVideo.getLineCount()> 2/*mHolder.tvDescriptionVideo.getMaxLines()*/){
+                mHolder.tvDescriptionVideo.setVisibility(View.GONE);
+
+
+            }
+
             mHolder.tvCommentsVideo.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -140,7 +178,35 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 Log.e("Error", e.getMessage());
                 e.printStackTrace();
             }
+            //
+            mHolder.tvDetailVideo.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
 
+                    boolean  v=true;
+                    if( mHolder.tvDescriptionVideo.getMaxLines()==6)
+                        v=true;
+                    else v=false;
+
+                    if(v==true){
+                        mHolder.tvDescriptionVideo.setMaxLines(100);
+                        mHolder.tvDetailVideo.setText("view less");
+
+                    }else{
+                        mHolder.tvDescriptionVideo.setMaxLines(6);
+                        mHolder.tvDetailVideo.setText("view more");
+
+                    }
+                    mHolder.tvCommentsVideo.setFocusable(false);
+                    mHolder.tvCommentsVideo.setNextFocusUpId(mHolder.tvCommentsVideo.getId());
+                    mHolder.tvCommentsVideo.setNextFocusLeftId(mHolder.tvCommentsVideo.getId());
+                    mHolder.mainLayout.requestFocus();
+                    mHolder.mainLayout.clearFocus();
+                    notifyDataSetChanged();
+
+                }
+            });
+            //
         } else if (itemType == ITEM_TYPE_Text) {
             TextPostViewHolder mHolder = (TextPostViewHolder) holder;
             mHolder.tvDescriptionText.setText(posts.get(position).getDescription().toString());

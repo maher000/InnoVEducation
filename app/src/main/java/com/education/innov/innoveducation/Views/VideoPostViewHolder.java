@@ -1,6 +1,7 @@
 package com.education.innov.innoveducation.Views;
 
 import android.provider.MediaStore;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
@@ -22,6 +23,7 @@ public class VideoPostViewHolder extends RecyclerView.ViewHolder {
    public JCVideoPlayerStandard PostVideo ;
    public EditText EdtCommentVideo;
    public Button btnAddCommentVideo;
+    public CardView mainLayout;
 
     private TextView headerLabel;
 
@@ -41,6 +43,7 @@ public class VideoPostViewHolder extends RecyclerView.ViewHolder {
         PostVideo = ( JCVideoPlayerStandard) view.findViewById(R.id.videoplayer) ;
         EdtCommentVideo = ( EditText) view.findViewById(R.id.EdtCommentVideo) ;
         btnAddCommentVideo = ( Button) view.findViewById(R.id.btnAddCommentVideo) ;
+        mainLayout=(CardView) view.findViewById(R.id.mainLayoutVideo);
 
 
     }

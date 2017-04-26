@@ -8,7 +8,11 @@
     android:layout_marginLeft="5dp"
     android:layout_marginRight="5dp"
     android:layout_marginTop="5dp"
-    card_view:cardCornerRadius="5dp">
+    card_view:cardCornerRadius="5dp"
+    android:focusable="true"
+    android:descendantFocusability="beforeDescendants"
+    android:focusableInTouchMode="true"
+    android:id="@+id/mainLayout">
 
 
     <LinearLayout
@@ -95,7 +99,7 @@
             android:layout_height="wrap_content"
             android:text="Lorem ipsum dolor sit amet, eam nullam aperiam feugiat ex. Illud commodo est an, ius cu nibh legimus necessitatibus, quem quis intellegat ei eos. An suas feugiat nusquam pro, commodo necessi..."
             android:textColor="@color/black"
-            android:maxLines="3"/>
+            android:maxLines="6"/>
 
         <TextView
             android:id="@+id/tvDetailImage"
@@ -152,7 +156,9 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp"
-            android:forceHasOverlappingRendering="true"></android.support.design.widget.TextInputLayout>
+            android:forceHasOverlappingRendering="true">
+
+        </android.support.design.widget.TextInputLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -170,7 +176,9 @@
                 android:foregroundTint="@color/black"
                 android:hint="Enter a comment"
                 android:textColor="@color/black"
-                android:theme="@style/EditTextHintBlack" />
+                android:theme="@style/EditTextHintBlack"
+                android:nextFocusUp="@id/EdtCommentImage"
+                android:nextFocusLeft="@id/EdtCommentImage"/>
 
             <Button
 
