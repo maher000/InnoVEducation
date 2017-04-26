@@ -38,7 +38,7 @@ import java.util.Map;
 
 public class CompleteInformationUserActivity extends AppCompatActivity {
 
-    EditText EdtAdress, EdtPhone, EdtCodePostal;
+    EditText EdtAdress, EdtPhone, EdtCodePostal,EdtCity;
     TextView EdtBirthday, EdtCountry;
     RadioButton RbMen, RbWomen;
     Button btnLater, btnSubmit;
@@ -51,7 +51,7 @@ public class CompleteInformationUserActivity extends AppCompatActivity {
     private int year, month, day;
     CountryPicker picker ;
     ProgressDialog progress;
-    String country, address, phone, birthday, sex, code_postal;
+    String country, address, phone, birthday, sex, code_postal,city;
 
 
     @Override
@@ -61,6 +61,7 @@ public class CompleteInformationUserActivity extends AppCompatActivity {
         picker = CountryPicker.newInstance("Select Country");
 
         EdtCodePostal = (EditText) findViewById(R.id.EdtCodePostal);
+        EdtCity = (EditText) findViewById(R.id.EdtCity);
         EdtCountry = (EditText) findViewById(R.id.EdtCountry);
         EdtAdress = (EditText) findViewById(R.id.EdtAdress);
         EdtPhone = (EditText) findViewById(R.id.EdtPhone);
@@ -89,6 +90,7 @@ public class CompleteInformationUserActivity extends AppCompatActivity {
                 phone = EdtPhone.getText().toString();
                 address = EdtAdress.getText().toString();
                 code_postal = EdtCodePostal.getText().toString();
+                city=EdtCity.getText().toString();
 
                 CompleteInformationParent();
             }
@@ -117,7 +119,7 @@ public class CompleteInformationUserActivity extends AppCompatActivity {
 
 
     private void CompleteInformationParent() {
-        mDbase.child(Config.CHILD_TEACHER).child(id).addListenerForSingleValueEvent(
+        mDbase.child(Config.CHILD_PARENT).child(id).addListenerForSingleValueEvent(
                 new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
@@ -135,6 +137,7 @@ public class CompleteInformationUserActivity extends AppCompatActivity {
                             user.setCodePostal(code_postal);
                             user.setContry(country);
                             user.setPhone(phone);
+                            user.setCity(city);
                             user.setSex(sex);
                             mDbase.child("parents").child(id).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
@@ -177,6 +180,7 @@ public class CompleteInformationUserActivity extends AppCompatActivity {
                         user.setContry(country);
                         user.setPhone(phone);
                         user.setSex(sex);
+                        user.setCity(city);
                         mDbase.child("teachers").child(id).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {

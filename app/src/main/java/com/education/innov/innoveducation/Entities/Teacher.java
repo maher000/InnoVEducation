@@ -13,23 +13,14 @@ public class Teacher extends User  implements Serializable{
     private String classRommId;
     private ClassRoom classeRoom; // only set if function equal teacher
 
-    private static Teacher userInstance = null;
-    public static User getInstance()
-    {
-        if (userInstance == null)
-        {
-            userInstance = new Teacher();
-        }
-        return userInstance;
+
+    public Teacher(){
+        super("NONE","NONE","NONE","NONE","NONE","NONE" ,"NONE","NONE","NONE","NONE",
+                "NONE","NONE","NONE");
+
     }
-
-public Teacher(){
-    super("NONE","NONE","NONE","NONE","NONE","NONE" ,"NONE","NONE","NONE","NONE",
-            "NONE","NONE");
-
-}
-    public Teacher(String sex ,  String firstName, String lastName, String phone, String adresse, String urlImage, String active, String codePostal, String contry, String connected,  String id, String classRommId, ClassRoom classeRoom,String birthday) {
-        super(sex,firstName, lastName, phone, adresse, urlImage, active, codePostal, contry, connected, id,birthday);
+    public Teacher(String sex ,  String firstName, String lastName, String phone, String adresse, String urlImage, String active, String codePostal, String contry, String connected,  String id, String classRommId, ClassRoom classeRoom,String birthday,String city) {
+        super(sex,firstName, lastName, phone, adresse, urlImage, active, codePostal, contry, connected, id,birthday,city);
         this.classRommId = classRommId;
         this.classeRoom = classeRoom;
     }
@@ -49,6 +40,11 @@ public Teacher(){
     public void setClasseRoom(ClassRoom classeRoom) {
         this.classeRoom = classeRoom;
     }
+
+    public String getCity() {
+        return city;
+    }
+
 
     @Override
     public String toString() {

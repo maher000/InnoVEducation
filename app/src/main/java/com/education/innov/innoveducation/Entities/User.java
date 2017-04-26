@@ -20,9 +20,18 @@ public class User {
     protected String connected; // boolean to indicate if is the user online or not
     protected String idUser;
     protected String birthday;
+    protected String city;
 
 
     public User() {
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
     }
 
     public String getBirthday() {
@@ -123,7 +132,7 @@ public class User {
         this.idUser = idUser;
     }
 
-    public User(String sex , String firstName, String lastName, String phone, String adresse, String urlImage, String active, String codePostal, String contry, String connected, String id,String birthday) {
+    public User(String sex , String firstName, String lastName, String phone, String adresse, String urlImage, String active, String codePostal, String contry, String connected, String id,String birthday,String city) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.phone = phone;
@@ -136,6 +145,7 @@ public class User {
         this.sex = sex;
         this.idUser = id;
         this.birthday=birthday;
+        this.city=city;
     }
 
     @Override
@@ -150,6 +160,8 @@ public class User {
                 ", codePostal='" + codePostal + '\'' +
                 ", contry='" + contry + '\'' +
                 ", connected='" + connected + '\'' +
+                ", city='" + city + '\'' +
+                ", birthday='" + birthday + '\'' +
                 ", id='" + idUser + '\'' +
                 '}';
     }

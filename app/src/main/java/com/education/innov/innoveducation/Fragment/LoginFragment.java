@@ -123,6 +123,7 @@ public class LoginFragment extends Fragment {
 
     private void getUserInformation() {
         final String id=FirebaseAuth.getInstance().getCurrentUser().getUid();
+        System.out.println("loginId"+id);
         final Query ref_teacher = mDBase.child("teachers").orderByKey().equalTo(id);
         final Query ref_child = mDBase.child("child").orderByKey().equalTo(id);
         final Query ref_parent = mDBase.child("parents").orderByKey().equalTo(id);
@@ -136,6 +137,8 @@ public class LoginFragment extends Fragment {
                         editor.putString("role", "teacher");
                         editor.commit();
                         System.out.println("le role est teacher");
+                    System.out.println("teacherFromLogin"+teacher);
+
                         ComplexPreferences complexPreferences = ComplexPreferences.getComplexPreferences(
                                 getActivity(), "mypref", Context.MODE_PRIVATE);
                         complexPreferences.putObject("current_user", teacher);

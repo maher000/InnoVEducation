@@ -20,6 +20,7 @@ import com.education.innov.innoveducation.Entities.Child;
 import com.education.innov.innoveducation.Entities.Parent;
 import com.education.innov.innoveducation.Entities.Teacher;
 import com.education.innov.innoveducation.R;
+import com.education.innov.innoveducation.Utils.ComplexPreferences;
 import com.education.innov.innoveducation.Utils.Config;
 import com.education.innov.innoveducation.Utils.MyApp;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -33,12 +34,20 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ProfileFragment extends Fragment {
 
-    String id, city, country, lastname, codePostale, Birthday, phone, Education, firstname, email;
-    EditText tvCity, tvCountry, tvCodePostal, tvRole, tvClassRoom, tvBirthday, tvPhone, tvEmail, tvEducation, tvLastName, tvFirstName;
-    CircleImageView imageProfile;
-    Switch SwitchUpdate;
-    Teacher teacher;
-    Button btnUpdateprofile;
+    private String id, city, country, lastname, codePostale, Birthday, phone, Education, firstname, email;
+    private EditText tvCity, tvCountry, tvCodePostal, tvBirthday, tvPhone, tvEmail, tvEducation, tvLastName, tvFirstName;
+    private CircleImageView imageProfile;
+    private Switch SwitchUpdate;
+    private Teacher teacher;
+    private Button btnUpdateprofile;
+    private SharedPreferences shared;
+    private SharedPreferences sp;
+    private ComplexPreferences complexPreferences;
+    private String Role;
+    private static Gson gson = new Gson();
+    private static String json;
+    private Child child;
+    private Parent parent;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -63,12 +72,13 @@ public class ProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
+        if(FirebaseAuth.getInstance().getCurrentUser()!=null){
+            id=FirebaseAuth.getInstance().getCurrentUser().getUid();
+        }
 
         tvCity = (EditText) view.findViewById(R.id.tvCity);
         tvCountry = (EditText) view.findViewById(R.id.tvCountry);
         tvCodePostal = (EditText) view.findViewById(R.id.tvCodePostal);
-        tvRole = (EditText) view.findViewById(R.id.tvRole);
-        tvClassRoom = (EditText) view.findViewById(R.id.tvClassRoom);
         tvBirthday = (EditText) view.findViewById(R.id.tvBirthday);
         tvPhone = (EditText) view.findViewById(R.id.tvPhone);
         tvEmail = (EditText) view.findViewById(R.id.tvEmail);
@@ -93,8 +103,6 @@ public class ProfileFragment extends Fragment {
                     tvCity.setEnabled(true);
                     tvCountry.setEnabled(true);
                     tvCodePostal.setEnabled(true);
-                    tvRole.setEnabled(true);
-                    tvClassRoom.setEnabled(true);
                     tvBirthday.setEnabled(true);
                     tvPhone.setEnabled(true);
                     tvEmail.setEnabled(true);
@@ -106,8 +114,6 @@ public class ProfileFragment extends Fragment {
                     tvCity.setEnabled(false);
                     tvCountry.setEnabled(false);
                     tvCodePostal.setEnabled(false);
-                    tvRole.setEnabled(false);
-                    tvClassRoom.setEnabled(false);
                     tvBirthday.setEnabled(false);
                     tvPhone.setEnabled(false);
                     tvEmail.setEnabled(false);
@@ -116,87 +122,178 @@ public class ProfileFragment extends Fragment {
                 }
             }
         });
-        getInfomationUser();
+        shared = getActivity().getSharedPreferences("role_user", Activity.MODE_PRIVATE);
+        Role = shared.getString("role", null);
+        if (Role != null) {
+            getInfomationUser();
+        }
         return view;
-    }
-
-    public void getInfomationUser() {
-
-        String role= MyApp.role;
-        if (role.trim().equals("child")) {
-
-        }
-        else if (role.trim().equals("teacher")) {
-            System.out.println("bras bouk");
-            teacher = MyApp.teacher;
-            System.out.println(teacher + "hohougou");
-            id = teacher.getIdUser();
-            city = "Bizerte";
-            country = teacher.getContry();
-            lastname = teacher.getLastName();
-            codePostale = teacher.getCodePostal();
-            phone = teacher.getPhone();
-            Education = teacher.getAdresse();
-            firstname = teacher.getFirstName();
-            email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
-            tvCity.setText(city);
-            tvCountry.setText(country);
-            tvCodePostal.setText(codePostale);
-            tvRole.setText("teacher");
-            tvClassRoom.setText("4 SIm 3 ");
-            tvEmail.setText(email);
-            tvFirstName.setText(firstname);
-            tvLastName.setText(lastname);
-            tvPhone.setText(phone);
-            tvEducation.setText(Education);
-            tvBirthday.setText("21/06/1993");
-            Picasso.with(getActivity()).load(teacher.getUrlImage().toString()).into(imageProfile);
-
-
-        } else if (role == "parent") {
-
-        }
     }
 
     private void UpdateProfil() {
 
-        city = tvCity.getText().toString();
-        country = tvCountry.getText().toString();
-        lastname = tvLastName.getText().toString();
-        codePostale = tvCodePostal.getText().toString();
-        phone = tvPhone.getText().toString();
-        Education = tvEducation.getText().toString();
-        firstname = tvFirstName.getText().toString();
-        teacher.setCodePostal(codePostale);
-        teacher.setContry(country);
-        teacher.setPhone(phone);
-        teacher.setLastName(lastname);
-        teacher.setAdresse(Education);
-        teacher.setFirstName(firstname);
+        if (Role != null) {
+            System.out.println("profileRole" + Role);
+            switch (Role.trim()) {
+                case "teacher":
+                    teacher.setCodePostal(tvCodePostal.getText().toString());
+                    teacher.setContry(tvCountry.getText().toString());
+                    teacher.setBirthday(tvBirthday.getText().toString());
+                    teacher.setCity(tvCity.getText().toString());
+                    teacher.setPhone(tvPhone.getText().toString());
+                    teacher.setLastName(tvLastName.getText().toString());
+                    teacher.setAdresse(tvEducation.getText().toString());
+                    teacher.setFirstName(tvFirstName.getText().toString());
+                    if (id != null)
+                        FirebaseDatabase.getInstance().getReference().child("teachers").child(id).setValue(teacher).addOnCompleteListener
+                                (new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if (task.isSuccessful()) {
+                                            SwitchUpdate.setChecked(false);
+                                            tvCity.setEnabled(false);
+                                            tvCountry.setEnabled(false);
+                                            tvCodePostal.setEnabled(false);
+                                            tvBirthday.setEnabled(false);
+                                            tvPhone.setEnabled(false);
+                                            tvEmail.setEnabled(false);
+                                            tvEducation.setEnabled(false);
+                                            btnUpdateprofile.setVisibility(View.GONE);
+                                            ComplexPreferences complexPreferences = ComplexPreferences.getComplexPreferences(
+                                                    getActivity(), "mypref", Context.MODE_PRIVATE);
+                                            complexPreferences.putObject("current_user", teacher);
+                                            complexPreferences.commit();
+                                        }
+                                    }
+                                });
+                    break;
+                case "parent":
+                    parent.setCodePostal(tvCodePostal.getText().toString());
+                    parent.setContry(tvCountry.getText().toString());
+                    parent.setCity(tvCity.getText().toString());
+                    parent.setPhone(tvPhone.getText().toString());
+                    parent.setLastName(tvLastName.getText().toString());
+                    parent.setAdresse(tvEducation.getText().toString());
+                    parent.setFirstName(tvFirstName.getText().toString());
+                    parent.setBirthday(tvBirthday.getText().toString());
+                    if (id != null)
+                        FirebaseDatabase.getInstance().getReference().child("parents").child(id).setValue(parent).addOnCompleteListener
+                                (new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if (task.isSuccessful()) {
+                                            SwitchUpdate.setChecked(false);
+                                            tvCity.setEnabled(false);
+                                            tvCountry.setEnabled(false);
+                                            tvCodePostal.setEnabled(false);
+                                            tvBirthday.setEnabled(false);
+                                            tvPhone.setEnabled(false);
+                                            tvEmail.setEnabled(false);
+                                            tvEducation.setEnabled(false);
+                                            btnUpdateprofile.setVisibility(View.GONE);
+                                            ComplexPreferences complexPreferences = ComplexPreferences.getComplexPreferences(
+                                                    getActivity(), "mypref", Context.MODE_PRIVATE);
+                                            complexPreferences.putObject("current_user", parent);
+                                            complexPreferences.commit();
+                                        }
+                                    }
+                                });
+                    break;
+                case "child":
+                    child.setCodePostal(tvCodePostal.getText().toString());
+                    child.setContry(tvCountry.getText().toString());
+                    child.setPhone(tvPhone.getText().toString());
+                    child.setLastName(tvLastName.getText().toString());
+                    child.setCity(tvCity.getText().toString());
+                    child.setAdresse(tvEducation.getText().toString());
+                    child.setFirstName(tvFirstName.getText().toString());
+                    child.setBirthday(tvBirthday.getText().toString());
+                    if (id != null)
+                        FirebaseDatabase.getInstance().getReference().child("child").child(id).setValue(child).addOnCompleteListener
+                                (new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if (task.isSuccessful()) {
+                                            SwitchUpdate.setChecked(false);
+                                            tvCity.setEnabled(false);
+                                            tvCountry.setEnabled(false);
+                                            tvCodePostal.setEnabled(false);
+                                            tvBirthday.setEnabled(false);
+                                            tvPhone.setEnabled(false);
+                                            tvEmail.setEnabled(false);
+                                            tvEducation.setEnabled(false);
+                                            btnUpdateprofile.setVisibility(View.GONE);
+
+                                            ComplexPreferences complexPreferences = ComplexPreferences.getComplexPreferences(
+                                                    getActivity(), "mypref", Context.MODE_PRIVATE);
+                                            complexPreferences.putObject("current_user", child);
+                                            complexPreferences.commit();
+                                        }
+                                    }
+                                });
+                    break;
+
+            }
+        }
+    }
+
+    public void getInfomationUser() {
+
+        if (Role != null) {
+            System.out.println("profileRole"+Role);
+                switch (Role.trim()) {
+                    case "teacher":
+                        complexPreferences = ComplexPreferences.getComplexPreferences(getContext(), "mypref",Activity.MODE_PRIVATE);
+                        teacher = complexPreferences.getObject("current_user", Teacher.class);
+                        System.out.println("profileTeacher"+teacher.toString());
+                        tvCity.setText(teacher.getCity());
+                        tvCountry.setText(teacher.getContry());
+                        tvCodePostal.setText(teacher.getCodePostal());
+                        if(FirebaseAuth.getInstance().getCurrentUser()!=null)
+                        tvEmail.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail());
+                        tvFirstName.setText(teacher.getFirstName());
+                        tvLastName.setText(teacher.getLastName());
+                        tvPhone.setText(teacher.getPhone());
+                        tvEducation.setText(teacher.getAdresse());
+                        tvBirthday.setText(teacher.getBirthday());
+                        Picasso.with(getActivity()).load(teacher.getUrlImage()).into(imageProfile);
+                        break;
+                    case "parent":
+                        complexPreferences = ComplexPreferences.getComplexPreferences(getContext(), "mypref",Activity.MODE_PRIVATE);
+                        parent = complexPreferences.getObject("current_user", Parent.class);
+                        tvCity.setText(parent.getCity());
+                        tvCountry.setText(parent.getContry());
+                        tvCodePostal.setText(parent.getCodePostal());
+                        if(FirebaseAuth.getInstance().getCurrentUser()!=null)
+                            tvEmail.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail());
+                        tvFirstName.setText(parent.getFirstName());
+                        tvLastName.setText(parent.getLastName());
+                        tvPhone.setText(parent.getPhone());
+                        tvEducation.setText(parent.getAdresse());
+                        tvBirthday.setText(parent.getBirthday());
+                        Picasso.with(getActivity()).load(parent.getUrlImage()).into(imageProfile);
+                        break;
+                    case "child":
+                        complexPreferences = ComplexPreferences.getComplexPreferences(getContext(), "mypref",Activity.MODE_PRIVATE);
+                        child = complexPreferences.getObject("current_user", Child.class);
+                        tvCity.setText(child.getCity());
+                        tvCountry.setText(child.getContry());
+                        tvCodePostal.setText(child.getCodePostal());
+                        if(FirebaseAuth.getInstance().getCurrentUser()!=null)
+                            tvEmail.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail());
+                        tvFirstName.setText(child.getFirstName());
+                        tvLastName.setText(child.getLastName());
+                        tvPhone.setText(child.getPhone());
+                        tvEducation.setText(child.getAdresse());
+                        tvBirthday.setText(child.getBirthday());
+                        Picasso.with(getActivity()).load(child.getUrlImage()).into(imageProfile);
+                        break;
+                }
+            }
 
 
-        FirebaseDatabase.getInstance().getReference().child("teachers").child(id).setValue(teacher).addOnCompleteListener
-                (new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            SwitchUpdate.setChecked(false);
-                            tvCity.setEnabled(false);
-                            tvCountry.setEnabled(false);
-                            tvCodePostal.setEnabled(false);
-                            tvRole.setEnabled(false);
-                            tvClassRoom.setEnabled(false);
-                            tvBirthday.setEnabled(false);
-                            tvPhone.setEnabled(false);
-                            tvEmail.setEnabled(false);
-                            tvEducation.setEnabled(false);
-                            btnUpdateprofile.setVisibility(View.GONE);
-                        }
-                    }
-                });
-
-
+        }
     }
 
 
-}
+

@@ -117,11 +117,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-
-
                         <TableRow
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent">
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
 
                             <android.support.v7.widget.AppCompatImageView
                                 android:layout_width="wrap_content"
@@ -137,20 +136,27 @@
                                 android:textColor="@color/gray_dark" />
 
                             <android.support.design.widget.TextInputLayout
-                                android:layout_width="match_parent"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:forceHasOverlappingRendering="true">
 
                                 <EditText
                                     android:id="@+id/tvCountry"
-                                    android:layout_width="wrap_content"
+                                    android:layout_width="fill_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_gravity="center_vertical"
+                                    android:layout_marginTop="16dp"
+                                    android:drawableTint="#FF4081"
+                                    android:focusable="true"
                                     android:enabled="false"
-                                    android:text="Tunisia "
+                                    android:focusableInTouchMode="true"
+                                    android:foregroundTint="@color/black"
+                                    android:hint="Class Name"
+                                    android:inputType="text"
+                                    android:singleLine="true"
                                     android:textColor="@color/black"
+                                    android:theme="@style/EditTextHint"
                                     android:textSize="13dp"
-                                    android:textStyle="bold|italic" />
+                                    android:textStyle="bold|italic"/>
                             </android.support.design.widget.TextInputLayout>
                         </TableRow>
 
@@ -190,15 +196,21 @@
 
                                 <EditText
                                     android:id="@+id/tvCity"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="match_parent"
-                                    android:layout_gravity="center_vertical"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="16dp"
+                                    android:drawableTint="#FF4081"
+                                    android:focusable="true"
                                     android:enabled="false"
-                                    android:gravity="center_vertical|center_horizontal"
-                                    android:text="Bizerte"
+                                    android:focusableInTouchMode="true"
+                                    android:foregroundTint="@color/black"
+                                    android:hint="Class Name"
+                                    android:inputType="text"
+                                    android:singleLine="true"
                                     android:textColor="@color/black"
+                                    android:theme="@style/EditTextHint"
                                     android:textSize="13dp"
-                                    android:textStyle="bold|italic" />
+                                    android:textStyle="bold|italic"/>
                             </android.support.design.widget.TextInputLayout>
 
                         </TableRow>
@@ -227,88 +239,25 @@
 
                                 <EditText
                                     android:id="@+id/tvCodePostal"
-                                    android:layout_width="37dp"
-                                    android:layout_height="match_parent"
-                                    android:layout_gravity="center_vertical"
-                                    android:enabled="false"
-                                    android:text="7035 "
-                                    android:textColor="@color/black"
-                                    android:textSize="13dp"
-                                    android:textStyle="bold|italic" />
-                            </android.support.design.widget.TextInputLayout>
-
-                        </TableRow>
-
-                        <TableRow
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent">
-
-                            <android.support.v7.widget.AppCompatImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:src="@drawable/icon_role_50" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:text="Role : "
-                                android:textColor="@color/gray_dark" />
-
-                            <android.support.design.widget.TextInputLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:forceHasOverlappingRendering="true">
-
-                                <EditText
-                                    android:id="@+id/tvRole"
-                                    android:layout_width="wrap_content"
+                                    android:layout_width="fill_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_gravity="center_vertical"
+                                    android:layout_marginTop="16dp"
+                                    android:drawableTint="#FF4081"
+                                    android:focusable="true"
                                     android:enabled="false"
-                                    android:text="Teacher"
+                                    android:focusableInTouchMode="true"
+                                    android:foregroundTint="@color/black"
+                                    android:hint="Class Name"
+                                    android:inputType="text"
+                                    android:singleLine="true"
                                     android:textColor="@color/black"
+                                    android:theme="@style/EditTextHint"
                                     android:textSize="13dp"
-                                    android:textStyle="bold|italic" />
-                            </android.support.design.widget.TextInputLayout>
-                        </TableRow>
-
-                        <TableRow
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent">
-
-                            <android.support.v7.widget.AppCompatImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:src="@drawable/icon_classroom_48" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:text="Class Room : "
-                                android:textColor="@color/gray_dark" />
-
-                            <android.support.design.widget.TextInputLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:forceHasOverlappingRendering="true">
-
-                                <EditText
-                                    android:id="@+id/tvClassRoom"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center_vertical"
-                                    android:enabled="false"
-                                    android:text="4 Sim 3 "
-                                    android:textColor="@color/black"
-                                    android:textSize="13dp"
-                                    android:textStyle="bold|italic" />
+                                    android:textStyle="bold|italic"/>
                             </android.support.design.widget.TextInputLayout>
 
                         </TableRow>
+
 
                         <TableRow
                             android:layout_width="match_parent"
@@ -335,14 +284,21 @@
 
                                 <EditText
                                     android:id="@+id/tvBirthday"
-                                    android:layout_width="wrap_content"
+                                    android:layout_width="fill_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_gravity="center_vertical"
+                                    android:layout_marginTop="16dp"
+                                    android:drawableTint="#FF4081"
+                                    android:focusable="true"
                                     android:enabled="false"
-                                    android:text="21/01/2017 "
+                                    android:focusableInTouchMode="true"
+                                    android:foregroundTint="@color/black"
+                                    android:hint="Class Name"
+                                    android:inputType="text"
+                                    android:singleLine="true"
                                     android:textColor="@color/black"
                                     android:textSize="13dp"
-                                    android:textStyle="bold|italic" />
+                                    android:textStyle="bold|italic"
+                                    android:theme="@style/EditTextHint" />
                             </android.support.design.widget.TextInputLayout>
                         </TableRow>
 
@@ -373,14 +329,21 @@
 
                                 <EditText
                                     android:id="@+id/tvPhone"
-                                    android:layout_width="wrap_content"
+                                    android:layout_width="fill_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_gravity="center_vertical"
+                                    android:layout_marginTop="16dp"
+                                    android:drawableTint="#FF4081"
+                                    android:focusable="true"
                                     android:enabled="false"
-                                    android:text="+ (216) 55 280 536"
+                                    android:focusableInTouchMode="true"
+                                    android:foregroundTint="@color/black"
+                                    android:hint="Class Name"
+                                    android:inputType="text"
+                                    android:singleLine="true"
                                     android:textColor="@color/black"
+                                    android:theme="@style/EditTextHint"
                                     android:textSize="13dp"
-                                    android:textStyle="bold|italic" />
+                                    android:textStyle="bold|italic"/>
                             </android.support.design.widget.TextInputLayout>
                         </TableRow>
 
@@ -408,14 +371,21 @@
 
                                 <EditText
                                     android:id="@+id/tvEmail"
-                                    android:layout_width="wrap_content"
+                                    android:layout_width="fill_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_gravity="center_vertical"
+                                    android:layout_marginTop="16dp"
+                                    android:drawableTint="#FF4081"
+                                    android:focusable="true"
                                     android:enabled="false"
-                                    android:text="laura.delcapo@gmail.com "
+                                    android:focusableInTouchMode="true"
+                                    android:foregroundTint="@color/black"
+                                    android:hint="Class Name"
+                                    android:inputType="text"
+                                    android:singleLine="true"
                                     android:textColor="@color/black"
+                                    android:theme="@style/EditTextHint"
                                     android:textSize="13dp"
-                                    android:textStyle="bold|italic" />
+                                    android:textStyle="bold|italic"/>
                             </android.support.design.widget.TextInputLayout>
 
                         </TableRow>
@@ -445,14 +415,21 @@
 
                                 <EditText
                                     android:id="@+id/tvEducation"
-                                    android:layout_width="wrap_content"
+                                    android:layout_width="fill_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_gravity="center_vertical"
-                                    android:enabled="false"
-                                    android:text="Business School"
+                                    android:layout_marginTop="16dp"
+                                    android:drawableTint="#FF4081"
+                                    android:focusable="true"
+                                    android:focusableInTouchMode="true"
+                                    android:foregroundTint="@color/black"
+                                    android:hint="Class Name"
+                                    android:inputType="text"
+                                    android:singleLine="true"
                                     android:textColor="@color/black"
+                                    android:theme="@style/EditTextHint"
+                                    android:enabled="false"
                                     android:textSize="13dp"
-                                    android:textStyle="bold|italic" />
+                                    android:textStyle="bold|italic"/>
                             </android.support.design.widget.TextInputLayout>
                         </TableRow>
 
@@ -482,7 +459,8 @@
 
                 <TableLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:stretchColumns="1">
 
                     <TableRow
                         android:layout_width="match_parent"
