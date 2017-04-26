@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.education.innov.innoveducation.Activities.CompleteInformationChildActivity;
 import com.education.innov.innoveducation.Activities.HomeActivity;
 import com.education.innov.innoveducation.Activities.MainActivity;
 import com.education.innov.innoveducation.Entities.Child;
@@ -32,21 +33,22 @@ import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.Query;
 import com.google.firebase.iid.FirebaseInstanceId;
 
 
 public class LoginFragment extends Fragment {
-    EditText EdtPasswordUser, EdtEmailUser;
-    FirebaseAuth auth = FirebaseAuth.getInstance();
-    DatabaseReference mDBase = Config.mDatabase;
-    SharedPreferences sharedpreferences;
-    Button btnlogin;
-    String email, password;
-    Activity activity;
-    ProgressDialog progress;
-    Teacher teacher;
-    Child child;
-    Parent parent;
+    private EditText EdtPasswordUser, EdtEmailUser;
+    private FirebaseAuth auth = FirebaseAuth.getInstance();
+    private DatabaseReference mDBase = Config.mDatabase;
+    private SharedPreferences sharedpreferences;
+    private Button btnlogin;
+    private String email, password;
+    private Activity activity;
+    private ProgressDialog progress;
+    private Teacher teacher;
+    private Child child;
+    private Parent parent;
 
     public LoginFragment() {
         // Required empty public constructor
@@ -112,7 +114,7 @@ public class LoginFragment extends Fragment {
                             progress.dismiss();
                             getUserInformation();
                         } else {
-                            ((MainActivity) activity).ShowErorMessage("check your informations please !");
+                            ((MainActivity) activity).ShowErorMessage("check your information please !");
                         }
                     }
                 });
@@ -120,15 +122,16 @@ public class LoginFragment extends Fragment {
     }
 
     private void getUserInformation() {
-        final String id = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        final DatabaseReference ref_teacher = mDBase.child("teachers");
-        final DatabaseReference ref_child = mDBase.child("child");
-        final DatabaseReference ref_parent = mDBase.child("parents");
+        final String id=FirebaseAuth.getInstance().getCurrentUser().getUid();
+        final Query ref_teacher = mDBase.child("teachers").orderByKey().equalTo(id);
+        final Query ref_child = mDBase.child("child").orderByKey().equalTo(id);
+        final Query ref_parent = mDBase.child("parents").orderByKey().equalTo(id);
+        System.out.println("getUserInformation");
         ref_teacher.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                    teacher = dataSnapshot.getValue(Teacher.class);
-                    if (teacher.getIdUser().equals(id)) {
+                if(dataSnapshot.exists()) {
+                        teacher = dataSnapshot.getValue(Teacher.class);
                         SharedPreferences.Editor editor = sharedpreferences.edit();
                         editor.putString("role", "teacher");
                         editor.commit();
@@ -141,64 +144,10 @@ public class LoginFragment extends Fragment {
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
-                        Log.i("DBCount", "# of online users = " + String.valueOf(dataSnapshot.getChildrenCount()));
-                } else {
-                    ref_parent.addChildEventListener(new ChildEventListener() {
-                        @Override
-                        public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                                parent = dataSnapshot.getValue(Parent.class);
-                                if (parent.getIdUser().equals(id)) {
-                                    SharedPreferences.Editor editor = sharedpreferences.edit();
-                                    editor.putString("role", "parent");
-                                    editor.commit();
-                                    System.out.println("le role est parent");
-                                    ComplexPreferences complexPreferences = ComplexPreferences.getComplexPreferences(
-                                            getActivity(), "mypref", getActivity().MODE_PRIVATE);
-                                    complexPreferences.putObject("current_user", parent);
-                                    Intent intent = new Intent(getActivity(), HomeActivity.class);
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                    startActivity(intent);
-                                    SharedPreferences.Editor prefsEditor = sharedpreferences.edit();
-                                    Log.i("DBCount", "# of online users = " + String.valueOf(dataSnapshot.getChildrenCount()));
-                            } else {
-                                ref_child.addChildEventListener(new ChildEventListener() {
-                                    @Override
-                                    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                                            child = dataSnapshot.getValue(Child.class);
-                                            if (child.getIdUser().equals(id)) {
-                                                SharedPreferences.Editor editor = sharedpreferences.edit();
-                                                editor.putString("role", "child");
-                                                editor.commit();
-                                                ComplexPreferences complexPreferences = ComplexPreferences.getComplexPreferences(
-                                                        getActivity(), "mypref", Context.MODE_PRIVATE);
-                                                complexPreferences.putObject("current_user", child);
-                                                Intent intent = new Intent(getActivity(), HomeActivity.class);
-                                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                                startActivity(intent);
-                                                SharedPreferences.Editor prefsEditor = sharedpreferences.edit();
-                                                Log.i("DBCount", "# of online users = " + String.valueOf(dataSnapshot.getChildrenCount()));
-                                            }}
-
-                                    @Override
-                                    public void onChildChanged(DataSnapshot dataSnapshot, String s) {}
-                                    @Override
-                                    public void onChildRemoved(DataSnapshot dataSnapshot) {}
-                                    @Override
-                                    public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
-                                    @Override
-                                    public void onCancelled(DatabaseError databaseError) {}
-                                });}}
-                        @Override
-                        public void onChildChanged(DataSnapshot dataSnapshot, String s) {}
-                        @Override
-                        public void onChildRemoved(DataSnapshot dataSnapshot) {}
-                        @Override
-                        public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {}
-                    });}}
+                    return;
+                } else
+                    ref_teacher.removeEventListener(this);
+                }
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {}
             @Override
@@ -207,4 +156,78 @@ public class LoginFragment extends Fragment {
             public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
             @Override
             public void onCancelled(DatabaseError databaseError) {}
-        });}}
+        });
+
+        ref_parent.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+
+                if (dataSnapshot.exists()) {
+                    parent = dataSnapshot.getValue(Parent.class);
+                    SharedPreferences.Editor editor = sharedpreferences.edit();
+                    editor.putString("role", "parent");
+                    editor.commit();
+                    System.out.println("le role est parent");
+                    ComplexPreferences complexPreferences = ComplexPreferences.getComplexPreferences(
+                            getActivity(), "mypref", getActivity().MODE_PRIVATE);
+                    complexPreferences.putObject("current_user", parent);
+                    complexPreferences.commit();
+                    Intent intent = new Intent(getActivity(), HomeActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    return;
+
+                } else
+                    ref_parent.removeEventListener(this);
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {}
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {}
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
+        });
+
+        ref_child.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+
+                if (dataSnapshot.exists()) {
+                    child = dataSnapshot.getValue(Child.class);
+                    if(child.getActive().trim().equals("yes".toLowerCase())) {
+                        SharedPreferences.Editor editor = sharedpreferences.edit();
+                        editor.putString("role", "child");
+                        editor.commit();
+                        ComplexPreferences complexPreferences = ComplexPreferences.getComplexPreferences(
+                                getActivity(), "mypref", Context.MODE_PRIVATE);
+                        complexPreferences.putObject("current_user", child);
+                        Intent intent = new Intent(getActivity(), HomeActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                    }else {
+                        Intent intent = new Intent(getActivity(), CompleteInformationChildActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                    }
+
+                }}
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {}
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {}
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
+        });
+
+    }
+
+}

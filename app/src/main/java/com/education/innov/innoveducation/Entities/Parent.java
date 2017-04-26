@@ -11,11 +11,11 @@ public class Parent extends User{
     private ArrayList<User> children; // only set if function equal student;
     private String type;
     public Parent(){
-        super("NONE","NONE","NONE","NONE","NONE","NONE" ,"NONE","NONE","NONE","NONE","NONE");
+        super("NONE","NONE","NONE","NONE","NONE","NONE" ,"NONE","NONE","NONE","NONE","NONE","NONE");
 
     }
-    public Parent(String sex, String firstName, String lastName, String phone, String adresse, String urlImage, String active, String codePostal, String contry, String connected,  String id, ArrayList<User> children, String type) {
-        super( sex ,firstName, lastName,  phone, adresse, urlImage, active, codePostal, contry, connected, id);
+    public Parent(String sex, String firstName, String lastName, String phone, String adresse, String urlImage, String active, String codePostal, String contry, String connected,  String id, ArrayList<User> children, String type,String birthday) {
+        super( sex ,firstName, lastName,  phone, adresse, urlImage, active, codePostal, contry, connected, id,birthday);
         this.children = children;
         this.type = type;
     }

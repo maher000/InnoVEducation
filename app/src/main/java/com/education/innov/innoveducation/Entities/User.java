@@ -19,9 +19,18 @@ public class User {
     // do not add to firbase
     protected String connected; // boolean to indicate if is the user online or not
     protected String idUser;
+    protected String birthday;
 
 
     public User() {
+    }
+
+    public String getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(String birthday) {
+        this.birthday = birthday;
     }
 
     public String getFirstName() {
@@ -114,7 +123,7 @@ public class User {
         this.idUser = idUser;
     }
 
-    public User(String sex , String firstName, String lastName, String phone, String adresse, String urlImage, String active, String codePostal, String contry, String connected, String id) {
+    public User(String sex , String firstName, String lastName, String phone, String adresse, String urlImage, String active, String codePostal, String contry, String connected, String id,String birthday) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.phone = phone;
@@ -126,6 +135,7 @@ public class User {
         this.connected = connected;
         this.sex = sex;
         this.idUser = id;
+        this.birthday=birthday;
     }
 
     @Override

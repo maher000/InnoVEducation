@@ -80,6 +80,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Firstname"
+                android:backgroundTint="@color/colorPrimary"
+                android:drawableTint="#FF4081"
                 android:inputType="text"
                 android:textColor="@color/overWhite" />
         </android.support.design.widget.TextInputLayout>
@@ -92,6 +94,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Lastname"
+            android:backgroundTint="@color/colorPrimary"
+            android:drawableTint="#FF4081"
             android:inputType="text"
             android:textColor="@color/overWhite" />
     </android.support.design.widget.TextInputLayout>
@@ -106,6 +110,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Email"
+                android:backgroundTint="@color/colorPrimary"
+                android:drawableTint="#FF4081"
                 android:inputType="textEmailAddress"
                 android:textColor="@color/overWhite" />
         </android.support.design.widget.TextInputLayout>
@@ -120,6 +126,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Password"
+                android:backgroundTint="@color/colorPrimary"
+                android:drawableTint="#FF4081"
                 android:inputType="textPassword"
                 android:textColor="@color/overWhite" />
         </android.support.design.widget.TextInputLayout>
@@ -135,6 +143,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Retype Password"
+                android:backgroundTint="@color/colorPrimary"
+                android:drawableTint="#FF4081"
                 android:inputType="textPassword"
                 android:textColor="@color/overWhite" />
         </android.support.design.widget.TextInputLayout>

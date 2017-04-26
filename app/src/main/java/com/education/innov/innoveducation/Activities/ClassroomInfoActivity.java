@@ -29,7 +29,7 @@ public class ClassroomInfoActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager mLayoutManager ;
     private ArrayList<ClassroomRequest> classroomRequests;
     private FirebaseAuth mFirebaseAuth=FirebaseAuth.getInstance();
-    private DatabaseReference mDatabase= Config.mDatabase;;
+    private DatabaseReference mDatabase= Config.mDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

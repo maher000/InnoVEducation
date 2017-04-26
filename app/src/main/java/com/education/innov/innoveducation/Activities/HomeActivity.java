@@ -57,7 +57,7 @@ public class HomeActivity extends AppCompatActivity {
     private SearchView searchView;
     private Toolbar toolbar;
     private Menu m;
-    DatabaseReference mBase = Config.mDatabase;
+    private DatabaseReference mBase = Config.mDatabase;
     boolean doubleBackToExitPressedOnce = false;
     private DrawerLayout drawerLayout;
     private LeftFragmentNaviguation drawerLeftFragment;
@@ -66,16 +66,16 @@ public class HomeActivity extends AppCompatActivity {
     private RelativeLayout chatLaout;
     private int position = R.id.tab_home;
     private BottomBar bottomBar = null;
-    String Role;
+    private String Role;
     private static Gson gson = new Gson();
     private static String json;
-    Teacher teacher;
-    Child child;
-    Parent parent;
-    Presence presence;
+    private Teacher teacher;
+    private Child child;
+    private Parent parent;
+    private Presence presence;
     private String firstname, lastname, id, urlImage;
     private SharedPreferences shared;
-    SharedPreferences sp;
+    private SharedPreferences sp;
     private ComplexPreferences complexPreferences;
 
     @Override
@@ -91,6 +91,9 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        /*
+                Subscribe users To receive Notification
+         */
         FirebaseMessaging.getInstance().subscribeToTopic("09428835");
         //store and retreive data from shared prefernces
         shared = getSharedPreferences("role_user", Activity.MODE_PRIVATE);
@@ -109,12 +112,16 @@ public class HomeActivity extends AppCompatActivity {
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-                System.out.println("********* " + Role);
-                Toast.makeText(getBaseContext(), child.getClassRommId(),
-                        Toast.LENGTH_LONG).show();
-                FirebaseMessaging.getInstance().subscribeToTopic(child.getClassRommId());
-                System.out.println(FirebaseAuth.getInstance().getCurrentUser());
+                child=dataSnapshot.getValue(Child.class);
+                if(child!=null) {
+                    if(child.getClassRommId()!=null) {
+                        System.out.println("********* " + Role);
+                        Toast.makeText(getBaseContext(), child.getClassRommId(),
+                                Toast.LENGTH_LONG).show();
+                        FirebaseMessaging.getInstance().subscribeToTopic(child.getClassRommId());
+                        System.out.println(FirebaseAuth.getInstance().getCurrentUser());
+                    }
+                }
 
 
             }
@@ -141,7 +148,6 @@ public class HomeActivity extends AppCompatActivity {
          */
         // Find the toolbar view inside the activity layout
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
         setUpToolbar();
         setUpDrawer();
 
@@ -219,15 +225,20 @@ public class HomeActivity extends AppCompatActivity {
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         position = savedInstanceState.getInt("position");
+
     }
 
+
     private void setUpToolbar() {
+
         //toolbar.setTitle("Associations Tunisiennes");
         toolbar.inflateMenu(R.menu.menu_main);
         //toolbar.setVisibility(View.INVISIBLE);
         m = toolbar.getMenu();
         //m.getItem(0).getsetVisible(false);
         setSupportActionBar(toolbar);
+
+
     }
 
     private void setUpDrawer() {
@@ -352,9 +363,10 @@ public class HomeActivity extends AppCompatActivity {
                         break;
                 }
             }
+
+
         }
     }
-
     private void setUserOnline() {
         String id = FirebaseAuth.getInstance().getCurrentUser().getUid();
         presence = new Presence(id, lastname, firstname, urlImage, "true", Role);
@@ -364,12 +376,16 @@ public class HomeActivity extends AppCompatActivity {
         presence.setFirstname(firstname);
         presence.setUrlImageUser(urlImage);
         presence.setRole(Role);
-        final DatabaseReference presenceRef = FirebaseDatabase.getInstance().getReference().child("/.info/connected");
+
+        final DatabaseReference presenceRef = FirebaseDatabase.getInstance()
+                .getReference().child(".info/connected");
         final DatabaseReference userRef = FirebaseDatabase.getInstance()
                 .getReference().child("presence").child(id);
+
         ValueEventListener myPresence = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
+                // Remove ourselves when we disconnect.
                 if (snapshot.getValue(Boolean.class)) {
                     userRef.onDisconnect().removeValue();
                     userRef.setValue(presence);
@@ -381,6 +397,9 @@ public class HomeActivity extends AppCompatActivity {
                 Log.e("DBCount", "The read failed: " + firebaseError.getMessage());
             }
         };
+
         presenceRef.addValueEventListener(myPresence);
+
+
     }
 }

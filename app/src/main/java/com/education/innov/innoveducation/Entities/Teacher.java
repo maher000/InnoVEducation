@@ -25,11 +25,11 @@ public class Teacher extends User  implements Serializable{
 
 public Teacher(){
     super("NONE","NONE","NONE","NONE","NONE","NONE" ,"NONE","NONE","NONE","NONE",
-            "NONE");
+            "NONE","NONE");
 
 }
-    public Teacher(String sex ,  String firstName, String lastName, String phone, String adresse, String urlImage, String active, String codePostal, String contry, String connected,  String id, String classRommId, ClassRoom classeRoom) {
-        super(sex,firstName, lastName, phone, adresse, urlImage, active, codePostal, contry, connected, id);
+    public Teacher(String sex ,  String firstName, String lastName, String phone, String adresse, String urlImage, String active, String codePostal, String contry, String connected,  String id, String classRommId, ClassRoom classeRoom,String birthday) {
+        super(sex,firstName, lastName, phone, adresse, urlImage, active, codePostal, contry, connected, id,birthday);
         this.classRommId = classRommId;
         this.classeRoom = classeRoom;
     }

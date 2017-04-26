@@ -15,11 +15,11 @@ public class Child extends User {
     private String parentId;
 
     public Child() {
-        super("sex" ,"firstName", "lastName", "phone"," adresse", "urlImage", "false", "none", "none", "none", "id");
+        super("NONE" ,"NONE", "NONE", "NONE"," NONE", "NONE", "NONE", "NONE", "NONE", "NONE", "NONE","NONE");
 
     }
     public Child(String sex, String firstName, String lastName, String phone, String adresse, String urlImage, String active, String codePostal, String contry, String connected,  String id,String type,String classRommId) {
-        super( sex ,firstName, lastName,  phone, adresse, urlImage, active, codePostal, contry, connected, id);
+        super( sex ,firstName, lastName,  phone, adresse, urlImage, active, codePostal, contry, connected, id,"NONE");
         this.classRommId = classRommId;
     }
 
