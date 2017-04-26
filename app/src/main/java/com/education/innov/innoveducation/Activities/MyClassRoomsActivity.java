@@ -1,7 +1,9 @@
 package com.education.innov.innoveducation.Activities;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,6 +19,7 @@ import com.education.innov.innoveducation.Adapter.MyClassroomsAdapter;
 import com.education.innov.innoveducation.Entities.ClassRoom;
 import com.education.innov.innoveducation.Entities.Teacher;
 import com.education.innov.innoveducation.R;
+import com.education.innov.innoveducation.Utils.ComplexPreferences;
 import com.education.innov.innoveducation.Utils.Config;
 import com.education.innov.innoveducation.Utils.MyApp;
 import com.education.innov.innoveducation.Utils.RecyclerItemClickListener;
@@ -50,6 +53,7 @@ public class MyClassRoomsActivity extends SwipeBackActivity {
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
     private ArrayList<ClassRoom> classRooms = new ArrayList<>();
+    SharedPreferences shared ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +85,8 @@ public class MyClassRoomsActivity extends SwipeBackActivity {
         mRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(this, mRecyclerView, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                MyApp.activeClassroom = classRooms.get(position).getId();
+                ComplexPreferences complexPreferences = ComplexPreferences.getComplexPreferences(MyClassRoomsActivity.this, "prefs_classrooms", Context.MODE_PRIVATE);
+                complexPreferences.putObject("my_class_room", classRooms.get(position));
                 Intent i = new Intent(MyClassRoomsActivity.this, HomeActivity.class);
                 startActivity(i);
                 finish();
