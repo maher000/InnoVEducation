@@ -144,11 +144,15 @@ public class LeftFragmentNaviguation extends Fragment {
 
         setUserOffline();
         FirebaseAuth.getInstance().signOut();
-        SharedPreferences sharedpreferences = getActivity().getPreferences(getActivity().MODE_APPEND);
+        SharedPreferences sharedpreferences = getActivity().getPreferences(getActivity().MODE_PRIVATE);
         SharedPreferences.Editor prefsEditor = sharedpreferences.edit();
-        prefsEditor.remove("role_user");
-        prefsEditor.remove("current_user");
+        prefsEditor.clear();
         prefsEditor.commit();
+        prefsEditor.apply();
+        SharedPreferences.Editor editor = getActivity().getSharedPreferences("mypref", Context.MODE_PRIVATE).edit();
+        editor.clear();
+        editor.commit();
+        editor.apply();
         startActivity(new Intent(getActivity(), MainActivity.class));
 }
     private void addChild(){

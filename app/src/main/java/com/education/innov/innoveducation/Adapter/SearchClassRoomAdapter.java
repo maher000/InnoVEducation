@@ -49,7 +49,7 @@ public class SearchClassRoomAdapter extends RecyclerView.Adapter<SearchClassRoom
     public MyViewHolder2 onCreateViewHolder(ViewGroup parent, int viewType) {
 
 
-        View view = inflater.inflate(R.layout.row_item_class_room, parent, false);
+        View view = inflater.inflate(R.layout.row_item_class_room_search, parent, false);
         MyViewHolder2 holder = new MyViewHolder2(view);
         return holder;
 

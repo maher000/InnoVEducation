@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.education.innov.innoveducation.Adapter.MyClassroomsAdapter;
+import com.education.innov.innoveducation.Adapter.SearchClassRoomAdapter;
 import com.education.innov.innoveducation.Entities.ClassRoom;
 import com.education.innov.innoveducation.Entities.Teacher;
 import com.education.innov.innoveducation.R;
@@ -36,16 +37,17 @@ import java.util.ArrayList;
 public class ListClassroomsActivity extends AppCompatActivity {
 
 
-
     private RecyclerView mRecyclerView;
-    private MyClassroomsAdapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager ;
+    private SearchClassRoomAdapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
     public DatabaseReference mDatabase;
     private String mUserId;
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
     private ArrayList<ClassRoom> classRooms = new ArrayList<>();
+    private ArrayList<ClassRoom> Search_classRooms = new ArrayList<>();
     private Toolbar toolbar;
+    private SearchView searchView ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,8 +56,10 @@ public class ListClassroomsActivity extends AppCompatActivity {
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseUser = mFirebaseAuth.getCurrentUser();
         mDatabase = FirebaseDatabase.getInstance().getReference();
+
         initViews();
     }
+
     private void setUpToolbar() {
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -75,41 +79,33 @@ public class ListClassroomsActivity extends AppCompatActivity {
         setUpToolbar();
         mRecyclerView.setLayoutManager(mLayoutManager);
         //Adapter is created in the last step
-        mAdapter = new MyClassroomsAdapter(this,classRooms);
-        mRecyclerView.setAdapter(mAdapter);
+
+
         getClassRooms();
         mRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(this, mRecyclerView, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                /*
-                HomeActivity.activeClassroom=classRooms.get(position).getId();
-                Intent i = new Intent(MyClassRoomsActivity.this,HomeActivity.class);
-                startActivity(i);
-                //  i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | IntentCompat.FLAG_ACTIVITY_CLEAR_TASK);
-                // startActivityForResult(i,RESULT_OK);
-                finish();
-                */
             }
 
             @Override
             public void onLongItemClick(View view, int position) {
-
             }
         }));
-
     }
-    private void getClassRooms(){
-        classRooms.clear();
 
+    private void getClassRooms() {
+
+        classRooms.clear();
+        mAdapter = new SearchClassRoomAdapter(this, classRooms);
+        mRecyclerView.setAdapter(mAdapter);
         mDatabase.child(Config.CHILD_CLASSROOM).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                ClassRoom classRoom=dataSnapshot.getValue(ClassRoom.class);
-                if(classRoom!=null){
+                ClassRoom classRoom = dataSnapshot.getValue(ClassRoom.class);
+                if (classRoom != null) {
                     classRooms.add(classRoom);
                     mRecyclerView.setAdapter(mAdapter);
                     mDatabase.removeEventListener(this);
-
                 }
             }
 
@@ -119,22 +115,16 @@ public class ListClassroomsActivity extends AppCompatActivity {
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-
             }
 
             @Override
             public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
             }
         });
-
-
-
     }
 
     @Override
@@ -148,11 +138,23 @@ public class ListClassroomsActivity extends AppCompatActivity {
 
         SearchManager searchManager =
                 (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        SearchView searchView =
+        searchView =
                 (SearchView) menu.findItem(R.id.action_search).getActionView();
         searchView.setSearchableInfo(
                 searchManager.getSearchableInfo(getComponentName()));
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                SearchClassRoom(query);
+                return false ;
+            }
 
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                SearchClassRoom(newText);
+                return false;
+            }
+        });
 
         return true;
     }
@@ -162,15 +164,33 @@ public class ListClassroomsActivity extends AppCompatActivity {
         // Handle action bar item clicks here.
         int id = item.getItemId();
         switch (id) {
-
         }
         return super.onOptionsItemSelected(item);
     }
+
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
     }
 
-
+    private void SearchClassRoom(String text) {
+        Search_classRooms.clear();
+        mAdapter = new SearchClassRoomAdapter(this,Search_classRooms );
+        mRecyclerView.setAdapter(mAdapter);
+        if (text.equals("")) {
+           getClassRooms();
+            return;
+        }
+        if (classRooms.size() > 0) {
+            for (ClassRoom classe : classRooms) {
+                if (classe.getName().toLowerCase().contains(text.toLowerCase())) {
+                    Search_classRooms.add(classe);
+                }
+            }
+        }
+   //     events_api_search = midle;
+        mRecyclerView.setAdapter(mAdapter);
+        mAdapter.notifyDataSetChanged();
+    }
 }

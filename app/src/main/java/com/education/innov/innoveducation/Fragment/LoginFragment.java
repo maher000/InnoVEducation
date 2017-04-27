@@ -139,6 +139,7 @@ public class LoginFragment extends Fragment {
                         System.out.println("le role est teacher");
                     System.out.println("teacherFromLogin"+teacher);
 
+
                         ComplexPreferences complexPreferences = ComplexPreferences.getComplexPreferences(
                                 getActivity(), "mypref", Context.MODE_PRIVATE);
                         complexPreferences.putObject("current_user", teacher);
@@ -208,6 +209,7 @@ public class LoginFragment extends Fragment {
                         ComplexPreferences complexPreferences = ComplexPreferences.getComplexPreferences(
                                 getActivity(), "mypref", Context.MODE_PRIVATE);
                         complexPreferences.putObject("current_user", child);
+                        complexPreferences.commit();
                         Intent intent = new Intent(getActivity(), HomeActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);

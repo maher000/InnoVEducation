@@ -117,6 +117,7 @@
                         android:focusableInTouchMode="true"
                         android:foregroundTint="@color/black"
                         android:hint="Country"
+
                         android:singleLine="true"
                         android:textColor="@color/black"
                         android:textColorHint="@color/bb_darkBackgroundColor"

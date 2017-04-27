@@ -12,8 +12,10 @@ import android.view.ViewGroup;
 
 import com.education.innov.innoveducation.Activities.CourseActivity;
 import com.education.innov.innoveducation.Adapter.CoursesAdapter;
+import com.education.innov.innoveducation.Entities.ClassRoom;
 import com.education.innov.innoveducation.Entities.Course;
 import com.education.innov.innoveducation.R;
+import com.education.innov.innoveducation.Utils.ComplexPreferences;
 import com.education.innov.innoveducation.Utils.MyApp;
 import com.education.innov.innoveducation.Utils.RecyclerItemClickListener;
 import com.google.firebase.database.ChildEventListener;
@@ -29,8 +31,10 @@ public class ClassCoursesFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private CoursesAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    ArrayList<Course> courses;
-    Course new_coursse;
+    private ArrayList<Course> courses;
+    private ClassRoom class_room;
+    private ComplexPreferences complexPreferences;
+    private Course new_coursse;
 
     public ClassCoursesFragment() {
     }
@@ -54,13 +58,15 @@ public class ClassCoursesFragment extends Fragment {
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
         //Adapter is created in the last step
-        if(MyApp.activeClassroom!=null)
+
+        getClassRoom();
+        if (class_room != null)
             getCoursesByClassroom();
         mRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), mRecyclerView, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 Intent intent = new Intent(getActivity(), CourseActivity.class).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                intent.putExtra("coursse",courses.get(position));
+                intent.putExtra("coursse", courses.get(position));
                 startActivity(intent);
             }
 
@@ -80,7 +86,7 @@ public class ClassCoursesFragment extends Fragment {
         mAdapter.notifyDataSetChanged();
         FirebaseDatabase.getInstance()
                 .getReference()
-                .child("coursses").orderByChild("idClassRoom").equalTo(MyApp.activeClassroom).addChildEventListener(new ChildEventListener() {
+                .child("coursses").orderByChild("idClassRoom").equalTo(class_room.getId()).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 new_coursse = dataSnapshot.getValue(Course.class);
@@ -114,5 +120,10 @@ public class ClassCoursesFragment extends Fragment {
             }
         });
 
+    }
+
+    private void getClassRoom() {
+        complexPreferences = ComplexPreferences.getComplexPreferences(getActivity(), "mypref", getActivity().MODE_PRIVATE);
+        class_room = complexPreferences.getObject("my_class_room", ClassRoom.class);
     }
 }

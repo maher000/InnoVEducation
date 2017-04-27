@@ -1,6 +1,8 @@
 package com.education.innov.innoveducation.Activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -15,12 +17,17 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import com.education.innov.innoveducation.Entities.Child;
 import com.education.innov.innoveducation.Entities.ClassRoom;
+import com.education.innov.innoveducation.Entities.Parent;
+import com.education.innov.innoveducation.Entities.Teacher;
 import com.education.innov.innoveducation.R;
+import com.education.innov.innoveducation.Utils.ComplexPreferences;
 import com.education.innov.innoveducation.Utils.Config;
 import com.education.innov.innoveducation.Utils.MyApp;
 import com.education.innov.innoveducation.Utils.Test;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -31,6 +38,7 @@ import com.mukesh.countrypicker.fragments.CountryPicker;
 import com.mukesh.countrypicker.interfaces.CountryPickerListener;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class AddClassRoomActivity extends SwipeBackActivity {
@@ -44,17 +52,24 @@ public class AddClassRoomActivity extends SwipeBackActivity {
     private RadioButton RbYes, RbNo;
     private String name, institut, country, codePostale, visivility, id;
     private DatabaseReference mDBase = Config.mDatabase;
-    private CountryPicker picker ;
+    private CountryPicker picker;
     private ClassRoom classroom;
     private LinearLayout LayoutErrorMessage;
     private TextView tvErrorMsg;
+    private Teacher teacher;
+    private String author, urlImageAuthor, admin;
+    private SharedPreferences shared;
+    private SharedPreferences sp;
+    private static String json;
+    private ComplexPreferences complexPreferences;
+    private ArrayList<String> list_class_rooms;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_class_room);
+        getInfomationUser();
         picker = CountryPicker.newInstance("Select Country");
-
         LayoutErrorMessage = (LinearLayout) findViewById(R.id.LayoutErrorMessage);
         tvErrorMsg = (TextView) findViewById(R.id.tvErrorMsg);
         etName = (EditText) findViewById(R.id.et_classe_room_name);
@@ -85,20 +100,17 @@ public class AddClassRoomActivity extends SwipeBackActivity {
                 AddClassRoom();
             }
         });
-
-
-        //  views();
         initViews();
     }
 
     private void AddClassRoom() {
-
-        if(!ShowErorMessage()) {
+        if (!ShowErorMessage()) {
             classroom = new ClassRoom();
             id = mDBase.child("classrooms").push().getKey();
-            classroom.setIdAdminstrator(FirebaseAuth.getInstance().getCurrentUser().getUid());
-            classroom.setAuthor(MyApp.teacher.getFirstName()+" "+MyApp.teacher.getLastName());
-            classroom.setUrlImageAuthor(MyApp.teacher.getUrlImage());
+            admin = FirebaseAuth.getInstance().getCurrentUser().getUid();
+            classroom.setIdAdminstrator(admin);
+            classroom.setAuthor(author);
+            classroom.setUrlImageAuthor(urlImageAuthor);
             classroom.setId(id);
             classroom.setName(name);
             classroom.setAdress(institut);
@@ -110,10 +122,29 @@ public class AddClassRoomActivity extends SwipeBackActivity {
             classroom.setCreationDate(dateCreation);
             mDBase.child("classrooms").child(id).setValue(classroom).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
-                public void onComplete(@NonNull Task<Void> task) {
+                public void onComplete(@NonNull final Task<Void> task) {
                     if (task.isSuccessful()) {
-                        AddClassRoomActivity.this.finish();
-                        startActivity(new Intent(AddClassRoomActivity.this,MyClassRoomsActivity.class));
+                        list_class_rooms = teacher.getClassRooms();
+                        if (list_class_rooms == null) {
+                            list_class_rooms = new ArrayList<String>();
+                        }
+                        list_class_rooms.add(id);
+
+                        mDBase.child("teachers").child(admin).child("classRooms").child(id).setValue(id).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                if (task.isSuccessful()) {
+                                    teacher.setClassRooms(list_class_rooms);
+                                    ComplexPreferences complexPreferences = ComplexPreferences.getComplexPreferences(
+                                            AddClassRoomActivity.this, "mypref", Context.MODE_PRIVATE);
+                                    complexPreferences.putObject("current_user", teacher);
+                                    complexPreferences.commit();
+                                    AddClassRoomActivity.this.finish();
+                                    startActivity(new Intent(AddClassRoomActivity.this, MyClassRoomsActivity.class));
+                                }
+                            }
+                        });
+
                     } else {
 
                         System.out.println("error" + task.getException().getMessage());
@@ -135,17 +166,18 @@ public class AddClassRoomActivity extends SwipeBackActivity {
             }
         });
     }
-    private void SelectCountry() {
-        picker.setStyle(1,R.style.CountryPicker);
 
-        picker.show(getSupportFragmentManager(), "COUNTRY_PICKER" );
+    private void SelectCountry() {
+        picker.setStyle(1, R.style.CountryPicker);
+
+        picker.show(getSupportFragmentManager(), "COUNTRY_PICKER");
 
 
         picker.setListener(new CountryPickerListener() {
             @Override
             public void onSelectCountry(String name, String code, String dialCode, int flagDrawableResID) {
 
-                country=name;
+                country = name;
                 etCountry.setText(country);
                 picker.dismiss();
             }
@@ -153,18 +185,19 @@ public class AddClassRoomActivity extends SwipeBackActivity {
     }
 
     public boolean ShowErorMessage() {
-        String msg="";
+        String msg = "";
         if (!new Test().TestConnection(this)) {
-            msg="there is no internet connection";
+            msg = "there is no internet connection";
             return dispalyError(msg);
         }
-        if(name.trim().isEmpty()||institut.trim().isEmpty()|| country.trim().isEmpty()||codePostale.trim().isEmpty())
+        if (name.trim().isEmpty() || institut.trim().isEmpty() || country.trim().isEmpty() || codePostale.trim().isEmpty())
             return dispalyError("All fields are required");
 
         return false;
 
     }
-    private boolean dispalyError(String message){
+
+    private boolean dispalyError(String message) {
         tvErrorMsg.setText(message);
         tvErrorMsg.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_in));
         LayoutErrorMessage.setVisibility(View.VISIBLE);
@@ -174,5 +207,16 @@ public class AddClassRoomActivity extends SwipeBackActivity {
             }
         }, 3000);
         return true;
+    }
+
+    public void getInfomationUser() {
+            complexPreferences = ComplexPreferences.getComplexPreferences(this, "mypref", this.MODE_PRIVATE);
+            teacher = complexPreferences.getObject("current_user", Teacher.class);
+            if (teacher != null) {
+                author = teacher.getFirstName() + " " + teacher.getLastName();
+                urlImageAuthor = teacher.getUrlImage();
+                list_class_rooms = teacher.getClassRooms();
+                System.out.println(teacher + "tttttttttttttt");
+            }
     }
 }

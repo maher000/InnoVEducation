@@ -44,8 +44,6 @@ public class ProfileFragment extends Fragment {
     private SharedPreferences sp;
     private ComplexPreferences complexPreferences;
     private String Role;
-    private static Gson gson = new Gson();
-    private static String json;
     private Child child;
     private Parent parent;
 
@@ -72,6 +70,9 @@ public class ProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
+        shared = getActivity().getSharedPreferences("role_user", Activity.MODE_PRIVATE);
+        Role = shared.getString("role", null);
+
         if(FirebaseAuth.getInstance().getCurrentUser()!=null){
             id=FirebaseAuth.getInstance().getCurrentUser().getUid();
         }
@@ -122,11 +123,11 @@ public class ProfileFragment extends Fragment {
                 }
             }
         });
-        shared = getActivity().getSharedPreferences("role_user", Activity.MODE_PRIVATE);
-        Role = shared.getString("role", null);
         if (Role != null) {
             getInfomationUser();
         }
+
+
         return view;
     }
 

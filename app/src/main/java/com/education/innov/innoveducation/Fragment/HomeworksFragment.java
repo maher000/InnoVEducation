@@ -11,8 +11,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.education.innov.innoveducation.Adapter.HomeWorkAdapter;
+import com.education.innov.innoveducation.Entities.ClassRoom;
 import com.education.innov.innoveducation.Entities.HomeWork;
 import com.education.innov.innoveducation.R;
+import com.education.innov.innoveducation.Utils.ComplexPreferences;
 import com.education.innov.innoveducation.Utils.MyApp;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -28,8 +30,9 @@ public class HomeworksFragment extends Fragment {
     private HomeWorkAdapter mAdapter;
     private HomeWork new_homework;
     private RecyclerView.LayoutManager mLayoutManager;
-    private FloatingActionButton btnAddHomeWork;
-    ArrayList<HomeWork> homeWorks;
+    private ArrayList<HomeWork> homeWorks;
+    private ClassRoom class_room;
+    private ComplexPreferences complexPreferences;
 
 
     public HomeworksFragment() {
@@ -51,7 +54,8 @@ public class HomeworksFragment extends Fragment {
         mRecyclerView.setLayoutManager(mLayoutManager);
         //Adapter is created in the last step
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-
+        getClassRoom();
+        if (class_room != null)
         getAllHomeworks();
         return view;
     }
@@ -62,7 +66,7 @@ public class HomeworksFragment extends Fragment {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         FirebaseDatabase.getInstance()
                 .getReference()
-                .child("homeworks").orderByChild("idClassRom").equalTo(MyApp.activeClassroom).addChildEventListener(new ChildEventListener() {
+                .child("homeworks").orderByChild("idClassRom").equalTo(class_room.getId()).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 new_homework = dataSnapshot.getValue(HomeWork.class);
@@ -98,5 +102,8 @@ public class HomeworksFragment extends Fragment {
 
     }
 
-
+    private void getClassRoom() {
+        complexPreferences = ComplexPreferences.getComplexPreferences(getActivity(), "mypref", getActivity().MODE_PRIVATE);
+        class_room = complexPreferences.getObject("my_class_room", ClassRoom.class);
+    }
 }

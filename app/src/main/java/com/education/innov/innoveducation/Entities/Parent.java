@@ -6,16 +6,19 @@ import java.util.ArrayList;
  * Created by maher on 11/04/2017.
  */
 
-public class Parent extends User{
+public class Parent extends User {
 
     private ArrayList<User> children; // only set if function equal student;
     private String type;
-    public Parent(){
-        super("NONE","NONE","NONE","NONE","NONE","NONE" ,"NONE","NONE","NONE","NONE","NONE","NONE","NONE");
+    private ArrayList<String> classRooms;
+
+    public Parent() {
+        super("NONE", "NONE", "NONE", "NONE", "NONE", "NONE", "NONE", "NONE", "NONE", "NONE", "NONE", "NONE", "NONE");
 
     }
-    public Parent(String sex, String firstName, String lastName, String phone, String adresse, String urlImage, String active, String codePostal, String contry, String connected,  String id, ArrayList<User> children, String type,String birthday,String city) {
-        super( sex ,firstName, lastName,  phone, adresse, urlImage, active, codePostal, contry, connected, id,birthday,city);
+
+    public Parent(String sex, String firstName, String lastName, String phone, String adresse, String urlImage, String active, String codePostal, String contry, String connected, String id, ArrayList<User> children, String type, String birthday, String city) {
+        super(sex, firstName, lastName, phone, adresse, urlImage, active, codePostal, contry, connected, id, birthday, city);
         this.children = children;
         this.type = type;
     }
@@ -34,6 +37,14 @@ public class Parent extends User{
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public ArrayList<String> getClassRooms() {
+        return classRooms;
+    }
+
+    public void setClassRooms(ArrayList<String> classRooms) {
+        this.classRooms = classRooms;
     }
 
     @Override

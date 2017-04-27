@@ -11,9 +11,12 @@ import android.view.ViewGroup;
 
 import com.education.innov.innoveducation.Activities.HomeActivity;
 import com.education.innov.innoveducation.Adapter.HomeAdapter;
+import com.education.innov.innoveducation.Entities.Child;
+import com.education.innov.innoveducation.Entities.ClassRoom;
 import com.education.innov.innoveducation.Entities.Teacher;
 import com.education.innov.innoveducation.Entities.post;
 import com.education.innov.innoveducation.R;
+import com.education.innov.innoveducation.Utils.ComplexPreferences;
 import com.education.innov.innoveducation.Utils.Config;
 import com.education.innov.innoveducation.Utils.MyApp;
 import com.google.firebase.database.ChildEventListener;
@@ -26,12 +29,11 @@ import java.util.ArrayList;
 
 
 public class ClassHomeFragment extends Fragment {
-    ArrayList<post> posts = new ArrayList<>();
-    ;
-    ArrayList<Teacher> teachers = new ArrayList<>();
-    post new_post;
-    DatabaseReference mDBase = Config.mDatabase;
-
+    private ArrayList<post> posts = new ArrayList<>();
+    private post new_post;
+    private DatabaseReference mDBase = Config.mDatabase;
+    private ClassRoom class_room ;
+    private ComplexPreferences complexPreferences ;
     private RecyclerView mRecyclerView;
     private HomeAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -45,12 +47,14 @@ public class ClassHomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-           // Inflate the layout for this fragment
+        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_list_activities, container, false);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.Activities_recycler_view);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
-        if(MyApp.activeClassroom!=null)
+
+        getClassRoom();
+
         getPosts();
         return view;
     }
@@ -64,7 +68,7 @@ public class ClassHomeFragment extends Fragment {
         mAdapter.notifyDataSetChanged();
         FirebaseDatabase.getInstance()
                 .getReference()
-                .child("posts").orderByChild("classRoomId").equalTo(MyApp.activeClassroom).addChildEventListener(new ChildEventListener() {
+                .child("posts").orderByChild("classRoomId").equalTo(class_room.getId()).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 new_post = dataSnapshot.getValue(post.class);
@@ -98,6 +102,11 @@ public class ClassHomeFragment extends Fragment {
             }
         });
 
+    }
+
+    private void getClassRoom() {
+        complexPreferences = ComplexPreferences.getComplexPreferences(getActivity(), "mypref", getActivity().MODE_PRIVATE);
+        class_room = complexPreferences.getObject("my_class_room", ClassRoom.class);
     }
 
 

@@ -35,6 +35,7 @@ import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.education.innov.innoveducation.Entities.Child;
+import com.education.innov.innoveducation.Entities.ClassRoom;
 import com.education.innov.innoveducation.Entities.Parent;
 import com.education.innov.innoveducation.Entities.Teacher;
 import com.education.innov.innoveducation.Entities.User;
@@ -108,11 +109,18 @@ public class AddPostActivity extends SwipeBackActivity {
     private static Gson gson = new Gson();
     private static String json;
     private ComplexPreferences complexPreferences;
-    String extentionFile;
+    private ClassRoom class_room ;
+    private String extentionFile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        shared = getSharedPreferences("role_user", Activity.MODE_PRIVATE);
+        Role = shared.getString("role", null);
+        if (Role != null) {
+            getInfomationUser();
+        }
+
         setContentView(R.layout.activity_add_post);
         EdtNamePost = (EditText) findViewById(R.id.EdtNamePost);
         EdtSubjectPost = (EditText) findViewById(R.id.EdtSubjectPost);
@@ -127,7 +135,6 @@ public class AddPostActivity extends SwipeBackActivity {
         btnAddPost = (Button) findViewById(R.id.btnAddPost);
 
         attchementContainer = (LinearLayout) findViewById(R.id.attchementContainer);
-        getInfomationUser();
         circleProgressBar = new ProgressDialog(this);
         circleProgressBar.setMax(100);
         circleProgressBar.setCancelable(false);
@@ -135,11 +142,7 @@ public class AddPostActivity extends SwipeBackActivity {
             @Override
             public void onClick(View v) {
 
-                shared = getSharedPreferences("role_user", Activity.MODE_PRIVATE);
-                Role = shared.getString("role", null);
-                if (Role != null) {
-                    getInfomationUser();
-                }
+
 
                 id = mDBase.child("post").push().getKey();
                 switch (typePost) {
@@ -467,10 +470,10 @@ public class AddPostActivity extends SwipeBackActivity {
         subject = EdtSubjectPost.getText().toString();
         description = EdtDescriptionPost.getText().toString();
         if (RbVNo.isChecked()) {
-            visibility = "No";
+            visibility = "no";
         }
         if (RbVYes.isChecked()) {
-            visibility = "Yes";
+            visibility = "yes";
         }
         urlPostStorage = urlPost;
         new_post = new post();
@@ -481,7 +484,7 @@ public class AddPostActivity extends SwipeBackActivity {
         new_post.setUrlImageAuthor(urlImageAuthor);
         new_post.setUrlFile(urlPost);
         new_post.setSubject(subject);
-        new_post.setClassRoomId("NONE");
+        new_post.setClassRoomId(class_room.getId());
         new_post.setVisibility(visibility);
         new_post.setUserId(FirebaseAuth.getInstance().getCurrentUser().getUid().toString());
         new_post.setType(typePost);
@@ -538,18 +541,13 @@ public class AddPostActivity extends SwipeBackActivity {
     }
 
     public void getInfomationUser() {
-        sp = getPreferences(Context.MODE_PRIVATE);
-        json = sp.getString("current_user", "");
-        if (Role != null) {
-            json = sp.getString("current_user", "");
-            System.out.println(json + "ffggdd");
-            if (json != null) {
                 switch (Role.trim()) {
                     case "teacher":
                         complexPreferences = ComplexPreferences.getComplexPreferences(this, "mypref", this.MODE_PRIVATE);
                         teacher = complexPreferences.getObject("current_user", Teacher.class);
                         author = teacher.getFirstName() + " " + teacher.getLastName();
                         urlImageAuthor = teacher.getUrlImage();
+                        class_room = complexPreferences.getObject("my_class_room", ClassRoom.class);
                         System.out.println(teacher + "tttttttttttttt");
                         break;
                     case "parent":
@@ -557,6 +555,7 @@ public class AddPostActivity extends SwipeBackActivity {
                         parent = complexPreferences.getObject("current_user", Parent.class);
                         author = parent.getFirstName() + " " + parent.getLastName();
                         urlImageAuthor = parent.getUrlImage();
+                        class_room = complexPreferences.getObject("my_class_room", ClassRoom.class);
                         break;
                     case "child":
                         complexPreferences = ComplexPreferences.getComplexPreferences(this, "mypref", MODE_PRIVATE);
@@ -564,9 +563,8 @@ public class AddPostActivity extends SwipeBackActivity {
                         System.out.println(child + "ffggdds");
                         author = child.getFirstName() + " " + child.getLastName();
                         urlImageAuthor = child.getUrlImage();
+                        class_room = complexPreferences.getObject("my_class_room", ClassRoom.class);
                         break;
                 }
             }
         }
-    }
-}

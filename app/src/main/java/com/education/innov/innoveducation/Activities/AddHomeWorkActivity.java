@@ -20,9 +20,11 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.education.innov.innoveducation.Entities.Child;
+import com.education.innov.innoveducation.Entities.ClassRoom;
 import com.education.innov.innoveducation.Entities.HomeWork;
 import com.education.innov.innoveducation.Entities.Teacher;
 import com.education.innov.innoveducation.R;
+import com.education.innov.innoveducation.Utils.ComplexPreferences;
 import com.education.innov.innoveducation.Utils.Config;
 import com.education.innov.innoveducation.Utils.MyApp;
 import com.education.innov.innoveducation.Utils.psuhNotificationAllUsers;
@@ -43,15 +45,17 @@ public class AddHomeWorkActivity extends SwipeBackActivity {
     private CircleProgressBar progressBar;
     private SwipeBackLayout swipeBackLayout;
     private EditText eEndDateView, eEndTimeView, EdtTitleHomework, EdtSubjectHomework, EdtDescriptionHomework;
-    HomeWork new_homework;
-    String dateStart, title, timeStart, timeEnd, dateEnd, description ,author, urlImageAuthor, subject, idClassRoom;
-    Date startDate, endDate;
-    Button btnAddHomework;
+    private HomeWork new_homework;
+    private String dateStart, title, timeStart, timeEnd, dateEnd, description ,author, urlImageAuthor, subject, idClassRoom;
+    private Date startDate, endDate;
+    private Button btnAddHomework;
     private int yearStart, monthStart, dayStart;
     private int hour, minute;
-    DatabaseReference mDBase = Config.mDatabase;
-    ProgressDialog circleProgressBar;
-    Teacher teacher;
+    private DatabaseReference mDBase = Config.mDatabase;
+    private ProgressDialog circleProgressBar;
+    private Teacher teacher;
+    private ComplexPreferences complexPreferences;
+    private ClassRoom class_room;
 
 
 
@@ -60,7 +64,7 @@ public class AddHomeWorkActivity extends SwipeBackActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_home_work);
-        MyApp.getInstance(this);
+
 
         eEndDateView = (EditText) findViewById(R.id.txtDateEnd);
         eEndTimeView = (EditText) findViewById(R.id.txtTimeEnd);
@@ -181,24 +185,6 @@ public class AddHomeWorkActivity extends SwipeBackActivity {
         });
     }
 
-    public void getInfomationUser() {
-        MyApp.getInstance(this);
-        switch (MyApp.role){
-            case "teacher":
-                author = MyApp.teacher.getFirstName() + " " + MyApp.teacher.getLastName();
-                urlImageAuthor = MyApp.teacher.getUrlImage();
-                break;
-            case "child":
-                author = MyApp.child.getFirstName() + " " + MyApp.child.getLastName();
-                urlImageAuthor = MyApp.child.getUrlImage();
-                break;
-            case "parent":
-                author = MyApp.parent.getFirstName() + " " + MyApp.parent.getLastName();
-                urlImageAuthor = MyApp.parent.getUrlImage();
-                break;
-        }
-        System.out.println(MyApp.teacher+"pppppppppppppppp");
-    }
     private void AddHomeWork() {
         circleProgressBar.show();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy MMMM dd 'at' hh:mm aaa");
@@ -218,7 +204,7 @@ public class AddHomeWorkActivity extends SwipeBackActivity {
         new_homework.setEndDate(dateEnd + " at " + endTime);
         new_homework.setUrlImageAuthor(urlImageAuthor);
         new_homework.setAuthor(author);
-        new_homework.setIdClassRom("syrine");
+        new_homework.setIdClassRom(class_room.getId());
         mDBase.child("homeworks").child(id).setValue(new_homework).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
@@ -231,6 +217,16 @@ public class AddHomeWorkActivity extends SwipeBackActivity {
 
         });
     }
+    public void getInfomationUser() {
 
+        complexPreferences = ComplexPreferences.getComplexPreferences(this, "mypref", this.MODE_PRIVATE);
+        teacher = complexPreferences.getObject("current_user", Teacher.class);
+        if(teacher != null) {
+            author = teacher.getFirstName() + " " + teacher.getLastName();
+            urlImageAuthor = teacher.getUrlImage();
+            class_room = complexPreferences.getObject("my_class_room", ClassRoom.class);
+            System.out.println(teacher + "tttttttttttttt");
+        }
 
+    }
 }

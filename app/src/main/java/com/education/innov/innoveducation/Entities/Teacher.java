@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class Teacher extends User  implements Serializable{
 
 
-    private String classRommId;
+    private ArrayList<String> classRooms;
     private ClassRoom classeRoom; // only set if function equal teacher
 
 
@@ -19,18 +19,26 @@ public class Teacher extends User  implements Serializable{
                 "NONE","NONE","NONE");
 
     }
-    public Teacher(String sex ,  String firstName, String lastName, String phone, String adresse, String urlImage, String active, String codePostal, String contry, String connected,  String id, String classRommId, ClassRoom classeRoom,String birthday,String city) {
+    public Teacher(String sex ,  String firstName, String lastName, String phone, String adresse, String urlImage, String active, String codePostal, String contry, String connected,  String id, ArrayList<String> classRooms, ClassRoom classeRoom,String birthday,String city) {
         super(sex,firstName, lastName, phone, adresse, urlImage, active, codePostal, contry, connected, id,birthday,city);
-        this.classRommId = classRommId;
+        this.classRooms = classRooms;
         this.classeRoom = classeRoom;
     }
 
-    public String getClassRommId() {
-        return classRommId;
+    public ArrayList<String> getClassRooms() {
+        return classRooms;
     }
 
-    public void setClassRommId(String classRommId) {
-        this.classRommId = classRommId;
+    public void setClassRooms(ArrayList<String> classRooms) {
+        this.classRooms = classRooms;
+    }
+
+    public ArrayList<String> getClassRommId() {
+        return classRooms;
+    }
+
+    public void setClassRommId(ArrayList<String> classRooms) {
+        this.classRooms = classRooms;
     }
 
     public ClassRoom getClasseRoom() {
@@ -49,7 +57,7 @@ public class Teacher extends User  implements Serializable{
     @Override
     public String toString() {
         return "Teacher{" +
-                "classRommId='" + classRommId + '\'' +
+                "classRooms='" + classRooms + '\'' +
                 super.toString()+
                 '}';
     }

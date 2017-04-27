@@ -1,5 +1,6 @@
 package com.education.innov.innoveducation.Activities;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -10,13 +11,16 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
 import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.education.innov.innoveducation.Adapter.CoursesAdapter;
 import com.education.innov.innoveducation.Adapter.MyClassroomsAdapter;
+import com.education.innov.innoveducation.Entities.Child;
 import com.education.innov.innoveducation.Entities.ClassRoom;
+import com.education.innov.innoveducation.Entities.Parent;
 import com.education.innov.innoveducation.Entities.Teacher;
 import com.education.innov.innoveducation.R;
 import com.education.innov.innoveducation.Utils.ComplexPreferences;
@@ -53,7 +57,12 @@ public class MyClassRoomsActivity extends SwipeBackActivity {
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
     private ArrayList<ClassRoom> classRooms = new ArrayList<>();
-    SharedPreferences shared ;
+    private Teacher teacher;
+    private SharedPreferences shared;
+    private ComplexPreferences complexPreferences;
+    private String Role;
+    private Parent parent;
+    private ArrayList<String> list_class_rooms;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +71,13 @@ public class MyClassRoomsActivity extends SwipeBackActivity {
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseUser = mFirebaseAuth.getCurrentUser();
         mDatabase = FirebaseDatabase.getInstance().getReference();
+        shared = getSharedPreferences("role_user", Activity.MODE_PRIVATE);
+        Role = shared.getString("role", null);
+        if (Role != null) {
+            getInfomationUser();
+        }
+
+
         initViews();
     }
 
@@ -85,8 +101,14 @@ public class MyClassRoomsActivity extends SwipeBackActivity {
         mRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(this, mRecyclerView, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                ComplexPreferences complexPreferences = ComplexPreferences.getComplexPreferences(MyClassRoomsActivity.this, "prefs_classrooms", Context.MODE_PRIVATE);
-                complexPreferences.putObject("my_class_room", classRooms.get(position));
+                ClassRoom classRoom = classRooms.get(position);
+                System.out.println("this the class selected" + classRoom);
+
+
+                ComplexPreferences complexPreferences = ComplexPreferences.getComplexPreferences(MyClassRoomsActivity.this, "mypref", MODE_PRIVATE);
+                complexPreferences.putObject("my_class_room", classRoom);
+                complexPreferences.commit();
+
                 Intent i = new Intent(MyClassRoomsActivity.this, HomeActivity.class);
                 startActivity(i);
                 finish();
@@ -97,28 +119,98 @@ public class MyClassRoomsActivity extends SwipeBackActivity {
 
             }
         }));
-        getClassRooms();
     }
 
     private void getClassRooms() {
         classRooms.clear();
-        mDatabase.child(Config.CHILD_CLASSROOM).orderByChild("idAdminstrator").equalTo(FirebaseAuth.getInstance().getCurrentUser().getUid()).addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                ClassRoom classRoom = dataSnapshot.getValue(ClassRoom.class);
-                System.out.println("classRoom" + classRoom);
-                if (classRoom != null) {
-                    //create a listener
-                    classRooms.add(classRoom);
-                    mRecyclerView.setAdapter(mAdapter);
-                   // getOwner(classRoom);
+        if (list_class_rooms != null) {
+            System.out.println("la liste des classe est " + list_class_rooms);
+            mDatabase.child("classrooms").addChildEventListener(new ChildEventListener() {
+                @Override
+                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                    ClassRoom classRoom = dataSnapshot.getValue(ClassRoom.class);
+                    System.out.println("classRoom 1 " + classRoom);
+
+                    System.out.println("contains" + list_class_rooms.contains(classRoom.getId().trim()));
+                    System.out.println("classRoom 3 " + classRoom.getId());
+                    if (list_class_rooms.contains(classRoom.getId().trim())) {
+                        if(!existe(classRoom.getId())){
+                            classRooms.add(classRoom);
+                            mRecyclerView.setAdapter(mAdapter);
+                            mDatabase.removeEventListener(this);
+                        }
+
+                        //create a listener
+                    }
+                }
+
+                @Override
+                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                }
+
+                @Override
+                public void onChildRemoved(DataSnapshot dataSnapshot) {
 
                 }
 
+                @Override
+                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+        }
+    }
+
+    private boolean existe(String id){
+        for (ClassRoom c:classRooms) {
+            if(c.getId().equals(id))
+                return true;
+
+        }
+        return false;
+    }
+
+    public void getInfomationUser() {
+        switch (Role.trim()) {
+            case "teacher":
+                complexPreferences = ComplexPreferences.getComplexPreferences(this, "mypref", this.MODE_PRIVATE);
+                teacher = complexPreferences.getObject("current_user", Teacher.class);
+                if (teacher != null) {
+                    getListClassRooms();
+                }
+                System.out.println(teacher + "tttttttttttttt");
+                break;
+            case "parent":
+                complexPreferences = ComplexPreferences.getComplexPreferences(this, "mypref", this.MODE_PRIVATE);
+                parent = complexPreferences.getObject("current_user", Parent.class);
+                if (parent != null)
+
+                    break;
+        }
+    }
+
+    private void getListClassRooms() {
+        list_class_rooms = new ArrayList<>();
+        mDatabase.child("teachers").child(teacher.getIdUser()).child("classRooms").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+
+
+                    list_class_rooms.add(dataSnapshot.getValue().toString());
+                    getClassRooms();
+
+
+                return;
             }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
             }
 
             @Override
@@ -136,40 +228,5 @@ public class MyClassRoomsActivity extends SwipeBackActivity {
 
             }
         });
-    }
-
-    private void getOwner(ClassRoom classroom) {
-        final ClassRoom c = classroom;
-        ChildEventListener listener = new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                Teacher teacher = dataSnapshot.getValue(Teacher.class);
-                System.out.println("maherClassroom" + c);
-                if (teacher != null)
-                    c.setAdministrator(teacher);
-                classRooms.add(c);
-                System.out.println("maherClassroom" + c);
-                mRecyclerView.setAdapter(mAdapter);
-                mDatabase.removeEventListener(this);
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        };
-        mDatabase.child(Config.CHILD_TEACHER).orderByChild("id").equalTo(classroom.getIdAdminstrator()).addChildEventListener(listener);
-
     }
 }
