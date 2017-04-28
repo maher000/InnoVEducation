@@ -11,6 +11,10 @@ public class Notification  {
     private String date ;
     private String url ;
     private String type ;
+    private String urlImage;
+    private String senderName;
+    private String senderId;
+    private String classRoomId;
 
     public String getId() {
         return id;
@@ -50,6 +54,38 @@ public class Notification  {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getUrlImage() {
+        return urlImage;
+    }
+
+    public String getClassRoomId() {
+        return classRoomId;
+    }
+
+    public void setClassRoomId(String classRoomId) {
+        this.classRoomId = classRoomId;
+    }
+
+    public void setUrlImage(String urlImage) {
+        this.urlImage = urlImage;
+    }
+
+    public String getSenderName() {
+        return senderName;
+    }
+
+    public void setSenderName(String senderName) {
+        this.senderName = senderName;
+    }
+
+    public String getSenderId() {
+        return senderId;
+    }
+
+    public void setSenderId(String senderId) {
+        this.senderId = senderId;
     }
 
     @Override

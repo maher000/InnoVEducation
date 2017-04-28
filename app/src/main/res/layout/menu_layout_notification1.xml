@@ -1,36 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/badge_layout1"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
     <RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        style="@android:style/Widget.ActionButton"
-        android:id="@+id/badge_layout1"
+        android:id="@+id/relative_layout_item_count"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="8dp">
 
-        <RelativeLayout
-            android:id="@+id/relative_layout_item_count"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <Button
-                android:id="@+id/button1"
-                android:layout_width="40dip"
-                android:layout_height="40dip"
-                android:background="@drawable/icon_notification_48"
-                android:backgroundTint="@color/overWhite"
-                android:clickable="false"/>
-        </RelativeLayout>
-        <RelativeLayout
+        <Button
+            android:id="@+id/button1"
+            android:layout_width="40dip"
+            android:layout_height="40dip"
+            android:background="@drawable/icon_chat_48"
+            android:backgroundTint="@color/overWhite"
+            android:clickable="true"/>
+    </RelativeLayout>
+    <RelativeLayout
         android:id="@+id/relative_layout_item_count1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/relative_layout_item_count"
-        android:layout_alignBottom="@+id/relative_layout_item_count"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="40dp"
-        android:layout_marginStart="40dp">
+        android:layout_marginRight="18dp"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/relative_layout_item_count"
+        android:layout_toStartOf="@+id/relative_layout_item_count"
+        android:layout_marginEnd="18dp">
 
         <Button
             android:id="@+id/button2"
@@ -38,27 +40,53 @@
             android:layout_height="40dip"
             android:background="@drawable/icon_notification_48"
             android:backgroundTint="@color/overWhite"
-            android:clickable="false"/>
+            android:drawableTint="@color/overWhite"
+            android:clickable="true"/>
     </RelativeLayout>
-
-        <TextView
-            android:id="@+id/badge_notification_1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignRight="@id/relative_layout_item_count"
-            android:background="@android:drawable/ic_notification_overlay"
-            android:text="56"
-            android:textColor="#FFF"
-            android:textSize="12sp"
-            android:textStyle="bold" />
-        <TextView
-        android:id="@+id/badge_notification_2"
+    <RelativeLayout
+        android:id="@+id/relative_layout_item_search"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginRight="18dp"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/relative_layout_item_count1"
+        android:layout_toStartOf="@+id/relative_layout_item_count1"
+        android:layout_marginEnd="18dp">
+
+        <EditText
+            android:id="@+id/edt_menu_search"
+            android:layout_width="match_parent"
+            android:layout_height="40dip"
+            android:backgroundTint="@color/overWhite"
+            android:hint="search"
+            android:drawableLeft="@drawable/ic_search"
+            android:drawableTint="@color/overWhite"
+            android:focusable="false"
+            android:clickable="true"/>
+    </RelativeLayout>
+
+
+
+    <TextView
+        android:id="@+id/badge_notification_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@id/relative_layout_item_count"
         android:background="@android:drawable/ic_notification_overlay"
         android:text="56"
         android:textColor="#FFF"
         android:textSize="12sp"
-        android:textStyle="bold"
-        android:layout_alignRight="@id/relative_layout_item_count1" />
-    </RelativeLayout>
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/badge_notification_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@id/relative_layout_item_count1"
+        android:background="@android:drawable/ic_notification_overlay"
+        android:text="56"
+        android:textColor="#FFF"
+        android:textSize="12sp"
+        android:textStyle="bold" />
+
+</RelativeLayout>

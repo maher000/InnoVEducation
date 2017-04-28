@@ -39,6 +39,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
@@ -171,6 +172,26 @@ public class LeftFragmentNaviguation extends Fragment {
         prefsEditor.clear();
         prefsEditor.commit();
         prefsEditor.apply();
+        SharedPreferences.Editor edoot=getActivity().getSharedPreferences("role_user",Context.MODE_PRIVATE).edit();
+        edoot.remove("role");
+        edoot.clear();
+        edoot.apply();
+        edoot.commit();
+        shared = getActivity().getSharedPreferences("role_user", Activity.MODE_PRIVATE);
+        Role = shared.getString("role", null);
+        if (Role != null) {
+            if(Role.equals("child")){
+
+                complexPreferences = ComplexPreferences.getComplexPreferences(getActivity(), "mypref", getActivity().MODE_PRIVATE);
+                child = complexPreferences.getObject("current_user", Child.class);
+                FirebaseMessaging.getInstance().unsubscribeFromTopic(child.getClassRommId());
+                System.out.println("unsabscribeToTopic");
+            }
+
+        }
+
+
+
         SharedPreferences.Editor editor = getActivity().getSharedPreferences("mypref", Context.MODE_PRIVATE).edit();
         editor.clear();
         editor.commit();

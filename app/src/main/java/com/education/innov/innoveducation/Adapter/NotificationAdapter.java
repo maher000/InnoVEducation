@@ -11,6 +11,9 @@ import com.education.innov.innoveducation.Entities.Notification;
 import com.education.innov.innoveducation.R;
 import com.education.innov.innoveducation.Views.CommentsViewHolder;
 import com.education.innov.innoveducation.Views.NotificationViewHolder;
+import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
 
 /**
  * Created by Syrine on 07/04/2017.
@@ -19,20 +22,14 @@ import com.education.innov.innoveducation.Views.NotificationViewHolder;
 public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 
-    private String[] title = {
-            "Video",
-            "Image",
-            "Video",
-            "Video",
-            "Image",
-            "Texte"
-    };
     private LayoutInflater inflater;
     private Context context;
+    private ArrayList<Notification> notifications;
 
-    public NotificationAdapter(Context context) {
+    public NotificationAdapter(Context context, ArrayList<Notification> notifications ){
         inflater = LayoutInflater.from(context);
         this.context = context;
+        this.notifications=notifications;
     }
 
     @Override
@@ -52,15 +49,14 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
 
         NotificationViewHolder mHolder = (NotificationViewHolder) holder;
-        //    MainOption mo = mainOptionlist.get(position);
-        //    mHolder.tv_title.setText(mo.title);
-        //    mHolder.iv_icon.setImageResource(mo.icon);
-        //   mHolder.itemView.setSelected(selectedPos == position);
+        mHolder.tvFullName.setText(notifications.get(position).getSenderName()+" "+notifications.get(position).getContenue());
+        mHolder.tvDateNotif.setText(notifications.get(position).getDate());
+        Picasso.with(context).load(notifications.get(position).getUrlImage()).into(mHolder.image_profile);
 
     }
 
     @Override
     public int getItemCount() {
-        return title.length;
+        return notifications.size();
     }
 }

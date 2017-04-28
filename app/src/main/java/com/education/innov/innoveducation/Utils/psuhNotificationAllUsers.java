@@ -1,6 +1,9 @@
 package com.education.innov.innoveducation.Utils;
 
 
+import android.app.Notification;
+import android.renderscript.RenderScript;
+
 import org.json.JSONObject;
 
 import okhttp3.MediaType;
@@ -27,8 +30,10 @@ public class psuhNotificationAllUsers {
             JSONObject msgObject = new JSONObject();
             msgObject.put("body", message);
             msgObject.put("title", title);
-            //    msgObject.put("icon", ANDROID_NOTIFICATION_ICON);
+           // msgObject.put("icon", ANDROID_NOTIFICATION_ICON);
             //   msgObject.put("color", ANDROID_NOTIFICATION_COLOR);
+            obj.put("priority", Notification.PRIORITY_HIGH);
+            msgObject.put("sound",Notification.DEFAULT_SOUND);
 
             obj.put("to", deviceToken);
             obj.put("notification", msgObject);

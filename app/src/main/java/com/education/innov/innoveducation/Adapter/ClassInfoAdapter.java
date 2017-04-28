@@ -93,56 +93,80 @@ public class ClassInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public int getItemCount() {
         return classroomRequests.size();
     }
+
     private void accept(final int position) {
+        System.out.println("senderId0");
+        final int pos=position;
         if (classroomRequests.get(position).getSenderType().trim().equals("child")) {
-            mDatabase.child("child").child(classroomRequests.get(position).getSenderId()).child("classRommId").setValue(
+            System.out.println(classroomRequests.get(pos).getSenderId()+"senderId1");
+            mDatabase.child("child").child(classroomRequests.get(pos).getSenderId()).child("topic").
+                    setValue(classroomRequests.get(pos).getClassroomId());
+
+            mDatabase.child("child").child(classroomRequests.get(position).getSenderId()).child("classroomId").setValue(
                     classroomRequests.get(position).getClassroomId()
             ).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                     if (task.isSuccessful()) {
-                        mDatabase.child("child").orderByChild("idUser").equalTo((classroomRequests.get(position).getSenderId())).
-                                addChildEventListener(new ChildEventListener() {
+                        System.out.println(classroomRequests.get(pos).getSenderId()+"senderId");
+                        mDatabase.child("child").child(classroomRequests.get(pos).getSenderId()).child("topic").
+                                setValue(classroomRequests.get(pos).getClassroomId()).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
-                            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                                if(dataSnapshot !=null){
-                                   Child child = dataSnapshot.getValue(Child.class);
-                                    mDatabase.child("parents").child(child.getParentId()).child("classRooms").
-                                            child(classroomRequests.get(position).getClassroomId()).setValue(classroomRequests.get(position).getClassroomId()).
-                                            addOnCompleteListener(new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
-                                            if(task.isSuccessful()){
-                                            mDatabase.child("classroomRequest").child(classroomRequests.get(position).getId()).
-                                                    removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if(task.isSuccessful()){
+                                    mDatabase.child("child").orderByChild("idUser").equalTo((classroomRequests.get(position).getSenderId())).
+                                            addChildEventListener(new ChildEventListener() {
                                                 @Override
-                                                public void onComplete(@NonNull Task<Void> task) {
-                                                    classroomRequests.remove(position);
-                                                    notifyDataSetChanged();
-                                                }});}
-                                        }});
+                                                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                                                    if(dataSnapshot !=null){
+                                                        Child child = dataSnapshot.getValue(Child.class);
+
+                                                        mDatabase.child("parents").child(child.getParentId()).child("topics").child(classroomRequests.get(position).getClassroomId()).
+                                                                setValue(classroomRequests.get(position).getClassroomId());
+
+                                                        mDatabase.child("parents").child(child.getParentId()).child("classRooms").
+                                                                child(classroomRequests.get(position).getClassroomId()).setValue(classroomRequests.get(position).getClassroomId()).
+                                                                addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                    @Override
+                                                                    public void onComplete(@NonNull Task<Void> task) {
+                                                                        if(task.isSuccessful()){
+
+
+                                                                            mDatabase.child("classroomRequest").child(classroomRequests.get(position).getId()).
+                                                                                    removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                                @Override
+                                                                                public void onComplete(@NonNull Task<Void> task) {
+                                                                                    classroomRequests.remove(position);
+                                                                                    notifyDataSetChanged();
+                                                                                }});}
+                                                                    }});
+                                                    }
+                                                    mDatabase.removeEventListener(this);
+                                                }
+
+                                                @Override
+                                                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                                                }
+
+                                                @Override
+                                                public void onChildRemoved(DataSnapshot dataSnapshot) {
+                                                }
+
+                                                @Override
+                                                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+                                                }
+
+                                                @Override
+                                                public void onCancelled(DatabaseError databaseError) {
+
+                                                }
+                                            });
                                 }
-                                mDatabase.removeEventListener(this);
-                            }
-
-                            @Override
-                            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-                            }
-
-                            @Override
-                            public void onChildRemoved(DataSnapshot dataSnapshot) {
-                            }
-
-                            @Override
-                            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-                            }
-
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
-
                             }
                         });
+
+
 
                     }
                 }

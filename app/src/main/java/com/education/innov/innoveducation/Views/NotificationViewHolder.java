@@ -13,15 +13,16 @@ import de.hdodenhof.circleimageview.CircleImageView;
  */
 
 public class NotificationViewHolder extends RecyclerView.ViewHolder {
-CircleImageView image_profile ;
-    TextView tvFullNameComment , tvDateNotif;
+    public TextView tvFullName , tvDateNotif;
+    public CircleImageView image_profile;
 
 
     public NotificationViewHolder(View view) {
         super(view);
 
-        tvFullNameComment = (TextView) view.findViewById(R.id.tvFullNameNotification);
+        tvFullName = (TextView) view.findViewById(R.id.tvFullNameNotification);
         tvDateNotif = (TextView) view.findViewById(R.id.tvDateNotification);
+        image_profile=(CircleImageView) view.findViewById(R.id.image_profile);
 
 
 

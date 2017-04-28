@@ -7,6 +7,7 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
@@ -211,7 +212,14 @@ public class AddHomeWorkActivity extends SwipeBackActivity {
                 if (task.isSuccessful()) {
                     circleProgressBar.dismiss();
                     System.out.println("post added successfully");
-                    psuhNotificationAllUsers.sendAndroidNotification("-KhfjglYFioLuyKlDIif","maher","sds");
+                    new AsyncTask<Void, Void, Void>() {
+                        @Override
+                        protected Void doInBackground(Void... voids) {
+
+                            psuhNotificationAllUsers.sendAndroidNotification("/topics/"+new_homework.getIdClassRom(),"maher","new HomeWork added");
+                            return null;
+                        }
+                    }.execute();
                     AddHomeWorkActivity.this.finish();
                 }
             }

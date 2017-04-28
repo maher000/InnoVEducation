@@ -5,10 +5,12 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Handler;
 import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -19,11 +21,14 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.education.innov.innoveducation.Entities.Child;
 import com.education.innov.innoveducation.Entities.ClassRoom;
+import com.education.innov.innoveducation.Entities.Notification;
 import com.education.innov.innoveducation.Entities.Parent;
 import com.education.innov.innoveducation.Entities.Presence;
 import com.education.innov.innoveducation.Entities.Teacher;
@@ -38,6 +43,7 @@ import com.education.innov.innoveducation.R;
 import com.education.innov.innoveducation.Utils.ComplexPreferences;
 import com.education.innov.innoveducation.Utils.Config;
 import com.education.innov.innoveducation.Utils.MyApp;
+import com.education.innov.innoveducation.Utils.psuhNotificationAllUsers;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -46,11 +52,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabReselectListener;
 import com.roughike.bottombar.OnTabSelectListener;
+
+import java.util.Date;
 
 import static android.content.Intent.FLAG_ACTIVITY_SINGLE_TOP;
 
@@ -77,8 +86,9 @@ public class HomeActivity extends AppCompatActivity {
     private SharedPreferences sp;
     private ComplexPreferences complexPreferences;
     private ClassRoom classRoom;
-    DatabaseReference userRef ;
-    private String class_room_child;
+    private RelativeLayout menu_chat;
+    private Button btnChat, btnNotification;
+    private EditText edtSearch;
 
     @Override
     protected void onResume() {
@@ -96,6 +106,10 @@ public class HomeActivity extends AppCompatActivity {
         /*
                 Subscribe users To receive Notification
          */
+        menu_chat = (RelativeLayout) findViewById(R.id.relative_layout_item_count);
+        btnChat = (Button) findViewById(R.id.button1);
+        btnNotification = (Button) findViewById(R.id.button2);
+        edtSearch = (EditText) findViewById(R.id.edt_menu_search);
         FirebaseMessaging.getInstance().subscribeToTopic("09428835");
         //store and retreive data from shared prefernces
         shared = getSharedPreferences("role_user", Activity.MODE_PRIVATE);
@@ -103,11 +117,12 @@ public class HomeActivity extends AppCompatActivity {
         if (Role != null) {
             getInfomationUser();
             setUserOnline();
+            subscribeToTopic();
         }
 
         System.out.println("**********************************   " + FirebaseAuth.getInstance().getCurrentUser().getUid());
         /* *******************************************/
-    /*    Config.mDatabase.child("child").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).addChildEventListener(new ChildEventListener() {
+        Config.mDatabase.child("child").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
@@ -115,7 +130,7 @@ public class HomeActivity extends AppCompatActivity {
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                child = dataSnapshot.getValue(Child.class);
+/*                child = dataSnapshot.getValue(Child.class);
                 if (child != null) {
                     if (child.getClassRommId() != null) {
                         System.out.println("********* " + Role);
@@ -123,8 +138,9 @@ public class HomeActivity extends AppCompatActivity {
                                 Toast.LENGTH_LONG).show();
                         FirebaseMessaging.getInstance().subscribeToTopic(child.getClassRommId());
                         System.out.println(FirebaseAuth.getInstance().getCurrentUser());
-                    }
-                }
+                        */
+
+
 
 
             }
@@ -144,10 +160,11 @@ public class HomeActivity extends AppCompatActivity {
 
             }
         });
-        */
          /* *******************************************/
+
         /*** ToolBar ***.
-         **/
+         *
+         */
         // Find the toolbar view inside the activity layout
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setUpToolbar();
@@ -270,8 +287,11 @@ public class HomeActivity extends AppCompatActivity {
 
     private void setUpToolbar() {
 
+        //toolbar.setTitle("Associations Tunisiennes");
         toolbar.inflateMenu(R.menu.menu_main);
+        //toolbar.setVisibility(View.INVISIBLE);
         m = toolbar.getMenu();
+        //m.getItem(0).getsetVisible(false);
         setSupportActionBar(toolbar);
 
 
@@ -297,38 +317,67 @@ public class HomeActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         // Inflate menu to add items to action bar if it is present.
-        inflater.inflate(R.menu.menu_main, menu);
+        inflater.inflate(R.menu.menu_main1, menu);
         // Associate searchable configuration with the SearchView
-        final Menu m = menu;
-        final MenuItem itemChat = m.findItem(R.id.id_chat);
-        itemChat.getActionView().setOnClickListener(new View.OnClickListener() {
+
+        final MenuItem itemChat = menu.findItem(R.id.id_chat);
+        MenuItemCompat.setActionView(itemChat, R.layout.menu_layout_notification1);
+        menu_chat = (RelativeLayout) MenuItemCompat.getActionView(itemChat);
+        btnChat = (Button) menu_chat.findViewById(R.id.button1);
+        edtSearch = (EditText) menu_chat.findViewById(R.id.edt_menu_search);
+        btnNotification = (Button) menu_chat.findViewById(R.id.button2);
+
+        btnChat.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                System.out.println("viewselected");
-                onOptionsItemSelected(itemChat);
+            public void onClick(View view) {
+                System.out.println("maherBtn");
+                drawerLayout.openDrawer(GravityCompat.END);
+
             }
         });
-        SearchManager searchManager =
-                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        SearchView searchView =
-                (SearchView) menu.findItem(R.id.action_search).getActionView();
-        searchView.setSearchableInfo(
-                searchManager.getSearchableInfo(getComponentName()));
-        return true;
+
+
+        btnNotification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                System.out.println("maherBtn");
+                System.out.println("maherSearch");
+                startActivity(new Intent(HomeActivity.this, NotificationsActivity.class).addFlags(FLAG_ACTIVITY_SINGLE_TOP));
+             /*   new AsyncTask<Void, Void, Void>() {
+                    @Override
+                    protected Void doInBackground(Void... voids) {
+                        Notification not=new Notification();
+                        not.setContenue("add new HomeWork");
+                        not.setSenderId(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                        not.setSenderName(teacher.getFirstName()+" "+teacher.getLastName());
+                        not.setType("homework");
+                        not.setUrlImage(teacher.getUrlImage());
+                        not.setDate(new Date().toString());
+                        not.setClassRoomId("-KiMEgfpjQ6tABAHdF2j");
+                        not.setId( mBase.child("notification").push().getKey());
+                        mBase.child("notification").child(not.getId()).setValue(not);
+                        psuhNotificationAllUsers.sendAndroidNotification("/topics/-KiMEgfpjQ6tABAHdF2j","maher","new HomeWork added");
+                        return null;
+                    }
+                }.execute();
+                */
+                //   drawerLayout.openDrawer(GravityCompat.END);
+
+            }
+        });
+        edtSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(HomeActivity.this, ListClassroomsActivity.class).addFlags(FLAG_ACTIVITY_SINGLE_TOP));
+            }
+        });
+
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here.
-        int id = item.getItemId();
-        switch (id) {
-            case R.id.id_chat:
-                drawerLayout.openDrawer(GravityCompat.END); /*Opens the Right Drawer*/
-                return true;
-            case R.id.action_search1:
-                startActivity(new Intent(HomeActivity.this, ListClassroomsActivity.class).addFlags(FLAG_ACTIVITY_SINGLE_TOP));
-                return true;
-        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -349,7 +398,7 @@ public class HomeActivity extends AppCompatActivity {
             }
 
             this.doubleBackToExitPressedOnce = true;
-            Toast.makeText(this, "clicker une autre fois pour sortir", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Double click to exit", Toast.LENGTH_SHORT).show();
 
             new Handler().postDelayed(new Runnable() {
 
@@ -390,8 +439,8 @@ public class HomeActivity extends AppCompatActivity {
                     firstname = child.getFirstName();
                     lastname = child.getLastName();
                     urlImage = child.getUrlImage();
-                    class_room_child = child.getClassRommId();
-                    getClassRoomChild();
+                    classRoom = complexPreferences.getObject("my_class_room", ClassRoom.class);
+
                     break;
             }
         }
@@ -409,28 +458,16 @@ public class HomeActivity extends AppCompatActivity {
 
         final DatabaseReference presenceRef = FirebaseDatabase.getInstance()
                 .getReference().child(".info/connected");
+        final DatabaseReference userRef = FirebaseDatabase.getInstance()
+                .getReference().child("presence").child(id);
 
-        switch (Role){
-            case "teacher":
-                userRef = FirebaseDatabase.getInstance()
-                        .getReference().child("teachers").child(id).child("connected");
-                break;
-            case "child":
-                userRef = FirebaseDatabase.getInstance()
-                        .getReference().child("child").child(id).child("connected");
-                break;
-            case "parent":
-                userRef = FirebaseDatabase.getInstance()
-                        .getReference().child("parents").child(id).child("connected");
-                break;
-        }
         ValueEventListener myPresence = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 // Remove ourselves when we disconnect.
                 if (snapshot.getValue(Boolean.class)) {
-                    userRef.onDisconnect().setValue("no");
-                    userRef.setValue("yes");
+                    userRef.onDisconnect().removeValue();
+                    userRef.setValue(presence);
                 }
             }
 
@@ -445,20 +482,96 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
-    public void downloadFile(String url) {
+    private void subscribeToTopic() {
 
-    }
+        final String id = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        System.out.println("loginId" + id);
+        final Query ref_teacher = mBase.child("teachers").orderByKey().equalTo(id);
+        final Query ref_child = mBase.child("child").orderByKey().equalTo(id);
+        final Query ref_parent = mBase.child("parents").orderByKey().equalTo(id);
+       final String token = FirebaseInstanceId.getInstance().getToken();
 
-    public void getClassRoomChild() {
-        if(class_room_child != null)
-        mBase.child("classrooms").child(class_room_child).addValueEventListener(new ValueEventListener() {
+
+        if(Role.equals("teacher"))
+        ref_teacher.addChildEventListener(new ChildEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot != null) {
-                    classRoom = dataSnapshot.getValue(ClassRoom.class);
-                    complexPreferences.putObject("my_class_room", classRoom);
-                    complexPreferences.commit();
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                if (dataSnapshot.exists()) {
+                    mBase.child("teacher").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("token").setValue(token);
+
                 }
+
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+        else if(Role.equals("parent"))
+        ref_parent.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+
+                if (dataSnapshot.exists()) {
+                    mBase.child("parent").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("token").setValue(token);
+
+                }
+
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+        else if(Role.equals("child"))
+        ref_child.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+
+                if (dataSnapshot.exists()) {
+
+                    child = dataSnapshot.getValue(Child.class);
+                    FirebaseMessaging.getInstance().subscribeToTopic(child.getTopic());
+                    System.out.println(child.getTopic()+"childTopic");
+                    mBase.child("child").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("token").setValue(token);
+                }
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+            }
+
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
             }
 
             @Override

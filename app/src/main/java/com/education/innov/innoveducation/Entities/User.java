@@ -21,9 +21,27 @@ public class User {
     protected String idUser;
     protected String birthday;
     protected String city;
+    protected String token;
+    protected String topic;
 
 
     public User() {
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public String getTopic() {
+        return topic;
+    }
+
+    public void setTopic(String topic) {
+        this.topic = topic;
     }
 
     public String getCity() {
