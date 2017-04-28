@@ -11,17 +11,28 @@ public class Parent extends User {
 
     private ArrayList<User> children; // only set if function equal student;
     private String type;
-    private HashMap<String,String> classRooms;
+    private HashMap<String, String> classRooms;
+    private String active_class_room;
+
 
     public Parent() {
         super("NONE", "NONE", "NONE", "NONE", "NONE", "NONE", "NONE", "NONE", "NONE", "NONE", "NONE", "NONE", "NONE");
 
     }
 
+
     public Parent(String sex, String firstName, String lastName, String phone, String adresse, String urlImage, String active, String codePostal, String contry, String connected, String id, ArrayList<User> children, String type, String birthday, String city) {
         super(sex, firstName, lastName, phone, adresse, urlImage, active, codePostal, contry, connected, id, birthday, city);
         this.children = children;
         this.type = type;
+    }
+
+    public String getActive_class_room() {
+        return active_class_room;
+    }
+
+    public void setActive_class_room(String active_class_room) {
+        this.active_class_room = active_class_room;
     }
 
     public ArrayList<User> getChildren() {
@@ -52,8 +63,12 @@ public class Parent extends User {
     @Override
     public String toString() {
         return "Parent{" +
-                "type='" + type + '\'' +
+                "children=" + children +
+                ", type='" + type + '\'' +
+                ", classRooms=" + classRooms +
+                ", active_class_room='" + active_class_room + '\'' +
                 super.toString() +
+
                 '}';
     }
 }

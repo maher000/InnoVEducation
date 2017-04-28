@@ -13,6 +13,7 @@ public class Teacher extends User  implements Serializable{
 
     private HashMap<String,String> classRooms;
     private ClassRoom classeRoom; // only set if function equal teacher
+    private String active_class_room ;
 
 
     public Teacher(){
@@ -34,6 +35,15 @@ public class Teacher extends User  implements Serializable{
         this.classRooms = classRooms;
     }
 
+
+    public String getActive_class_room() {
+        return active_class_room;
+    }
+
+    public void setActive_class_room(String active_class_room) {
+        this.active_class_room = active_class_room;
+    }
+
     public ClassRoom getClasseRoom() {
         return classeRoom;
     }
@@ -51,6 +61,7 @@ public class Teacher extends User  implements Serializable{
     public String toString() {
         return "Teacher{" +
                 "classRooms='" + classRooms + '\'' +
+                "active_class_room='" + active_class_room + '\'' +
                 super.toString()+
                 '}';
     }

@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
@@ -27,6 +28,8 @@ import com.education.innov.innoveducation.Utils.ComplexPreferences;
 import com.education.innov.innoveducation.Utils.Config;
 import com.education.innov.innoveducation.Utils.MyApp;
 import com.education.innov.innoveducation.Utils.RecyclerItemClickListener;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -101,17 +104,41 @@ public class MyClassRoomsActivity extends SwipeBackActivity {
         mRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(this, mRecyclerView, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                ClassRoom classRoom = classRooms.get(position);
+                final ClassRoom classRoom = classRooms.get(position);
                 System.out.println("this the class selected" + classRoom);
+                switch (Role) {
+                    case "teacher":
+                        mDatabase.child("teachers").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                .child("active_class_room").setValue(classRooms.get(position).getId()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                ComplexPreferences complexPreferences = ComplexPreferences.getComplexPreferences(MyClassRoomsActivity.this, "mypref", MODE_PRIVATE);
+                                complexPreferences.putObject("my_class_room", classRoom);
+                                complexPreferences.commit();
+                                Intent i = new Intent(MyClassRoomsActivity.this, HomeActivity.class);
+                                startActivity(i);
+                                finish();
+                            }
+                        });
+                        break;
+                    case "parent":
+                        mDatabase.child("parents").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                .child("active_class_room").setValue(classRooms.get(position).getId()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                ComplexPreferences complexPreferences = ComplexPreferences.getComplexPreferences(MyClassRoomsActivity.this, "mypref", MODE_PRIVATE);
+                                complexPreferences.putObject("my_class_room", classRoom);
+                                complexPreferences.commit();
+                                Intent i = new Intent(MyClassRoomsActivity.this, HomeActivity.class);
+                                startActivity(i);
+                                finish();
+                            }
+                        });
+                        break;
+
+                }
 
 
-                ComplexPreferences complexPreferences = ComplexPreferences.getComplexPreferences(MyClassRoomsActivity.this, "mypref", MODE_PRIVATE);
-                complexPreferences.putObject("my_class_room", classRoom);
-                complexPreferences.commit();
-
-                Intent i = new Intent(MyClassRoomsActivity.this, HomeActivity.class);
-                startActivity(i);
-                finish();
             }
 
             @Override
@@ -134,7 +161,7 @@ public class MyClassRoomsActivity extends SwipeBackActivity {
                     System.out.println("contains" + list_class_rooms.contains(classRoom.getId().trim()));
                     System.out.println("classRoom 3 " + classRoom.getId());
                     if (list_class_rooms.contains(classRoom.getId().trim())) {
-                        if(!existe(classRoom.getId())){
+                        if (!existe(classRoom.getId())) {
                             classRooms.add(classRoom);
                             mRecyclerView.setAdapter(mAdapter);
                             mDatabase.removeEventListener(this);
@@ -155,7 +182,6 @@ public class MyClassRoomsActivity extends SwipeBackActivity {
 
                 @Override
                 public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
                 }
 
                 @Override
@@ -166,9 +192,9 @@ public class MyClassRoomsActivity extends SwipeBackActivity {
         }
     }
 
-    private boolean existe(String id){
-        for (ClassRoom c:classRooms) {
-            if(c.getId().equals(id))
+    private boolean existe(String id) {
+        for (ClassRoom c : classRooms) {
+            if (c.getId().equals(id))
                 return true;
 
         }
@@ -201,8 +227,8 @@ public class MyClassRoomsActivity extends SwipeBackActivity {
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
 
-                    list_class_rooms.add(dataSnapshot.getValue().toString());
-                    getClassRooms();
+                list_class_rooms.add(dataSnapshot.getValue().toString());
+                getClassRooms();
 
 
                 return;
