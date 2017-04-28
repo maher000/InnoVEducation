@@ -15,9 +15,18 @@ public class Notification  {
     private String senderName;
     private String senderId;
     private String classRoomId;
+    private String checked;
 
     public String getId() {
         return id;
+    }
+
+    public String getChecked() {
+        return checked;
+    }
+
+    public void setChecked(String checked) {
+        this.checked = checked;
     }
 
     public void setId(String id) {
