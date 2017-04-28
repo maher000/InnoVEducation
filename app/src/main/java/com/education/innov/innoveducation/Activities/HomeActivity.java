@@ -77,6 +77,7 @@ public class HomeActivity extends AppCompatActivity {
     private SharedPreferences sp;
     private ComplexPreferences complexPreferences;
     private ClassRoom classRoom;
+    DatabaseReference userRef ;
     private String class_room_child;
 
     @Override
@@ -106,7 +107,7 @@ public class HomeActivity extends AppCompatActivity {
 
         System.out.println("**********************************   " + FirebaseAuth.getInstance().getCurrentUser().getUid());
         /* *******************************************/
-        Config.mDatabase.child("child").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).addChildEventListener(new ChildEventListener() {
+    /*    Config.mDatabase.child("child").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
@@ -143,11 +144,10 @@ public class HomeActivity extends AppCompatActivity {
 
             }
         });
+        */
          /* *******************************************/
-
         /*** ToolBar ***.
-         *
-         */
+         **/
         // Find the toolbar view inside the activity layout
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setUpToolbar();
@@ -409,16 +409,28 @@ public class HomeActivity extends AppCompatActivity {
 
         final DatabaseReference presenceRef = FirebaseDatabase.getInstance()
                 .getReference().child(".info/connected");
-        final DatabaseReference userRef = FirebaseDatabase.getInstance()
-                .getReference().child("presence").child(id);
 
+        switch (Role){
+            case "teacher":
+                userRef = FirebaseDatabase.getInstance()
+                        .getReference().child("teachers").child(id).child("connected");
+                break;
+            case "child":
+                userRef = FirebaseDatabase.getInstance()
+                        .getReference().child("child").child(id).child("connected");
+                break;
+            case "parent":
+                userRef = FirebaseDatabase.getInstance()
+                        .getReference().child("parents").child(id).child("connected");
+                break;
+        }
         ValueEventListener myPresence = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 // Remove ourselves when we disconnect.
                 if (snapshot.getValue(Boolean.class)) {
-                    userRef.onDisconnect().removeValue();
-                    userRef.setValue(presence);
+                    userRef.onDisconnect().setValue("no");
+                    userRef.setValue("yes");
                 }
             }
 
@@ -438,6 +450,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     public void getClassRoomChild() {
+        if(class_room_child != null)
         mBase.child("classrooms").child(class_room_child).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

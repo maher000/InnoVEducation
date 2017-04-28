@@ -26,6 +26,7 @@ import com.education.innov.innoveducation.Adapter.MenuLeftNaviguationAdapter;
 import com.education.innov.innoveducation.Adapter.OnLineFrreindsAdapter;
 import com.education.innov.innoveducation.Adapter.SimpleSectionedRecyclerViewAdapter;
 import com.education.innov.innoveducation.Entities.Child;
+import com.education.innov.innoveducation.Entities.ClassRoom;
 import com.education.innov.innoveducation.Entities.Parent;
 import com.education.innov.innoveducation.Entities.Presence;
 import com.education.innov.innoveducation.Entities.Teacher;
@@ -40,21 +41,24 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class RightFragmentNaviguation extends Fragment {
 
     public static int Item = 0;
     public static List<NavigationDrawerItem> a = null;
-    private ArrayList<Teacher> teachers;
-    private ArrayList<Parent> parents;
+    private ArrayList<Teacher> teachers = new ArrayList<>();
+    private ArrayList<Parent> parents = new ArrayList<>();
     private ArrayList<User> users = new ArrayList<>();
-    private ArrayList<Child> children;
+    private ArrayList<Child> children = new ArrayList<>();
     private ComplexPreferences complexPreferences;
     private ArrayList<User> teachers_online = new ArrayList<>();
     private ArrayList<User> parents_online = new ArrayList<>();
@@ -66,6 +70,7 @@ public class RightFragmentNaviguation extends Fragment {
     private SimpleSectionedRecyclerViewAdapter mSectionedAdapter;
     private Teacher new_teacher, teacher;
     private Child new_child, child;
+    private ArrayList<String> list_classe_user = new ArrayList<>();
 
     private OnLineFrreindsAdapter adapter;
     private RecyclerView recyclerView;
@@ -78,6 +83,8 @@ public class RightFragmentNaviguation extends Fragment {
     private static String json;
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
+    private String active_classe_room;
+    private ClassRoom classRoom;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -117,7 +124,7 @@ public class RightFragmentNaviguation extends Fragment {
 
             }
         }));
-        getListOnline();
+        getUserOnline();
         return recyclerView;
     }
 
@@ -157,43 +164,205 @@ public class RightFragmentNaviguation extends Fragment {
     }
 
     public void getInfomationUser() {
-        sp = getActivity().getPreferences(Context.MODE_PRIVATE);
-        json = sp.getString("current_user", "");
         if (Role != null) {
-            json = sp.getString("current_user", "");
-            System.out.println(json + "ffggdd");
-            if (json != null) {
-
-                switch (Role.trim()) {
-                    case "teacher":
-                        complexPreferences = ComplexPreferences.getComplexPreferences(getActivity(), "mypref", getActivity().MODE_PRIVATE);
-                        teacher = complexPreferences.getObject("current_user", Teacher.class);
-                        firstname = teacher.getFirstName();
-                        lastname = teacher.getLastName();
-                        urlImage = teacher.getUrlImage();
-                        System.out.println(firstname + lastname + urlImage + "syriiine is trying");
-                        System.out.println(teacher + "tttttttttttttt");
-                        break;
-                    case "parent":
-                        complexPreferences = ComplexPreferences.getComplexPreferences(getActivity(), "mypref", getActivity().MODE_PRIVATE);
-                        parent = complexPreferences.getObject("current_user", Parent.class);
-                        firstname = parent.getFirstName();
-                        lastname = parent.getLastName();
-                        urlImage = parent.getUrlImage();
-                        break;
-                    case "child":
-                        complexPreferences = ComplexPreferences.getComplexPreferences(getActivity(), "mypref", getActivity().MODE_PRIVATE);
-                        child = complexPreferences.getObject("current_user", Child.class);
-                        System.out.println(child + "ffggdds");
-                        firstname = child.getFirstName();
-                        lastname = child.getLastName();
-                        urlImage = child.getUrlImage();
-                        break;
-                }
+            complexPreferences = ComplexPreferences.getComplexPreferences(getActivity(), "mypref", getActivity().MODE_PRIVATE);
+            switch (Role.trim()) {
+                case "teacher":
+                    teacher = complexPreferences.getObject("current_user", Teacher.class);
+                    firstname = teacher.getFirstName();
+                    lastname = teacher.getLastName();
+                    urlImage = teacher.getUrlImage();
+                    System.out.println(firstname + lastname + urlImage + "syriiine is trying");
+                    System.out.println(teacher + "tttttttttttttt");
+                    classRoom = complexPreferences.getObject("my_class_room", ClassRoom.class);
+                    active_classe_room = classRoom.getId();
+                    break;
+                case "parent":
+                    parent = complexPreferences.getObject("current_user", Parent.class);
+                    firstname = parent.getFirstName();
+                    lastname = parent.getLastName();
+                    urlImage = parent.getUrlImage();
+                    classRoom = complexPreferences.getObject("my_class_room", ClassRoom.class);
+                    active_classe_room = classRoom.getId();
+                    break;
+                case "child":
+                    child = complexPreferences.getObject("current_user", Child.class);
+                    System.out.println(child + "ffggdds");
+                    firstname = child.getFirstName();
+                    lastname = child.getLastName();
+                    urlImage = child.getUrlImage();
+                    classRoom = complexPreferences.getObject("my_class_room", ClassRoom.class);
+                    active_classe_room = child.getClassRommId();
+                    break;
             }
-
-
         }
+    }
+
+
+    public void getUserOnline() {
+getInfomationUser();
+        adapter = new OnLineFrreindsAdapter(getContext(), users);
+        adapter.notifyDataSetChanged();
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        adapter.notifyDataSetChanged();
+        System.out.println("active class est"+active_classe_room);
+        if(active_classe_room != null)
+
+        FirebaseDatabase.getInstance()
+                .getReference().child("child").orderByChild("classRoomId").equalTo(active_classe_room)
+                .addChildEventListener(new ChildEventListener() {
+                    @Override
+                    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                        if (dataSnapshot != null) {
+                            new_child = dataSnapshot.getValue(Child.class);
+                            User user = new User();
+                            System.out.println(new_child+"yyyy");
+                            user.setConnected(new_child.getConnected());
+                            user.setFirstName(new_child.getFirstName());
+                            user.setLastName(new_child.getLastName());
+                            user.setIdUser(new_child.getIdUser());
+                            user.setUrlImage(new_child.getUrlImage());
+                            children_online.add(user);
+                        }
+                        FirebaseDatabase.getInstance().getReference().child("teachers").addChildEventListener(new ChildEventListener() {
+                            @Override
+                            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                                if (dataSnapshot != null) {
+                                    new_teacher = dataSnapshot.getValue(Teacher.class);
+                                    Map<String, String> objectMap = (HashMap<String, String>)
+                                            new_teacher.getClassRooms();
+                                    if (objectMap != null)
+                                        if (objectMap.containsValue(active_classe_room)) {
+                                            teachers.add(new_teacher);
+                                        }
+                                }
+                                FirebaseDatabase.getInstance().getReference().child("parents")
+                                        .addChildEventListener(new ChildEventListener() {
+                                            @Override
+                                            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                                                if (dataSnapshot != null) {
+                                                    new_parent = dataSnapshot.getValue(Parent.class);
+                                                    Map<String, String> objectMap = (HashMap<String, String>)
+                                                            new_parent.getClassRooms();
+                                                    if (objectMap != null)
+                                                        if (objectMap.containsValue(active_classe_room)) {
+                                                            parents.add(new_parent);
+                                                        }
+                                                    System.out.println(objectMap);
+                                                }
+                                            }
+
+                                            @Override
+                                            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                                            }
+
+                                            @Override
+                                            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+                                            }
+
+                                            @Override
+                                            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                                            }
+
+                                            @Override
+                                            public void onCancelled(DatabaseError databaseError) {
+
+                                            }
+                                        });
+
+                            }
+
+                            @Override
+                            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                            }
+
+                            @Override
+                            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+                            }
+
+                            @Override
+                            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+
+                        for (Child c : children) {
+                            User user = new User();
+                            user.setConnected(c.getConnected());
+                            user.setFirstName(c.getFirstName());
+                            user.setLastName(c.getLastName());
+                            user.setIdUser(c.getIdUser());
+                            user.setUrlImage(c.getUrlImage());
+                            users.add(user);
+                        }
+                        for (Parent p : parents) {
+                            User user = new User();
+                            user.setConnected(p.getConnected());
+                            user.setFirstName(p.getFirstName());
+                            user.setLastName(p.getLastName());
+                            user.setIdUser(p.getIdUser());
+                            user.setUrlImage(p.getUrlImage());
+                            users.add(user);
+                        }
+                        for (Teacher t : teachers) {
+                            User user = new User();
+                            user.setConnected(t.getConnected());
+                            user.setFirstName(t.getFirstName());
+                            user.setLastName(t.getLastName());
+                            user.setIdUser(t.getIdUser());
+                            user.setUrlImage(t.getUrlImage());
+                            users.add(user);
+                        }
+
+                        if (users.size() > 0) {
+                            recyclerView.setAdapter(adapter);
+                            adapter.notifyDataSetChanged();
+                            sections = new ArrayList<SimpleSectionedRecyclerViewAdapter.Section>();
+                            sections.add(new SimpleSectionedRecyclerViewAdapter.Section(0, "Teachers" +
+                                    ""));
+                            sections.add(new SimpleSectionedRecyclerViewAdapter.Section(teachers.size(), "Classemates"));
+                            sections.add(new SimpleSectionedRecyclerViewAdapter.Section((children.size() + teachers.size()), "Parents"));
+                            dummy = new SimpleSectionedRecyclerViewAdapter.Section[sections.size()];
+                            if (getActivity() != null) {
+                                mSectionedAdapter = new SimpleSectionedRecyclerViewAdapter(getActivity().getBaseContext(), R.layout.section_recycle_view, R.id.section_text, adapter);
+                            }
+                            mSectionedAdapter.setSections(sections.toArray(dummy));
+                            recyclerView.setAdapter(mSectionedAdapter);
+                        }
+                    }
+
+                    @Override
+                    public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                    }
+
+                    @Override
+                    public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+                    }
+
+                    @Override
+                    public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
     }
 
 

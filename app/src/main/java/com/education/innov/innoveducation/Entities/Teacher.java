@@ -2,6 +2,7 @@ package com.education.innov.innoveducation.Entities;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by maher on 11/04/2017.
@@ -10,34 +11,26 @@ import java.util.ArrayList;
 public class Teacher extends User  implements Serializable{
 
 
-    private ArrayList<String> classRooms;
+    private HashMap<String,String> classRooms;
     private ClassRoom classeRoom; // only set if function equal teacher
 
 
     public Teacher(){
-        super("NONE","NONE","NONE","NONE","NONE","NONE" ,"NONE","NONE","NONE","NONE",
+        super("NONE","NONE","NONE","NONE","NONE","NONE" ,"NONE","NONE","NONE","false",
                 "NONE","NONE","NONE");
 
     }
     public Teacher(String sex ,  String firstName, String lastName, String phone, String adresse, String urlImage, String active, String codePostal, String contry, String connected,  String id, ArrayList<String> classRooms, ClassRoom classeRoom,String birthday,String city) {
         super(sex,firstName, lastName, phone, adresse, urlImage, active, codePostal, contry, connected, id,birthday,city);
-        this.classRooms = classRooms;
+
         this.classeRoom = classeRoom;
     }
 
-    public ArrayList<String> getClassRooms() {
+    public HashMap<String, String> getClassRooms() {
         return classRooms;
     }
 
-    public void setClassRooms(ArrayList<String> classRooms) {
-        this.classRooms = classRooms;
-    }
-
-    public ArrayList<String> getClassRommId() {
-        return classRooms;
-    }
-
-    public void setClassRommId(ArrayList<String> classRooms) {
+    public void setClassRooms(HashMap<String, String> classRooms) {
         this.classRooms = classRooms;
     }
 

@@ -1,6 +1,7 @@
 package com.education.innov.innoveducation.Entities;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by maher on 11/04/2017.
@@ -10,7 +11,7 @@ public class Parent extends User {
 
     private ArrayList<User> children; // only set if function equal student;
     private String type;
-    private ArrayList<String> classRooms;
+    private HashMap<String,String> classRooms;
 
     public Parent() {
         super("NONE", "NONE", "NONE", "NONE", "NONE", "NONE", "NONE", "NONE", "NONE", "NONE", "NONE", "NONE", "NONE");
@@ -39,11 +40,12 @@ public class Parent extends User {
         this.type = type;
     }
 
-    public ArrayList<String> getClassRooms() {
+
+    public HashMap<String, String> getClassRooms() {
         return classRooms;
     }
 
-    public void setClassRooms(ArrayList<String> classRooms) {
+    public void setClassRooms(HashMap<String, String> classRooms) {
         this.classRooms = classRooms;
     }
 

@@ -40,6 +40,7 @@ import com.mukesh.countrypicker.interfaces.CountryPickerListener;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 public class AddClassRoomActivity extends SwipeBackActivity {
     private CircleProgressBar progressBar;
@@ -62,7 +63,7 @@ public class AddClassRoomActivity extends SwipeBackActivity {
     private SharedPreferences sp;
     private static String json;
     private ComplexPreferences complexPreferences;
-    private ArrayList<String> list_class_rooms;
+    private HashMap<String,String> list_class_rooms;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,9 +127,9 @@ public class AddClassRoomActivity extends SwipeBackActivity {
                     if (task.isSuccessful()) {
                         list_class_rooms = teacher.getClassRooms();
                         if (list_class_rooms == null) {
-                            list_class_rooms = new ArrayList<String>();
+                            list_class_rooms = new HashMap<String, String>();
                         }
-                        list_class_rooms.add(id);
+                        list_class_rooms.put(id,id);
 
                         mDBase.child("teachers").child(admin).child("classRooms").child(id).setValue(id).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override

@@ -33,6 +33,7 @@ import com.squareup.picasso.Picasso;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -58,7 +59,7 @@ public class SearchClassAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     private FirebaseAuth auth = FirebaseAuth.getInstance();
     private SearchClassRoomViewHolder mHolder;
     private String id_class;
-    private ArrayList<String> list_class_teacher;
+    private HashMap<String,String> list_class_teacher;
     private ArrayList<ClassroomRequest> list_class_room_requests ;
 
 
@@ -98,13 +99,14 @@ public class SearchClassAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
         switch (Role.trim()) {
             case "teacher":
-                if (list_class_teacher.contains(classRooms.get(position).getId().trim())) {
+                if (list_class_teacher.containsValue(classRooms.get(position).getId().trim())) {
                     System.out.println("yes it exist");
                     mHolder.btnJoin.setVisibility(View.GONE);
                 }
 
                 break;
             case "child":
+                if(id_class != null)
                 if (classRooms.get(position).getId().trim().equals(id_class.trim())) {
                     System.out.println("yes it exist");
                     mHolder.btnJoin.setVisibility(View.GONE);
