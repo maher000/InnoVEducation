@@ -45,7 +45,7 @@ public class AddChildActivity extends SwipeBackActivity {
     StorageReference imagesRef;
     DatabaseReference mDBase = Config.mDatabase;
     FirebaseAuth auth = FirebaseAuth.getInstance();
-    private FirebaseAuth mAuth2 =FirebaseAuth.getInstance();
+    private FirebaseAuth mAuth2 = FirebaseAuth.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,14 +68,15 @@ public class AddChildActivity extends SwipeBackActivity {
         });
 
     }
-    private void AddChild(){
-        if(!ShowErorMessage()){
+
+    private void AddChild() {
+        if (!ShowErorMessage()) {
             progress = new ProgressDialog(this);
             progress.setMessage("Uploading data ...");
             progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
             progress.setIndeterminate(true);
             progress.show();
-            final String parentId=FirebaseAuth.getInstance().getCurrentUser().getUid();
+            final String parentId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
             mAuth2.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -84,15 +85,15 @@ public class AddChildActivity extends SwipeBackActivity {
                             if (task.isSuccessful()) {
 
                                 /*******************************************/
-                                String id=mAuth2.getCurrentUser().getUid();
-                                Child child=new Child();
+                                String id = mAuth2.getCurrentUser().getUid();
+                                Child child = new Child();
                                 child.setIdUser(id);
                                 child.setParentId(parentId);
                                 child.setActive("false");
                                 Config.mDatabase.child("child").child(id).setValue(child);
-                                Config.mDatabase.child("parents").child(parentId).child("childId").setValue(id);
+                                Config.mDatabase.child("parents").child(parentId).child("childId").child(id).setValue(id);
                                 mAuth2.getCurrentUser().sendEmailVerification();
-
+                                finish();
                                 /*******************************************/
 
                                 progress.dismiss();
@@ -117,19 +118,21 @@ public class AddChildActivity extends SwipeBackActivity {
             }
         });
     }
+
     public boolean ShowErorMessage() {
-        String msg="";
+        String msg = "";
         if (!new Test().TestConnection(this)) {
-            msg="there is no internet connection";
+            msg = "there is no internet connection";
             return dispalyError(msg);
         }
-        if(email.trim().isEmpty()||password.trim().isEmpty())
+        if (email.trim().isEmpty() || password.trim().isEmpty())
             return dispalyError("All fields are required");
 
         return false;
 
     }
-    private boolean dispalyError(String message){
+
+    private boolean dispalyError(String message) {
         tvErrorMsg.setText(message);
         tvErrorMsg.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_in));
         LayoutErrorMessage.setVisibility(View.VISIBLE);

@@ -1,5 +1,6 @@
 package com.education.innov.innoveducation.Fragment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -22,7 +23,11 @@ import android.widget.TextView;
 import com.education.innov.innoveducation.Activities.AddChildActivity;
 import com.education.innov.innoveducation.Activities.MainActivity;
 import com.education.innov.innoveducation.Adapter.MenuLeftNaviguationAdapter;
+import com.education.innov.innoveducation.Entities.Child;
+import com.education.innov.innoveducation.Entities.ClassRoom;
+import com.education.innov.innoveducation.Entities.Parent;
 import com.education.innov.innoveducation.Entities.Presence;
+import com.education.innov.innoveducation.Entities.Teacher;
 import com.education.innov.innoveducation.R;
 import com.education.innov.innoveducation.Utils.ComplexPreferences;
 import com.education.innov.innoveducation.Utils.Config;
@@ -34,6 +39,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
 import java.util.List;
@@ -46,65 +52,80 @@ public class LeftFragmentNaviguation extends Fragment {
 
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
-    ComplexPreferences co ;
+    private String Role;
+    private Teacher teacher;
+    private Child child;
+    private Parent parent;
+    private SharedPreferences shared;
+    private ComplexPreferences complexPreferences;
+    private String imageUrl, name;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_left_naviguation, container, false);
-        setUpRecyclerView(view);
+
+        shared = getActivity().getSharedPreferences("role_user", Activity.MODE_PRIVATE);
+        Role = shared.getString("role", null);
+        if (Role != null) {
+            getInfomationUser();
+            setUpRecyclerView(view);
+        }
+
         ImageView DownloadImage = ((ImageView) view.findViewById(R.id.profileImage));
-
-
-        // email
-        String email =  "laura.delcapo@gmail.com";
-        String imageUrl = "";
-        //String tel = user.get(SessionManager.KEY_tel);
 
 
         TextView nameView = (TextView) view.findViewById(R.id.nameAndSurname);
         TextView emailView = (TextView) view.findViewById(R.id.email);
-        emailView.setText(email);
-        nameView.setText("syrine");
-
-      //  Picasso.with(view.getContext())
-        //        .load(imageUrl)
-          //      .into(DownloadImage);
-
+        emailView.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail());
+        nameView.setText(name);
+        Picasso.with(view.getContext())
+                .load(imageUrl)
+                .into(DownloadImage);
         return view;
     }
-
-
-
     private RecyclerView setUpRecyclerView(View view) {
 
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.drawerList);
-        a = NavigationDrawerItem.getData();
-
+        a = NavigationDrawerItem.getData(Role);
         MenuLeftNaviguationAdapter adapter = new MenuLeftNaviguationAdapter(getActivity(), a);
         adapter.notifyDataSetChanged();
         recyclerView.setAdapter(adapter);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         //recyclerView.getChildAt(0).findViewById(R.id.drawerList).setVisibility(View.INVISIBLE);
-       recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
+        recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 LeftFragmentNaviguation.Item = position;
-                System.out.println(position+"possyrine");
-                switch (position){
-                    case 1 : addChild();
-                        break;
-                    case 5 : logOut();
-                        break;
-                    default:
-                        break;
+                System.out.println(position + "possyrine");
+                if (Role != null) {
+                    if(Role.trim().equals("parent")) {
+                        switch (position) {
+                            case 0:
+                                addChild();
+                                break;
+                            case 5:
+                                logOut();
+                                break;
+                            default:
+                                break;
+                        }
+                    }else {
+                        switch (position) {
+                            case 0:
+                                break;
+                            case 4:
+                                logOut();
+                                break;
+                            default:
+                                break;
+                        }
+                    }
                 }
             }
 
             @Override
-            public void onLongItemClick(View view, int position) {
-
-            }
+            public void onLongItemClick(View view, int position) {}
         }));
         return recyclerView;
     }
@@ -140,7 +161,8 @@ public class LeftFragmentNaviguation extends Fragment {
             }
         });
     }
-    private void logOut(){
+
+    private void logOut() {
 
         setUserOffline();
         FirebaseAuth.getInstance().signOut();
@@ -154,8 +176,9 @@ public class LeftFragmentNaviguation extends Fragment {
         editor.commit();
         editor.apply();
         startActivity(new Intent(getActivity(), MainActivity.class));
-}
-    private void addChild(){
+    }
+
+    private void addChild() {
         startActivity(new Intent(getActivity(), AddChildActivity.class));
     }
 
@@ -172,7 +195,7 @@ public class LeftFragmentNaviguation extends Fragment {
             public void onDataChange(DataSnapshot snapshot) {
                 // Remove ourselves when we disconnect.
 
-                    userRef.onDisconnect().removeValue();
+                userRef.onDisconnect().removeValue();
 
             }
 
@@ -181,9 +204,33 @@ public class LeftFragmentNaviguation extends Fragment {
                 Log.e("DBCount", "The read failed: " + firebaseError.getMessage());
             }
         };
-
         presenceRef.addValueEventListener(myPresence);
+    }
 
-
+    private void getInfomationUser() {
+        if (Role != null) {
+            switch (Role.trim()) {
+                case "teacher":
+                    complexPreferences = ComplexPreferences.getComplexPreferences(getActivity(), "mypref", getActivity().MODE_PRIVATE);
+                    teacher = complexPreferences.getObject("current_user", Teacher.class);
+                    name = teacher.getFirstName() + " " + teacher.getLastName();
+                    imageUrl = teacher.getUrlImage();
+                    System.out.println(teacher + "tttttttttttttt");
+                    break;
+                case "parent":
+                    complexPreferences = ComplexPreferences.getComplexPreferences(getActivity(), "mypref", getActivity().MODE_PRIVATE);
+                    parent = complexPreferences.getObject("current_user", Parent.class);
+                    name = parent.getFirstName() + " " + parent.getLastName();
+                    imageUrl = parent.getUrlImage();
+                    break;
+                case "child":
+                    complexPreferences = ComplexPreferences.getComplexPreferences(getActivity(), "mypref", getActivity().MODE_PRIVATE);
+                    child = complexPreferences.getObject("current_user", Child.class);
+                    System.out.println(child + "ffggdds");
+                    name = child.getFirstName() + " " + child.getLastName();
+                    imageUrl = child.getUrlImage();
+                    break;
+            }
+        }
     }
 }

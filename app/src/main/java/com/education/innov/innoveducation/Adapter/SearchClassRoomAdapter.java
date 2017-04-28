@@ -1,6 +1,8 @@
 package com.education.innov.innoveducation.Adapter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,9 +11,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.education.innov.innoveducation.Entities.Child;
 import com.education.innov.innoveducation.Entities.ClassRoom;
 import com.education.innov.innoveducation.Entities.ClassroomRequest;
+import com.education.innov.innoveducation.Entities.Parent;
+import com.education.innov.innoveducation.Entities.Teacher;
 import com.education.innov.innoveducation.R;
+import com.education.innov.innoveducation.Utils.ComplexPreferences;
 import com.education.innov.innoveducation.Utils.Config;
 import com.education.innov.innoveducation.Utils.MyApp;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -35,7 +41,13 @@ public class SearchClassRoomAdapter extends RecyclerView.Adapter<SearchClassRoom
     private Context context;
     private ArrayList<ClassRoom> classRooms;
 
-
+    private String Role;
+    private Child child;
+    private Teacher teacher;
+    private SharedPreferences shared;
+    private ComplexPreferences complexPreferences;
+    private String author;
+    private String urlImageAuthor;
     private DatabaseReference mDBase = Config.mDatabase;
     private FirebaseAuth auth = FirebaseAuth.getInstance();
 
@@ -91,9 +103,9 @@ public class SearchClassRoomAdapter extends RecyclerView.Adapter<SearchClassRoom
             tvResponsable = (TextView) itemView.findViewById(R.id.tv_responsable);
             tvCountry = (TextView) itemView.findViewById(R.id.tvCountry);
             tvCreatedAt = (TextView) itemView.findViewById(R.id.tvDateText);
-            btnJoin= (Button) itemView.findViewById(R.id.btnJoinSearch);
-            if(MyApp.child!=null){
-                if(MyApp.child.getClassRommId().equals("NONE"))
+            btnJoin = (Button) itemView.findViewById(R.id.btnJoinSearch);
+            if (MyApp.child != null) {
+                if (MyApp.child.getClassRommId().equals("NONE"))
                     btnJoin.setVisibility(View.GONE);
             }
         }
@@ -123,34 +135,23 @@ public class SearchClassRoomAdapter extends RecyclerView.Adapter<SearchClassRoom
                     break;
 
                 //case R.id.img_row_add:
-                    //  addItem(position, current);
+                //  addItem(position, current);
                 //    break;
             }
         }
-        private void join(){
 
+        private void join() {
 
-         //   btnJoin.setClickable(false);
+            getInfomationUser();
+            //   btnJoin.setClickable(false);
             btnJoin.setText("request sent");
-            ClassroomRequest req=new ClassroomRequest();
+            ClassroomRequest req = new ClassroomRequest();
             req.setAdminClassroomId(current.getIdAdminstrator());
             req.setClassroomId(current.getId());
             req.setSenderId(FirebaseAuth.getInstance().getCurrentUser().getUid());
-            if(MyApp.teacher!=null){
-                req.setUrlImgSender(MyApp.teacher.getUrlImage());
-                req.setSenderName(MyApp.teacher.getFirstName()+" "+MyApp.teacher.getLastName());
-            }
-
-            else  if(MyApp.child!=null){
-                req.setUrlImgSender(MyApp.child.getUrlImage());
-                req.setSenderName(MyApp.child.getFirstName()+" "+MyApp.child.getLastName());
-            }
-
-            else if(MyApp.parent!=null){
-                req.setUrlImgSender(MyApp.parent.getUrlImage());
-                req.setSenderName(MyApp.parent.getFirstName()+" "+MyApp.parent.getLastName());
-            }
-            req.setSenderType(MyApp.role);
+            req.setSenderName(author);
+            req.setUrlImgSender(urlImageAuthor);
+            req.setSenderType(Role);
 
             Date date = new Date();
             SimpleDateFormat simpleDate = new SimpleDateFormat("dd-mm-yyyy hh:mm");
@@ -159,7 +160,7 @@ public class SearchClassRoomAdapter extends RecyclerView.Adapter<SearchClassRoom
 
             req.setClassroomName(current.getName());
 
-            String id=current.getId()+FirebaseAuth.getInstance().getCurrentUser().getUid();
+            String id = current.getId() + FirebaseAuth.getInstance().getCurrentUser().getUid();
             req.setId(id);
 
             mDBase.child("classroomRequest").child(id).setValue(req).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -175,9 +176,34 @@ public class SearchClassRoomAdapter extends RecyclerView.Adapter<SearchClassRoom
             });
 
 
-
-
         }
 
+    }
+
+    public void getInfomationUser() {
+        shared = context.getSharedPreferences("role_user", Activity.MODE_PRIVATE);
+        Role = shared.getString("role", null);
+        if (Role != null) {
+
+            switch (Role.trim()) {
+                case "teacher":
+                    complexPreferences = ComplexPreferences.getComplexPreferences(context, "mypref", context.MODE_PRIVATE);
+                    teacher = complexPreferences.getObject("current_user", Teacher.class);
+                    if (teacher != null) {
+                        author = teacher.getFirstName() + " " + teacher.getLastName();
+                        urlImageAuthor = teacher.getUrlImage();
+                    }
+                    System.out.println(teacher + "tttttttttttttt");
+                    break;
+                case "child":
+                    complexPreferences = ComplexPreferences.getComplexPreferences(context, "mypref", context.MODE_PRIVATE);
+                    child = complexPreferences.getObject("current_user", Child.class);
+                    if (child != null) {
+                        author = child.getFirstName() + " " + child.getLastName();
+                        urlImageAuthor = child.getUrlImage();
+                    }
+                    break;
+            }
+        }
     }
 }

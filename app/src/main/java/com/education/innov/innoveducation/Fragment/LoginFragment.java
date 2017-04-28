@@ -138,8 +138,6 @@ public class LoginFragment extends Fragment {
                         editor.commit();
                         System.out.println("le role est teacher");
                     System.out.println("teacherFromLogin"+teacher);
-
-
                         ComplexPreferences complexPreferences = ComplexPreferences.getComplexPreferences(
                                 getActivity(), "mypref", Context.MODE_PRIVATE);
                         complexPreferences.putObject("current_user", teacher);

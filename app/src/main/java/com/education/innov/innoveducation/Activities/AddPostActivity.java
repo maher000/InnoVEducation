@@ -478,7 +478,11 @@ public class AddPostActivity extends SwipeBackActivity {
         urlPostStorage = urlPost;
         new_post = new post();
         new_post.setId(id);
-        new_post.setName(name_file.getText().toString());
+        if(typePost.trim().equals("file")) {
+            new_post.setName(name_file.getText().toString());
+        }
+        else
+        new_post.setName(title);
         new_post.setDescription(description);
         new_post.setAuthor(author);
         new_post.setUrlImageAuthor(urlImageAuthor);
@@ -495,6 +499,7 @@ public class AddPostActivity extends SwipeBackActivity {
                 System.out.println("yees baby "+task.getResult());
                     circleProgressBar.dismiss();
                     System.out.println("post added successfully");
+                    finish();
                 }
             }
         });

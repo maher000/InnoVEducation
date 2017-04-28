@@ -68,8 +68,6 @@ public class HomeActivity extends AppCompatActivity {
     private int position = R.id.tab_home;
     private BottomBar bottomBar = null;
     private String Role;
-    private static Gson gson = new Gson();
-    private static String json;
     private Teacher teacher;
     private Child child;
     private Parent parent;
@@ -102,8 +100,7 @@ public class HomeActivity extends AppCompatActivity {
         Role = shared.getString("role", null);
         if (Role != null) {
             getInfomationUser();
-            setUserOnline();
-        }
+            setUserOnline();}
 
         System.out.println("**********************************   " + FirebaseAuth.getInstance().getCurrentUser().getUid());
         /* *******************************************/
@@ -114,7 +111,7 @@ public class HomeActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
                 child = dataSnapshot.getValue(Child.class);
                 if (child != null) {
                     if (child.getClassRommId() != null) {
@@ -369,50 +366,40 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     public void getInfomationUser() {
-        sp = getPreferences(Context.MODE_PRIVATE);
-        json = sp.getString("current_user", "");
+        System.out.println("role tttt"+Role);
         if (Role != null) {
-            json = sp.getString("current_user", "");
-            System.out.println(json + "ffggdd");
-            if (json != null) {
-                switch (Role.trim()) {
-                    case "teacher":
-                        complexPreferences = ComplexPreferences.getComplexPreferences(this, "mypref", this.MODE_PRIVATE);
-                        teacher = complexPreferences.getObject("current_user", Teacher.class);
-                        firstname = teacher.getFirstName();
-                        lastname = teacher.getLastName();
-                        urlImage = teacher.getUrlImage();
-                        System.out.println(firstname + lastname + urlImage + "syriiine is trying");
-                        System.out.println(teacher + "tttttttttttttt");
-                        classRoom = complexPreferences.getObject("my_class_room", ClassRoom.class);
+            switch (Role.trim()) {
+                case "teacher":
+                    complexPreferences = ComplexPreferences.getComplexPreferences(this, "mypref", this.MODE_PRIVATE);
+                    teacher = complexPreferences.getObject("current_user", Teacher.class);
+                    firstname = teacher.getFirstName();
+                    lastname = teacher.getLastName();
+                    urlImage = teacher.getUrlImage();
+                    System.out.println(firstname + lastname + urlImage + "syriiine is trying");
+                    System.out.println(teacher + "tttttttttttttt");
+                    classRoom = complexPreferences.getObject("my_class_room", ClassRoom.class);
+                    break;
+                case "parent":
+                    complexPreferences = ComplexPreferences.getComplexPreferences(this, "mypref", this.MODE_PRIVATE);
+                    parent = complexPreferences.getObject("current_user", Parent.class);
+                    firstname = parent.getFirstName();
+                    lastname = parent.getLastName();
+                    urlImage = parent.getUrlImage();
+                    classRoom = complexPreferences.getObject("my_class_room", ClassRoom.class);
+                    break;
+                case "child":
+                    complexPreferences = ComplexPreferences.getComplexPreferences(this, "mypref", this.MODE_PRIVATE);
+                    child = complexPreferences.getObject("current_user", Child.class);
+                    System.out.println(child + "ffggdds");
+                    firstname = child.getFirstName();
+                    lastname = child.getLastName();
+                    urlImage = child.getUrlImage();
+                    classRoom = complexPreferences.getObject("my_class_room", ClassRoom.class);
 
-                        break;
-                    case "parent":
-                        complexPreferences = ComplexPreferences.getComplexPreferences(this, "mypref", this.MODE_PRIVATE);
-                        parent = complexPreferences.getObject("current_user", Parent.class);
-                        firstname = parent.getFirstName();
-                        lastname = parent.getLastName();
-                        urlImage = parent.getUrlImage();
-                        classRoom = complexPreferences.getObject("my_class_room", ClassRoom.class);
-
-                        break;
-                    case "child":
-                        complexPreferences = ComplexPreferences.getComplexPreferences(this, "mypref", this.MODE_PRIVATE);
-                        child = complexPreferences.getObject("current_user", Child.class);
-                        System.out.println(child + "ffggdds");
-                        firstname = child.getFirstName();
-                        lastname = child.getLastName();
-                        urlImage = child.getUrlImage();
-                        classRoom = complexPreferences.getObject("my_class_room", ClassRoom.class);
-
-                        break;
-                }
+                    break;
             }
-
-
         }
     }
-
     private void setUserOnline() {
         String id = FirebaseAuth.getInstance().getCurrentUser().getUid();
         presence = new Presence(id, lastname, firstname, urlImage, "true", Role);

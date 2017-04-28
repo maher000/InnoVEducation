@@ -198,12 +198,14 @@ public class CompleteInformationChildActivity extends AppCompatActivity {
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {
                                         progress.dismiss();
+                                        sharedpreferences = getSharedPreferences("role_user", Context.MODE_PRIVATE);
                                         SharedPreferences.Editor editor = sharedpreferences.edit();
                                         editor.putString("role", "child");
                                         editor.commit();
                                         ComplexPreferences complexPreferences = ComplexPreferences.getComplexPreferences(
                                                 CompleteInformationChildActivity.this, "mypref", Context.MODE_PRIVATE);
                                         complexPreferences.putObject("current_user", child);
+                                        complexPreferences.commit();
                                         Intent intent = new Intent(CompleteInformationChildActivity.this, HomeActivity.class);
                                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);

@@ -96,7 +96,7 @@ public class RightFragmentNaviguation extends Fragment {
         Role = shared.getString("role", null);
         System.out.println("mon roole est" + Role);
 
-        a = NavigationDrawerItem.getData();
+        a = NavigationDrawerItem.getData(Role);
 
 
         // recyclerView.setAdapter(adapter);
