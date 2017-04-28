@@ -511,8 +511,7 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 if (dataSnapshot.exists()) {
-                    mBase.child("teacher").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("token").setValue(token);
-
+                    mBase.child("teachers").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("token").setValue(token);
                 }
 
             }
