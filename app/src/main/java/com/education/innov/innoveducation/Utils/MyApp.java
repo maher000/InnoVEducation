@@ -24,8 +24,6 @@ public  class  MyApp extends Application {
     public static String role;
     private static SharedPreferences sp;
     private static SharedPreferences mPrefs;
-    private static Gson gson = new Gson();
-    private static String json;
     public static String activeClassroom;
     public static Course course=null;
 

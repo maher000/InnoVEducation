@@ -16,6 +16,7 @@ public class Teacher extends User  implements Serializable{
     private String active_class_room ;
 
 
+
     public Teacher(){
         super("NONE","NONE","NONE","NONE","NONE","NONE" ,"NONE","NONE","NONE","false",
                 "NONE","NONE","NONE");

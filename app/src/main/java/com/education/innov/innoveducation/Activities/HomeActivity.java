@@ -86,9 +86,11 @@ public class HomeActivity extends AppCompatActivity {
     private SharedPreferences sp;
     private ComplexPreferences complexPreferences;
     private ClassRoom classRoom;
+    String id_class_room_child ;
     private RelativeLayout menu_chat;
     private Button btnChat, btnNotification;
     private EditText edtSearch;
+    private DatabaseReference userRef ;
 
     @Override
     protected void onResume() {
@@ -439,8 +441,8 @@ public class HomeActivity extends AppCompatActivity {
                     firstname = child.getFirstName();
                     lastname = child.getLastName();
                     urlImage = child.getUrlImage();
-                    classRoom = complexPreferences.getObject("my_class_room", ClassRoom.class);
-
+                    id_class_room_child = child.getClassRommId();
+                    getClassRoomChild();
                     break;
             }
         }
@@ -458,8 +460,20 @@ public class HomeActivity extends AppCompatActivity {
 
         final DatabaseReference presenceRef = FirebaseDatabase.getInstance()
                 .getReference().child(".info/connected");
-        final DatabaseReference userRef = FirebaseDatabase.getInstance()
-                .getReference().child("presence").child(id);
+        switch (Role){
+            case "teacher":
+                userRef = FirebaseDatabase.getInstance()
+                        .getReference().child("teachers").child(id).child("connected");
+                break;
+            case "child":
+                userRef = FirebaseDatabase.getInstance()
+                        .getReference().child("child").child(id).child("connected");
+                break;
+            case "parent":
+                userRef = FirebaseDatabase.getInstance()
+                        .getReference().child("parents").child(id).child("connected");
+                break;
+        }
 
         ValueEventListener myPresence = new ValueEventListener() {
             @Override
@@ -467,7 +481,7 @@ public class HomeActivity extends AppCompatActivity {
                 // Remove ourselves when we disconnect.
                 if (snapshot.getValue(Boolean.class)) {
                     userRef.onDisconnect().removeValue();
-                    userRef.setValue(presence);
+                    userRef.setValue("true");
                 }
             }
 
@@ -572,6 +586,23 @@ public class HomeActivity extends AppCompatActivity {
 
             @Override
             public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+    }
+    public void getClassRoomChild() {
+        if(id_class_room_child != null)
+        mBase.child("classrooms").child(id_class_room_child).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot != null) {
+                    classRoom = dataSnapshot.getValue(ClassRoom.class);
+                    complexPreferences.putObject("my_class_room", classRoom);
+                    complexPreferences.commit();
+                }
             }
 
             @Override

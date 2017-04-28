@@ -60,6 +60,7 @@ public class LeftFragmentNaviguation extends Fragment {
     private SharedPreferences shared;
     private ComplexPreferences complexPreferences;
     private String imageUrl, name;
+    DatabaseReference userRef ;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -205,18 +206,30 @@ public class LeftFragmentNaviguation extends Fragment {
 
     private void setUserOffline() {
         String id = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        switch (Role){
+            case "teacher":
+                userRef = FirebaseDatabase.getInstance()
+                        .getReference().child("teachers").child(id).child("connected");
+                break;
+            case "child":
+                userRef = FirebaseDatabase.getInstance()
+                        .getReference().child("child").child(id).child("connected");
+                break;
+            case "parent":
+                userRef = FirebaseDatabase.getInstance()
+                        .getReference().child("parents").child(id).child("connected");
+                break;
+        }
 
         final DatabaseReference presenceRef = FirebaseDatabase.getInstance()
                 .getReference().child(".info/connected");
-        final DatabaseReference userRef = FirebaseDatabase.getInstance()
-                .getReference().child("presence").child(id);
 
         ValueEventListener myPresence = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 // Remove ourselves when we disconnect.
 
-                userRef.onDisconnect().removeValue();
+                userRef.onDisconnect().setValue("no");
 
             }
 
