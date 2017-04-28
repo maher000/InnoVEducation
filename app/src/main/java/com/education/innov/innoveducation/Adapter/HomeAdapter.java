@@ -2,9 +2,12 @@ package com.education.innov.innoveducation.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.media.Image;
 import android.net.Uri;
+import android.os.Environment;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -31,16 +34,28 @@ import com.education.innov.innoveducation.Views.ImagePostViewHolder;
 import com.education.innov.innoveducation.Views.TextPostViewHolder;
 import com.education.innov.innoveducation.Views.VideoPostViewHolder;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
+import java.io.ByteArrayInputStream;
+import java.io.DataInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Array;
+import java.net.MalformedURLException;
 import java.net.URI;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -224,7 +239,8 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 }
             });
         } else if (itemType == ITEM_TYPE_FILE) {
-            FilePostViewHolder mHolder = (FilePostViewHolder) holder;
+            final FilePostViewHolder mHolder = (FilePostViewHolder) holder;
+            mHolder.tvNameFile.setText(posts.get(position).getName());
             mHolder.tvDescriptionFile.setText(posts.get(position).getDescription().toString());
             mHolder.tvFullNameFile.setText(posts.get(position).getAuthor().toString());
             mHolder.tvMatiereFile.setText(posts.get(position).getSubject().toString());
@@ -236,6 +252,79 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     String idHomeWork = "1";
                     intent.putExtra("idhommeWork", idHomeWork);
                     context.startActivity(intent);
+                }
+            });
+            mHolder.downladFile.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Snackbar snackbar = Snackbar
+                            .make(mHolder.itemView,"Download File",Snackbar.LENGTH_SHORT)
+                            .setAction("Download", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+
+                                    StorageReference storageRef = Config.storage.getReference("posts_files").
+                                            child(posts.get(position).getId());
+                                    final String name=posts.get(position).getName();
+
+                                    try {
+                                        File localFile = File.createTempFile(posts.get(position).getId(),
+                                                reverse(getType(posts.get(position).getType()))
+                                        );
+                                        final long ONE_MEGABYTE = 1024 * 1024;
+                                        storageRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                                            @Override
+                                            public void onSuccess(byte[] bytes) {
+                                                // Local temp file has been created
+                                                try {
+
+                                                    ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
+                                                    DataInputStream dis = new DataInputStream(bis);
+
+
+                                                    byte[] buffer = new byte[1024];
+                                                    int length;
+
+                                                    FileOutputStream fos = new FileOutputStream(new File(Environment.getExternalStorageDirectory() + "/" +name ));
+
+                                                    while ((length = dis.read(buffer))>0) {
+                                                        fos.write(buffer, 0, length);
+                                                    }
+                                                    Snackbar snackbar = Snackbar
+                                                            .make(mHolder.itemView,"File Dwnloaded succesfully",Snackbar.LENGTH_SHORT);
+                                                    snackbar.show();
+
+
+                                                } catch (MalformedURLException mue) {
+                                                    Log.e("SYNC getUpdate", "malformed url error", mue);
+                                                } catch (IOException ioe) {
+                                                    Log.e("SYNC getUpdate", "io error", ioe);
+                                                } catch (SecurityException se) {
+                                                    Log.e("SYNC getUpdate", "security error", se);
+                                                }
+
+
+                                            }
+                                        }).addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception exception) {
+                                                // Handle any errors
+                                            }
+                                        });
+
+
+                                    }
+                                    catch (IOException e){
+
+                                    }
+
+
+
+
+                                }
+                            });
+                    snackbar.setActionTextColor(Color.rgb(241, 125, 100));
+                    snackbar.show();
                 }
             });
         }
@@ -257,8 +346,37 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         return -1;
     }
 
+    private String getType(String nom){
+        String type="";
+        if(nom!=null){
+            for(int i=nom.length()-1;i>0;i--){
+                Character c=nom.charAt(i);
+
+                if(c=='.')
+                    return type;
+                type+=c;
+            }
+
+            return type;
+        }
+
+        return type;
+
+    }
+    private String reverse(String nom){
+        String type="";
+        for(int i=nom.length()-1;i>=0;i--){
+            Character c=nom.charAt(i);
+            type+=c;
+        }
+        return type;
+    }
+
+
     @Override
     public int getItemCount() {
         return posts.size();
     }
+
+
 }

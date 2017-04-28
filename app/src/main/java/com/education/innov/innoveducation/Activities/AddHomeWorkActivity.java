@@ -212,6 +212,7 @@ public class AddHomeWorkActivity extends SwipeBackActivity {
                     circleProgressBar.dismiss();
                     System.out.println("post added successfully");
                     psuhNotificationAllUsers.sendAndroidNotification("-KhfjglYFioLuyKlDIif","maher","sds");
+                    finish();
                 }
             }
 

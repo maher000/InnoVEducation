@@ -84,7 +84,6 @@ public class AddPostActivity extends SwipeBackActivity {
     private static final int SELECT_VIDEO = 3;
     private static final int SELECT_PICTURE = 0;
     private VideoView video;
-    private TextView name_file;
     private ImageView image_post;
     private String filePath;
     private String id;
@@ -111,6 +110,7 @@ public class AddPostActivity extends SwipeBackActivity {
     private ComplexPreferences complexPreferences;
     private ClassRoom class_room ;
     private String extentionFile;
+    private TextView name_file;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -222,7 +222,7 @@ public class AddPostActivity extends SwipeBackActivity {
 
     private void ChooseFile() {
         attchementContainer.removeAllViews();
-        name_file = new TextView(this);
+        name_file= new TextView(this);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 50);
         attchementContainer.setLayoutParams(params);
         attchementContainer.addView(name_file, params);
@@ -478,7 +478,7 @@ public class AddPostActivity extends SwipeBackActivity {
         urlPostStorage = urlPost;
         new_post = new post();
         new_post.setId(id);
-        new_post.setName(title);
+        new_post.setName(name_file.getText().toString());
         new_post.setDescription(description);
         new_post.setAuthor(author);
         new_post.setUrlImageAuthor(urlImageAuthor);
