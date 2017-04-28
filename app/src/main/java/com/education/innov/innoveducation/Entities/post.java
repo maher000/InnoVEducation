@@ -23,10 +23,22 @@ public class post {
     private User owner; // do not add to firbase
     private String visibility;
     private String subject; // football, sport, education...
-    String author ;
-    String urlImageAuthor ;
+    private String author ;
+    private String urlImageAuthor ;
+    private String urlMiniature;
+
+
+
 
     public post() {}
+
+    public String getUrlMiniature() {
+        return urlMiniature;
+    }
+
+    public void setUrlMiniature(String urlMiniature) {
+        this.urlMiniature = urlMiniature;
+    }
 
     public String getAuthor() {
         return author;

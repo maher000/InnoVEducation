@@ -32,8 +32,17 @@ public class Course implements Parcelable {
     private ClassRoom classRoom;
     private ArrayList<String> idComments;
     private ArrayList<Comments> comments;
+    private String ownerId;
 
     public Course() {
+    }
+
+    public String getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(String ownerId) {
+        this.ownerId = ownerId;
     }
 
     public Course(String id, String name, String description, String country, String langage, Teacher owner, ArrayList<User> followers, ArrayList<Video> videos, ArrayList<String> idFollowers, ArrayList<String> idVideos, String creationDate, String visibility, ClassRoom classRoom, ArrayList<String> idComments, ArrayList<Comments> comments) {
@@ -245,24 +254,26 @@ public class Course implements Parcelable {
         dest.writeString(urlImageAuthor);
         dest.writeString(author);
         dest.writeString(creationDate);
-        dest.writeString(id);
-        dest.writeString(visibility);
         dest.writeString(description);
+        dest.writeString(visibility);
         dest.writeString(IdClassRoom);
+        dest.writeString(id);
         dest.writeString(IdUser);
+        dest.writeString(ownerId);
 
     }
 
     private Course(Parcel in) {
         name = in.readString();
-        description = in.readString();
-        author = in.readString();
         urlImageAuthor = in.readString();
+        author = in.readString();
         creationDate = in.readString();
+        description = in.readString();
         visibility = in.readString();
         IdClassRoom = in.readString();
         id = in.readString();
         IdUser = in.readString();
+        ownerId=in.readString();
     }
 
     public static final Creator<Course> CREATOR = new Creator<Course>() {

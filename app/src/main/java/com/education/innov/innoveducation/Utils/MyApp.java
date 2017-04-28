@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.education.innov.innoveducation.Entities.Child;
+import com.education.innov.innoveducation.Entities.Course;
 import com.education.innov.innoveducation.Entities.Parent;
 import com.education.innov.innoveducation.Entities.Teacher;
 import com.google.gson.Gson;
@@ -26,6 +27,7 @@ public  class  MyApp extends Application {
     private static Gson gson = new Gson();
     private static String json;
     public static String activeClassroom;
+    public static Course course=null;
 
     public MyApp(){
 
@@ -33,33 +35,6 @@ public  class  MyApp extends Application {
 
     private  MyApp(Activity ctx){
         this.ctx=ctx;
-        if(ctx!=null) {
-            sp = ctx.getSharedPreferences("role_user", Activity.MODE_PRIVATE);
-            mPrefs = ctx.getPreferences(Context.MODE_PRIVATE);
-            role = sp.getString("role", null);
-            json = mPrefs.getString("current_user", "");
-            if (role != null) {
-                json = mPrefs.getString("current_user", "");
-                System.out.println(json+"ffggdd");
-                if (json != null) {
-
-                    switch (role.trim()) {
-                        case "teacher":
-                            teacher = gson.fromJson(json, Teacher.class);
-                            System.out.println(teacher + "tttttttttttttt");
-                            break;
-                        case "parent":
-                            parent = gson.fromJson(json, Parent.class);
-                            break;
-                        case "child":
-                            child = gson.fromJson(json, Child.class);
-                            System.out.println(child+"ffggdds");
-                            break;
-                    }
-                }
-            }
-        }
-
 
     }
     public static synchronized MyApp getInstance(Activity context) {

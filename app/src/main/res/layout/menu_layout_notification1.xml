@@ -21,7 +21,25 @@
                 android:backgroundTint="@color/overWhite"
                 android:clickable="false"/>
         </RelativeLayout>
+        <RelativeLayout
+        android:id="@+id/relative_layout_item_count1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/relative_layout_item_count"
+        android:layout_alignBottom="@+id/relative_layout_item_count"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="40dp"
+        android:layout_marginStart="40dp">
 
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="40dip"
+            android:layout_height="40dip"
+            android:background="@drawable/icon_notification_48"
+            android:backgroundTint="@color/overWhite"
+            android:clickable="false"/>
+    </RelativeLayout>
 
         <TextView
             android:id="@+id/badge_notification_1"
@@ -33,5 +51,14 @@
             android:textColor="#FFF"
             android:textSize="12sp"
             android:textStyle="bold" />
-
+        <TextView
+        android:id="@+id/badge_notification_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:drawable/ic_notification_overlay"
+        android:text="56"
+        android:textColor="#FFF"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        android:layout_alignRight="@id/relative_layout_item_count1" />
     </RelativeLayout>

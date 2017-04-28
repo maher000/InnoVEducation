@@ -141,4 +141,25 @@
             </LinearLayout>
         </ScrollView>
     </com.liuguangqiang.swipeback.SwipeBackLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:id="@+id/LayoutErrorMessage"
+        android:layout_height="50dp"
+        android:alpha="0.8"
+        android:visibility="gone"
+        android:layout_alignBottom="@+id/swipe_layout">
+
+        <TextView
+            android:id="@+id/tvErrorMsg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/black"
+            android:gravity="center"
+            android:lines="2"
+            android:maxLines="2"
+            android:text=""
+            android:textColor="@color/overWhite"
+            android:textSize="12dp"
+            android:textStyle="bold" />
+    </LinearLayout>
 </RelativeLayout>

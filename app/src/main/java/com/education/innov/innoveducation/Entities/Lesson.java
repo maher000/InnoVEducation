@@ -124,18 +124,16 @@ public class Lesson  implements Parcelable {
         dest.writeString(description);
         dest.writeString(urlVideo);
         dest.writeString(urlMiniature);
-        dest.writeString(description);
         dest.writeString(DateCreation);
     }
 
     private Lesson(Parcel in) {
         id = in.readString();
-        description = in.readString();
-        idCoursse = in.readString();
         title = in.readString();
+        idCoursse = in.readString();
+        description = in.readString();
         urlVideo = in.readString();
         urlMiniature = in.readString();
-        description = in.readString();
         DateCreation = in.readString();
     }
 

@@ -32,6 +32,8 @@ import com.education.innov.innoveducation.Fragment.LeftFragmentNaviguation;
 import com.education.innov.innoveducation.Fragment.ListLessonsFragment;
 import com.education.innov.innoveducation.Fragment.RightFragmentNaviguation;
 import com.education.innov.innoveducation.R;
+import com.education.innov.innoveducation.Utils.MyApp;
+import com.google.firebase.auth.FirebaseAuth;
 import com.squareup.picasso.Picasso;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -49,7 +51,7 @@ public class CourseActivity extends AppCompatActivity {
             tvdateCoursses_activity, tvNameLesson, tvFullNameCourses_activity;
     private String author, urlImageAuthor, titleCoursses, TitleLesson, description, dateLesson, urlVideo, urlMiniature;
     private ImageView course_menu_btn;
-    public static Course coursse;
+    private Course coursse;
     private Lesson lesson;
     private Intent intent;
 
@@ -58,13 +60,13 @@ public class CourseActivity extends AppCompatActivity {
     public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
         super.onSaveInstanceState(outState, outPersistentState);
         outState.putParcelable("theCoursse", coursse);
-        System.out.println("geet");
     }
 
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         System.out.println("restauré");
     }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,24 +80,19 @@ public class CourseActivity extends AppCompatActivity {
         image_profile_courses_activity = (CircleImageView) findViewById(R.id.image_profile_courses_activity);
         tvTiteCoursse = (TextView) findViewById(R.id.tvTiteCoursse);
         tvFullNameCourses_activity = (TextView) findViewById(R.id.tvFullNameCourses_activity);
-        tvDescriptionVideo = (TextView) findViewById(R.id.tvDescriptionVideo);
+        tvDescriptionVideo = (TextView) findViewById(R.id.tv_description_courses_activity);
         tvdateCoursses_activity = (TextView) findViewById(R.id.tvdateCoursses_activity);
         tvNameLesson = (TextView) findViewById(R.id.tvNameLesson);
-
-
-        drawerlessonFragment = (ListLessonsFragment) getSupportFragmentManager().findFragmentById(R.id.nav_drw_lessons_drawer);
         setUpToolbar();
-        course_menu_btn = (ImageView) findViewById(R.id.course_menu_btn);
-        course_menu_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                drawerLayout.openDrawer(Gravity.LEFT); /*Opens the Right Drawer*/
-            }
-        });
+
+
         btnAddLesson.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(CourseActivity.this,AddLessonsActivity.class).setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP));
+                Intent intent=new Intent(CourseActivity.this,AddLessonsActivity.class);
+                intent.putExtra("id_coursse",coursse.getId());
+                intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivity(intent);
             }
         });
         //  setUpDrawer();
@@ -103,27 +100,48 @@ public class CourseActivity extends AppCompatActivity {
 
         if (getCallingActivity() != null) {
             Log.d("taaag", getCallingActivity().getClassName());
+            Log.d("taag",HomeActivity.class.getName());
             System.out.println("couuuucouuu this is a try " + getCallingActivity().getClassName());
-        }
-        System.out.println("yes no baby " + getIntent());
 
-        if (getIntent().getClass().equals(HomeActivity.class)) {
-            intent = getIntent();
-            coursse = intent.getExtras().getParcelable("coursse");
-            GetCoursseDetail();
-            System.out.println("couuuucouuu this is a try " + getCallingActivity().getClassName());
-        } else {
-            intent = getIntent();
-            coursse = intent.getExtras().getParcelable("coursse");
-            GetCoursseDetail();
-            System.out.println("le cours est " + coursse);
-            lesson = intent.getExtras().getParcelable("lesson");
-            if (lesson != null) {
+            System.out.println("yes no baby " + getIntent());
+            System.out.println("llkkjj" + getIntent().getClass().getName());
+
+            if (getCallingActivity().getClassName().equals(HomeActivity.class.getName())) {
+                intent = getIntent();
+                coursse = intent.getExtras().getParcelable("coursse");
+                MyApp.course=coursse;
+                GetCoursseDetail();
+            } else {
+
+                intent = getIntent();
+                coursse = MyApp.course;
+                System.out.println("ppaa" + coursse);
+                GetCoursseDetail();
                 System.out.println("le cours est " + coursse);
-                System.out.println("le leçon est " + lesson);
-                getLessonDetail();
+                lesson = intent.getExtras().getParcelable("lesson");
+                if (lesson != null) {
+                    System.out.println("le cours est " + coursse);
+                    System.out.println("le leçon est " + lesson);
+                    getLessonDetail();
+                }
             }
         }
+        if(FirebaseAuth.getInstance().getCurrentUser().getUid().equals(coursse.getOwnerId())){
+            btnAddLesson.setVisibility(View.VISIBLE);
+        }
+
+        drawerlessonFragment = (ListLessonsFragment) getSupportFragmentManager().findFragmentById(R.id.nav_drw_lessons_drawer);
+        course_menu_btn = (ImageView) findViewById(R.id.course_menu_btn);
+        course_menu_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(coursse!=null){
+                    MyApp.course=coursse;
+                    drawerLayout.openDrawer(Gravity.LEFT); /*Opens the Right Drawer*/
+                }
+
+            }
+        });
 
     }
 
@@ -131,7 +149,7 @@ public class CourseActivity extends AppCompatActivity {
     private void setUpToolbar() {
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Back");
+        toolbar.setTitle("Course");
         toolbar.inflateMenu(R.menu.menu_main);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -158,6 +176,10 @@ public class CourseActivity extends AppCompatActivity {
         JCVideoPlayer.releaseAllVideos();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
 
     private void setUpDrawer() {
 
@@ -169,10 +191,15 @@ public class CourseActivity extends AppCompatActivity {
 
     private void GetCoursseDetail() {
         author = coursse.getAuthor();
-        urlImageAuthor = coursse.getUrlImageAuthor();
         titleCoursses = coursse.getName();
-        tvTiteCoursse.setText(author);
-        tvFullNameCourses_activity.setText(titleCoursses);
+        urlImageAuthor = coursse.getUrlImageAuthor();
+        description=coursse.getDescription();
+
+
+
+        tvTiteCoursse.setText(titleCoursses);
+        tvFullNameCourses_activity.setText(author);
+        tvDescriptionVideo.setText(description);
         Picasso.with(getApplicationContext()).load(urlImageAuthor).into(image_profile_courses_activity);
 
 
@@ -185,9 +212,9 @@ public class CourseActivity extends AppCompatActivity {
         TitleLesson = lesson.getTitle();
         description = lesson.getDescription();
         dateLesson = lesson.getDateCreation();
+
         tvDescriptionVideo.setText(description);
         tvdateCoursses_activity.setText(dateLesson);
-
         tvNameLesson.setText(TitleLesson);
 
         JCVideoPlayerStandard jcVideoPlayerStandard = (JCVideoPlayerStandard) findViewById(R.id.videoplayer);
@@ -197,5 +224,13 @@ public class CourseActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        if(coursse!=null)
+        savedInstanceState.putParcelable("coursse", coursse);
+
+        // etc.
+    }
 
 }

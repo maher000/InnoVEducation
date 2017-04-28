@@ -33,6 +33,8 @@
             android:layout_margin="16dp"
             android:src="@drawable/icon_plus_48"
             android:id="@+id/btnAddLesson"
+            app:backgroundTint="@color/colorPrimary"
+            android:visibility="gone"
             app:layout_anchorGravity="bottom|right|end" />
 
         <include

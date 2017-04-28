@@ -2,6 +2,7 @@ package com.education.innov.innoveducation.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.media.Image;
 import android.net.Uri;
@@ -189,6 +190,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 ;
                 mHolder.PostVideo.setUp(posts.get(position).getUrlFile().toString()
                         , JCVideoPlayerStandard.SCREEN_LAYOUT_NORMAL, "video name");
+                Picasso.with(context).load(posts.get(position).getUrlMiniature()).into(mHolder.PostVideo.thumbImageView);
             } catch (Exception e) {
                 Log.e("Error", e.getMessage());
                 e.printStackTrace();
@@ -267,10 +269,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                                             child(posts.get(position).getId());
                                     final String name=posts.get(position).getName();
 
-                                    try {
-                                        File localFile = File.createTempFile(posts.get(position).getId(),
-                                                reverse(getType(posts.get(position).getType()))
-                                        );
+
                                         final long ONE_MEGABYTE = 1024 * 1024;
                                         storageRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
                                             @Override
@@ -312,15 +311,6 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                                             }
                                         });
 
-
-                                    }
-                                    catch (IOException e){
-
-                                    }
-
-
-
-
                                 }
                             });
                     snackbar.setActionTextColor(Color.rgb(241, 125, 100));
@@ -345,33 +335,6 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
         return -1;
     }
-
-    private String getType(String nom){
-        String type="";
-        if(nom!=null){
-            for(int i=nom.length()-1;i>0;i--){
-                Character c=nom.charAt(i);
-
-                if(c=='.')
-                    return type;
-                type+=c;
-            }
-
-            return type;
-        }
-
-        return type;
-
-    }
-    private String reverse(String nom){
-        String type="";
-        for(int i=nom.length()-1;i>=0;i--){
-            Character c=nom.charAt(i);
-            type+=c;
-        }
-        return type;
-    }
-
 
     @Override
     public int getItemCount() {

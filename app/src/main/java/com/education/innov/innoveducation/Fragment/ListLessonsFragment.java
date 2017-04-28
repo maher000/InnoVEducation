@@ -24,6 +24,7 @@ import com.education.innov.innoveducation.Entities.Course;
 import com.education.innov.innoveducation.Entities.Lesson;
 import com.education.innov.innoveducation.Entities.post;
 import com.education.innov.innoveducation.R;
+import com.education.innov.innoveducation.Utils.MyApp;
 import com.education.innov.innoveducation.Utils.RecyclerItemClickListener;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -70,11 +71,9 @@ public class ListLessonsFragment extends Fragment {
         mRecyclerView = (RecyclerView) view.findViewById(R.id.LessonsRecycleView);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
+        coursse = MyApp.course;
         getPosts();
-
         activity = getActivity();
-
-        coursse = ((CourseActivity) activity).coursse;
         mRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), mRecyclerView, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
@@ -96,48 +95,50 @@ public class ListLessonsFragment extends Fragment {
 
     public void getPosts() {
 
-        lessons = new ArrayList<>();
-        mAdapter = new LessonsAdapter(getActivity(), lessons);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        mAdapter.notifyDataSetChanged();
-        FirebaseDatabase.getInstance()
-                .getReference()
-                .child("lessons").addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                new_lesson = dataSnapshot.getValue(Lesson.class);
-                System.out.println("classRoom");
-                if (new_lesson != null) {
-                    //creta a listener
-                    lessons.add(new_lesson);
-                    mRecyclerView.setAdapter(mAdapter);
-                    mAdapter.notifyDataSetChanged();
+
+            lessons = new ArrayList<>();
+            mAdapter = new LessonsAdapter(getActivity(), lessons);
+            mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+            mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+            mAdapter.notifyDataSetChanged();
+            FirebaseDatabase.getInstance()
+                    .getReference()
+                    .child("lessons").orderByChild("idCoursse").equalTo(coursse.getId()).addChildEventListener(new ChildEventListener() {
+                @Override
+                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                    new_lesson = dataSnapshot.getValue(Lesson.class);
+                    System.out.println("classRoom");
+                    if (new_lesson != null) {
+                        //creta a listener
+                        lessons.add(new_lesson);
+                        mRecyclerView.setAdapter(mAdapter);
+                        mAdapter.notifyDataSetChanged();
+                    }
+
                 }
 
-            }
+                @Override
+                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                }
 
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-            }
+                @Override
+                public void onChildRemoved(DataSnapshot dataSnapshot) {
 
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
+                }
 
-            }
+                @Override
+                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
 
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+                }
 
-            }
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
+                }
+            });
 
-            }
-        });
+        }
 
-    }
 
     public void setUpDrawer(DrawerLayout drawerLayout, Toolbar toolbar) {
         mDrawerLayout = drawerLayout;

@@ -19,16 +19,19 @@ import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.MediaController;
+import android.widget.TextView;
 import android.widget.VideoView;
 
 import com.education.innov.innoveducation.Entities.Lesson;
 import com.education.innov.innoveducation.R;
 import com.education.innov.innoveducation.Utils.Config;
+import com.education.innov.innoveducation.Utils.Test;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -66,6 +69,9 @@ public class AddLessonsActivity extends SwipeBackActivity {
     StorageReference ViedeoPostRef = Config.storage.getReference("lessons_videos");
     StorageReference videosRef;
     Intent intent;
+    private LinearLayout LayoutErrorMessage;
+    private TextView tvErrorMsg;
+    private boolean verif=false;
 
 
     @Override
@@ -77,6 +83,9 @@ public class AddLessonsActivity extends SwipeBackActivity {
         ImgAddVideoLesson = (ImageView) findViewById(R.id.ImgAddVideoLesson);
         btnAddLesson = (Button) findViewById(R.id.btnAddLesson);
         attchementContainerLesson = (LinearLayout) findViewById(R.id.attchementContainerLesson);
+        LayoutErrorMessage = (LinearLayout) findViewById(R.id.LayoutErrorMessage);
+        tvErrorMsg = (TextView) findViewById(R.id.tvErrorMsg);
+
         intent = getIntent();
 
         circleProgressBar = new ProgressDialog(this);
@@ -93,7 +102,11 @@ public class AddLessonsActivity extends SwipeBackActivity {
             @Override
             public void onClick(View v) {
                 id = mDBase.child("lessons").push().getKey();
-                upload_Video();
+                title = EdtNameLesson.getText().toString();
+                description=EdtDescriptionLesson.getText().toString();
+                if(!ShowErorMessage()){
+                    upload_Video();
+                }
 
             }
         });
@@ -177,11 +190,10 @@ public class AddLessonsActivity extends SwipeBackActivity {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
-                    finish();
+                    AddLessonsActivity.this.finish();
                 }
             }
         });
-
 
     }
 
@@ -215,6 +227,7 @@ public class AddLessonsActivity extends SwipeBackActivity {
                 MediaController mc = new MediaController(this);
                 video.setMediaController(mc);
                 video.start();
+                verif=true;
 
             }
         }
@@ -279,5 +292,34 @@ public class AddLessonsActivity extends SwipeBackActivity {
 
         });
     }
+
+    public boolean ShowErorMessage() {
+        String msg = "";
+        if (!new Test().TestConnection(this)) {
+            msg = "there is no internet connection";
+            return dispalyError(msg);
+        }
+        if (description.trim().isEmpty() || title.trim().isEmpty())
+            return dispalyError("All fields are required");
+        if(!verif)
+            return dispalyError("choose a video to upload");
+
+
+        return false;
+
+    }
+
+    private boolean dispalyError(String message) {
+        tvErrorMsg.setText(message);
+        tvErrorMsg.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_in));
+        LayoutErrorMessage.setVisibility(View.VISIBLE);
+        LayoutErrorMessage.postDelayed(new Runnable() {
+            public void run() {
+                LayoutErrorMessage.setVisibility(View.INVISIBLE);
+            }
+        }, 3000);
+        return true;
+    }
+
 
 }

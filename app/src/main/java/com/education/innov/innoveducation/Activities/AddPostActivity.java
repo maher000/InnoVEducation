@@ -111,6 +111,7 @@ public class AddPostActivity extends SwipeBackActivity {
     private ClassRoom class_room ;
     private String extentionFile;
     private TextView name_file;
+    private String urlFile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -276,6 +277,7 @@ public class AddPostActivity extends SwipeBackActivity {
                 video.setMediaController(mc);
                 video.start();
             } else if (requestCode == SELECT_PICTURE) {
+                video=null;
                 attchementContainer.removeAllViews();
                 image_post = new ImageView(this);
                 LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(300, 300);
@@ -380,6 +382,7 @@ public class AddPostActivity extends SwipeBackActivity {
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
                     Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                    urlFile=downloadUrl.toString();
                     upload_thms(filePath);
                     System.out.println("url videoooo" + downloadUrl);
                 }
@@ -483,10 +486,17 @@ public class AddPostActivity extends SwipeBackActivity {
         }
         else
         new_post.setName(title);
+        if(typePost.trim().equals("video")){
+            new_post.setUrlMiniature(urlPost);
+            new_post.setUrlFile(urlFile);
+        }
         new_post.setDescription(description);
         new_post.setAuthor(author);
         new_post.setUrlImageAuthor(urlImageAuthor);
+
+        if(!typePost.trim().equals("video"))
         new_post.setUrlFile(urlPost);
+
         new_post.setSubject(subject);
         new_post.setClassRoomId(class_room.getId());
         new_post.setVisibility(visibility);
@@ -499,7 +509,7 @@ public class AddPostActivity extends SwipeBackActivity {
                 System.out.println("yees baby "+task.getResult());
                     circleProgressBar.dismiss();
                     System.out.println("post added successfully");
-                    finish();
+                    AddPostActivity.this.finish();
                 }
             }
         });
@@ -513,7 +523,7 @@ public class AddPostActivity extends SwipeBackActivity {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bmThumbnail.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         byte[] data = baos.toByteArray();
-        UploadTask uploadTask = ViedeoPostRef.child("miniatures").putBytes(data);
+        UploadTask uploadTask = ViedeoPostRef.child("post_thms").child(id).putBytes(data);
         uploadTask.addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception exception) {

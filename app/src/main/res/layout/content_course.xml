@@ -33,7 +33,7 @@
             android:layout_weight="1"
             android:paddingLeft="5dp"
             android:singleLine="true"
-            android:text="Video Name"
+            android:text="Course title"
             android:textSize="18sp"
             android:textColor="@android:color/black"
             android:textStyle="bold" />

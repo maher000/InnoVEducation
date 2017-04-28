@@ -22,6 +22,7 @@ import com.education.innov.innoveducation.Utils.Config;
 import com.education.innov.innoveducation.Utils.MyApp;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.gson.Gson;
@@ -102,13 +103,14 @@ public class AddCourssesActivity extends SwipeBackActivity {
         new_coursse.setVisibility(visibility);
         new_coursse.setIdClassRoom(class_room.getId());
         new_coursse.setId(id);
+        new_coursse.setOwnerId(FirebaseAuth.getInstance().getCurrentUser().getUid());
         new_coursse.setCreationDate(dateStart);
         mDBase.child("coursses").child(id).setValue(new_coursse).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
                     System.out.println(" success");
-                    finish();
+                    AddCourssesActivity.this.finish();
                 } else {
                     System.out.println(task.getException().getMessage());
                 }

@@ -65,9 +65,10 @@ public class ClassCoursesFragment extends Fragment {
         mRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), mRecyclerView, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
+                MyApp.course=courses.get(position);
                 Intent intent = new Intent(getActivity(), CourseActivity.class).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 intent.putExtra("coursse", courses.get(position));
-                startActivity(intent);
+                startActivityForResult(intent,1);
             }
 
             @Override
