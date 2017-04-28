@@ -20,36 +20,27 @@ public class Course implements Parcelable {
     private String IdClassRoom;
     private String IdUser;
     private String langage;
-    private Teacher owner;//the owner must bu a teacher in order to add a course
-    private ArrayList<User> followers; //
+    private Teacher owner;
+    private ArrayList<User> followers;
     private ArrayList<Video> videos;
-    private ArrayList<String> idFollowers; //
+    private ArrayList<String> idFollowers;
     private ArrayList<String> idVideos;
     private String creationDate;
     private String author;
     private String urlImageAuthor;
-    private String visibility; // true or false (public to all users or only visible in the classRoom where was created
+    private String visibility;
     private ClassRoom classRoom;
     private ArrayList<String> idComments;
     private ArrayList<Comments> comments;
-    private String ownerId;
 
     public Course() {
-    }
-
-    public String getOwnerId() {
-        return ownerId;
-    }
-
-    public void setOwnerId(String ownerId) {
-        this.ownerId = ownerId;
     }
 
     public Course(String id, String name, String description, String country, String langage, Teacher owner, ArrayList<User> followers, ArrayList<Video> videos, ArrayList<String> idFollowers, ArrayList<String> idVideos, String creationDate, String visibility, ClassRoom classRoom, ArrayList<String> idComments, ArrayList<Comments> comments) {
         this.id = id;
         this.name = name;
         this.description = description;
-        Country = country;
+        this.Country = country;
         this.langage = langage;
         this.owner = owner;
         this.followers = followers;
@@ -254,12 +245,11 @@ public class Course implements Parcelable {
         dest.writeString(urlImageAuthor);
         dest.writeString(author);
         dest.writeString(creationDate);
-        dest.writeString(description);
-        dest.writeString(visibility);
-        dest.writeString(IdClassRoom);
         dest.writeString(id);
+        dest.writeString(visibility);
+        dest.writeString(description);
+        dest.writeString(IdClassRoom);
         dest.writeString(IdUser);
-        dest.writeString(ownerId);
 
     }
 
@@ -268,21 +258,18 @@ public class Course implements Parcelable {
         urlImageAuthor = in.readString();
         author = in.readString();
         creationDate = in.readString();
-        description = in.readString();
-        visibility = in.readString();
-        IdClassRoom = in.readString();
         id = in.readString();
+        visibility = in.readString();
+        description = in.readString();
+        IdClassRoom = in.readString();
         IdUser = in.readString();
-        ownerId=in.readString();
     }
 
     public static final Creator<Course> CREATOR = new Creator<Course>() {
-
         @Override
         public Course createFromParcel(Parcel source) {
             return new Course(source);
         }
-
         @Override
         public Course[] newArray(int size) {
             return new Course[size];

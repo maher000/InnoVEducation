@@ -3,8 +3,7 @@ package com.education.innov.innoveducation.Activities;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.view.GravityCompat;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,10 +14,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.education.innov.innoveducation.Adapter.MyClassroomsAdapter;
-import com.education.innov.innoveducation.Adapter.SearchClassRoomAdapter;
+import com.education.innov.innoveducation.Adapter.SearchClassAdapter;
 import com.education.innov.innoveducation.Entities.ClassRoom;
-import com.education.innov.innoveducation.Entities.Teacher;
+import com.education.innov.innoveducation.Entities.ClassroomRequest;
 import com.education.innov.innoveducation.R;
 import com.education.innov.innoveducation.Utils.Config;
 import com.education.innov.innoveducation.Utils.RecyclerItemClickListener;
@@ -29,25 +27,24 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.liuguangqiang.progressbar.CircleProgressBar;
-import com.liuguangqiang.swipeback.SwipeBackLayout;
 
 import java.util.ArrayList;
 
-public class ListClassroomsActivity extends AppCompatActivity {
+public class ListClassroomsActivity extends ActionBarActivity {
 
 
     private RecyclerView mRecyclerView;
-    private SearchClassRoomAdapter mAdapter;
+    private SearchClassAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     public DatabaseReference mDatabase;
     private String mUserId;
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
     private ArrayList<ClassRoom> classRooms = new ArrayList<>();
+    private ArrayList<ClassroomRequest> list_request = new ArrayList<>();
     private ArrayList<ClassRoom> Search_classRooms = new ArrayList<>();
     private Toolbar toolbar;
-    private SearchView searchView ;
+    private SearchView searchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +53,7 @@ public class ListClassroomsActivity extends AppCompatActivity {
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseUser = mFirebaseAuth.getCurrentUser();
         mDatabase = FirebaseDatabase.getInstance().getReference();
-
+        handleIntent(getIntent());
         initViews();
     }
 
@@ -80,8 +77,9 @@ public class ListClassroomsActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(mLayoutManager);
         //Adapter is created in the last step
 
-
+        mAdapter = new SearchClassAdapter(this, classRooms,list_request);
         getClassRooms();
+        getListRequest();
         mRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(this, mRecyclerView, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
@@ -96,7 +94,7 @@ public class ListClassroomsActivity extends AppCompatActivity {
     private void getClassRooms() {
 
         classRooms.clear();
-        mAdapter = new SearchClassRoomAdapter(this, classRooms);
+
         mRecyclerView.setAdapter(mAdapter);
         mDatabase.child(Config.CHILD_CLASSROOM).addChildEventListener(new ChildEventListener() {
             @Override
@@ -146,7 +144,7 @@ public class ListClassroomsActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 SearchClassRoom(query);
-                return false ;
+                return false;
             }
 
             @Override
@@ -176,10 +174,10 @@ public class ListClassroomsActivity extends AppCompatActivity {
 
     private void SearchClassRoom(String text) {
         Search_classRooms.clear();
-        mAdapter = new SearchClassRoomAdapter(this,Search_classRooms );
+        mAdapter = new SearchClassAdapter(this, Search_classRooms,list_request);
         mRecyclerView.setAdapter(mAdapter);
         if (text.equals("")) {
-           getClassRooms();
+            getClassRooms();
             return;
         }
         if (classRooms.size() > 0) {
@@ -189,8 +187,64 @@ public class ListClassroomsActivity extends AppCompatActivity {
                 }
             }
         }
-   //     events_api_search = midle;
+        //     events_api_search = midle;
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.notifyDataSetChanged();
     }
-}
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        setIntent(intent);
+        handleIntent(intent);
+    }
+
+    private void handleIntent(Intent intent) {
+
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            String query = intent.getStringExtra(SearchManager.QUERY);
+            //use the query to search
+        }
+    }
+
+    private void getListRequest() {
+        mDatabase.child("classroomRequest").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+
+                if (dataSnapshot != null) {
+                    ClassroomRequest request = dataSnapshot.getValue(ClassroomRequest.class);
+                    if (request.getSenderId().trim().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+                        list_request.add(request);
+                        System.out.println("liiisttt " + list_request);
+                        mRecyclerView.setAdapter(mAdapter);
+                    }
+                }
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                if (dataSnapshot != null) {
+
+
+                }
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+
+    }

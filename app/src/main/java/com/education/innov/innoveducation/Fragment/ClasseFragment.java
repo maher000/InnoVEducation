@@ -112,6 +112,7 @@ public class ClasseFragment extends Fragment {
             getInfomationUser();
             switch (Role.trim()) {
                 case "parent":
+                    btnInfo.setVisibility(View.GONE);
                     btn_add_post_teacher.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -121,6 +122,7 @@ public class ClasseFragment extends Fragment {
                     arcmenu_android_example_layout.setVisibility(View.GONE);
                     break;
                 case "child":
+                    btnInfo.setVisibility(View.GONE);
                     btn_add_post_teacher.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {

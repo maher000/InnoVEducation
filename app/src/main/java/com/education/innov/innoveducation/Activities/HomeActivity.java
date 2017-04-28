@@ -77,6 +77,7 @@ public class HomeActivity extends AppCompatActivity {
     private SharedPreferences sp;
     private ComplexPreferences complexPreferences;
     private ClassRoom classRoom;
+    private String class_room_child;
 
     @Override
     protected void onResume() {
@@ -100,7 +101,8 @@ public class HomeActivity extends AppCompatActivity {
         Role = shared.getString("role", null);
         if (Role != null) {
             getInfomationUser();
-            setUserOnline();}
+            setUserOnline();
+        }
 
         System.out.println("**********************************   " + FirebaseAuth.getInstance().getCurrentUser().getUid());
         /* *******************************************/
@@ -111,7 +113,7 @@ public class HomeActivity extends AppCompatActivity {
             }
 
             @Override
-                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
                 child = dataSnapshot.getValue(Child.class);
                 if (child != null) {
                     if (child.getClassRommId() != null) {
@@ -225,7 +227,7 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-      bottomBar.setOnTabReselectListener(new OnTabReselectListener() {
+        bottomBar.setOnTabReselectListener(new OnTabReselectListener() {
             @Override
             public void onTabReSelected(@IdRes int tabId) {
                 switch (tabId) {
@@ -268,11 +270,8 @@ public class HomeActivity extends AppCompatActivity {
 
     private void setUpToolbar() {
 
-        //toolbar.setTitle("Associations Tunisiennes");
         toolbar.inflateMenu(R.menu.menu_main);
-        //toolbar.setVisibility(View.INVISIBLE);
         m = toolbar.getMenu();
-        //m.getItem(0).getsetVisible(false);
         setSupportActionBar(toolbar);
 
 
@@ -309,14 +308,12 @@ public class HomeActivity extends AppCompatActivity {
                 onOptionsItemSelected(itemChat);
             }
         });
-
         SearchManager searchManager =
                 (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         SearchView searchView =
                 (SearchView) menu.findItem(R.id.action_search).getActionView();
         searchView.setSearchableInfo(
                 searchManager.getSearchableInfo(getComponentName()));
-
         return true;
     }
 
@@ -330,8 +327,7 @@ public class HomeActivity extends AppCompatActivity {
                 return true;
             case R.id.action_search1:
                 startActivity(new Intent(HomeActivity.this, ListClassroomsActivity.class).addFlags(FLAG_ACTIVITY_SINGLE_TOP));
-
-
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -366,7 +362,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     public void getInfomationUser() {
-        System.out.println("role tttt"+Role);
+        System.out.println("role tttt" + Role);
         if (Role != null) {
             switch (Role.trim()) {
                 case "teacher":
@@ -394,12 +390,13 @@ public class HomeActivity extends AppCompatActivity {
                     firstname = child.getFirstName();
                     lastname = child.getLastName();
                     urlImage = child.getUrlImage();
-                    classRoom = complexPreferences.getObject("my_class_room", ClassRoom.class);
-
+                    class_room_child = child.getClassRommId();
+                    getClassRoomChild();
                     break;
             }
         }
     }
+
     private void setUserOnline() {
         String id = FirebaseAuth.getInstance().getCurrentUser().getUid();
         presence = new Presence(id, lastname, firstname, urlImage, "true", Role);
@@ -436,7 +433,24 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
-    public void downloadFile(String url){
+    public void downloadFile(String url) {
 
+    }
+
+    public void getClassRoomChild() {
+        mBase.child("classrooms").child(class_room_child).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot != null) {
+                    classRoom = dataSnapshot.getValue(ClassRoom.class);
+                    complexPreferences.putObject("my_class_room", classRoom);
+                    complexPreferences.commit();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
     }
 }

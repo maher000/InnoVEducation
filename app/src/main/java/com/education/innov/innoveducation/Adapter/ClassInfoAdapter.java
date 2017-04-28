@@ -95,7 +95,7 @@ public class ClassInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
     private void accept(final int position) {
         if (classroomRequests.get(position).getSenderType().trim().equals("child")) {
-            mDatabase.child("child").child(classroomRequests.get(position).getSenderId()).child("classroomId").setValue(
+            mDatabase.child("child").child(classroomRequests.get(position).getSenderId()).child("classRommId").setValue(
                     classroomRequests.get(position).getClassroomId()
             ).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override

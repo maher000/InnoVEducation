@@ -130,5 +130,14 @@ public class Child extends User {
         this.parentId = parentId;
     }
 
-
+    @Override
+    public String toString() {
+        return "Child{" +
+                "classRommId='" + classRommId + '\'' +
+                ", classeRoom=" + classeRoom +
+                ", parents=" + parents +
+                ", parentId='" + parentId + '\'' +
+                super.toString()+
+                '}';
+    }
 }

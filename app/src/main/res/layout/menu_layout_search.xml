@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@android:style/Widget.ActionButton"
+    android:id="@+id/badge_layout1"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+
+
+        <EditText
+            android:id="@+id/EdtSearch"
+            android:layout_width="180dp"
+            android:layout_height="36dp"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="@color/colorPrimary"
+            android:drawableTint="#767072"
+            android:drawableLeft="@android:drawable/ic_search_category_default"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:foregroundTint="@color/overWhite"
+            android:singleLine="true"
+            android:textColor="@color/overWhite"
+            android:theme="@style/EditTextHint" />
+
+</RelativeLayout>

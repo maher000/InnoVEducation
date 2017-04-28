@@ -51,6 +51,7 @@ public class Parent extends User {
     public String toString() {
         return "Parent{" +
                 "type='" + type + '\'' +
+                super.toString() +
                 '}';
     }
 }
