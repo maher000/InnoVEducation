@@ -481,7 +481,7 @@ public class HomeActivity extends AppCompatActivity {
                 // Remove ourselves when we disconnect.
                 if (snapshot.getValue(Boolean.class)) {
                     userRef.onDisconnect().removeValue();
-                    userRef.setValue("true");
+                    userRef.setValue("yes");
                 }
             }
 
@@ -538,7 +538,7 @@ public class HomeActivity extends AppCompatActivity {
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
                 if (dataSnapshot.exists()) {
-                    mBase.child("parent").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("token").setValue(token);
+                    mBase.child("parents").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("token").setValue(token);
 
                 }
 
@@ -568,6 +568,7 @@ public class HomeActivity extends AppCompatActivity {
                 if (dataSnapshot.exists()) {
 
                     child = dataSnapshot.getValue(Child.class);
+                    if(child.getTopic() != null)
                     FirebaseMessaging.getInstance().subscribeToTopic(child.getTopic());
                     System.out.println(child.getTopic()+"childTopic");
                     mBase.child("child").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("token").setValue(token);

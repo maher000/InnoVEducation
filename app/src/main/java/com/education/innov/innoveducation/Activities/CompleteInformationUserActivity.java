@@ -2,7 +2,9 @@ package com.education.innov.innoveducation.Activities;
 
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -18,6 +20,7 @@ import com.education.innov.innoveducation.Entities.HomeWork;
 import com.education.innov.innoveducation.Entities.Parent;
 import com.education.innov.innoveducation.Entities.Teacher;
 import com.education.innov.innoveducation.R;
+import com.education.innov.innoveducation.Utils.ComplexPreferences;
 import com.education.innov.innoveducation.Utils.Config;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -38,7 +41,7 @@ import java.util.Map;
 
 public class CompleteInformationUserActivity extends AppCompatActivity {
 
-    EditText EdtAdress, EdtPhone, EdtCodePostal,EdtCity;
+    EditText EdtAdress, EdtPhone, EdtCodePostal, EdtCity;
     TextView EdtBirthday, EdtCountry;
     RadioButton RbMen, RbWomen;
     Button btnLater, btnSubmit;
@@ -49,15 +52,17 @@ public class CompleteInformationUserActivity extends AppCompatActivity {
     Teacher teacher;
     private int yearStart, monthStart, dayStart;
     private int year, month, day;
-    CountryPicker picker ;
+    CountryPicker picker;
+    private SharedPreferences sharedpreferences;
     ProgressDialog progress;
-    String country, address, phone, birthday, sex, code_postal,city;
+    String country, address, phone, birthday, sex, code_postal, city;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_complete_information_user);
+        sharedpreferences = getSharedPreferences("role_user", Context.MODE_PRIVATE);
         picker = CountryPicker.newInstance("Select Country");
 
         EdtCodePostal = (EditText) findViewById(R.id.EdtCodePostal);
@@ -90,7 +95,7 @@ public class CompleteInformationUserActivity extends AppCompatActivity {
                 phone = EdtPhone.getText().toString();
                 address = EdtAdress.getText().toString();
                 code_postal = EdtCodePostal.getText().toString();
-                city=EdtCity.getText().toString();
+                city = EdtCity.getText().toString();
 
                 CompleteInformationParent();
             }
@@ -125,7 +130,7 @@ public class CompleteInformationUserActivity extends AppCompatActivity {
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         if (dataSnapshot.exists()) {
                             parent = dataSnapshot.getValue(Parent.class);
-                            Parent user = new Parent();
+                            final Parent user = new Parent();
                             String firstName = parent.getFirstName();
                             String lastName = parent.getLastName();
                             String urlImage = parent.getUrlImage();
@@ -143,6 +148,14 @@ public class CompleteInformationUserActivity extends AppCompatActivity {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {
+                                        SharedPreferences.Editor editor = sharedpreferences.edit();
+                                        editor.putString("role", "parent");
+                                        editor.commit();
+                                        ComplexPreferences complexPreferences = ComplexPreferences.getComplexPreferences(
+                                                CompleteInformationUserActivity.this, "mypref", Context.MODE_PRIVATE);
+                                        complexPreferences.putObject("current_user", user);
+                                        complexPreferences.commit();
+
                                         progress.dismiss();
                                         startActivity(new Intent(CompleteInformationUserActivity.this, HomeActivity.class));
                                     }
@@ -167,7 +180,7 @@ public class CompleteInformationUserActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         teacher = dataSnapshot.getValue(Teacher.class);
-                        Teacher user = new Teacher();
+                        final Teacher user = new Teacher();
                         String firstName = teacher.getFirstName();
                         String lastName = teacher.getLastName();
                         String urlImage = teacher.getUrlImage();
@@ -185,12 +198,20 @@ public class CompleteInformationUserActivity extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()) {
+                                    SharedPreferences.Editor editor = sharedpreferences.edit();
+                                    editor.putString("role", "teacher");
+                                    editor.commit();
+                                    ComplexPreferences complexPreferences = ComplexPreferences.getComplexPreferences(
+                                            CompleteInformationUserActivity.this, "mypref", Context.MODE_PRIVATE);
+                                    complexPreferences.putObject("current_user", user);
+                                    complexPreferences.commit();
                                     progress.dismiss();
                                     startActivity(new Intent(CompleteInformationUserActivity.this, HomeActivity.class));
                                 }
                             }
                         });
                     }
+
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
                     }

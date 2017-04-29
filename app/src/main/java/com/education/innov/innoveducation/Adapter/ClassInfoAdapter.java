@@ -102,7 +102,7 @@ public class ClassInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             mDatabase.child("child").child(classroomRequests.get(pos).getSenderId()).child("topic").
                     setValue(classroomRequests.get(pos).getClassroomId());
 
-            mDatabase.child("child").child(classroomRequests.get(position).getSenderId()).child("classroomId").setValue(
+            mDatabase.child("child").child(classroomRequests.get(position).getSenderId()).child("classRommId").setValue(
                     classroomRequests.get(position).getClassroomId()
             ).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
