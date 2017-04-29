@@ -169,10 +169,7 @@ public class SearchClassAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     not.setUrlImage(urlImageAuthor);
                     not.setDate(new Date().toString());
                     not.setClassRoomId(classRooms.get(position).getId());
-                    not.setId( mDBase.child("notification").push().getKey());
-                    mDBase.child("notification").child(not.getId()).setValue(not);
-                    psuhNotificationAllUsers.sendAndroidNotification("/topics/"+classRooms.get(position).getId(),notificationBody,"new join request");
-
+                    sendNotification(classRooms.get(position).getIdAdminstrator(),not);
 
                 } else {
                     System.out.println("error" + task.getException().getMessage());
@@ -216,6 +213,41 @@ public class SearchClassAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     break;
             }
         }
+    }
+  private void  sendNotification(String adminId,final  Notification not){
+      mDBase.child("teachers").child(adminId).addChildEventListener(new ChildEventListener() {
+          @Override
+          public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+              Teacher teacher=dataSnapshot.getValue(Teacher.class);
+              if(teacher!=null){
+                  not.setId( mDBase.child("notification").push().getKey());
+                  mDBase.child("notification").child(not.getId()).setValue(not);
+                  psuhNotificationAllUsers.sendAndroidNotification(teacher.getToken(),not.getContenue(),"new join request");
+              }
+          }
+
+          @Override
+          public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+          }
+
+          @Override
+          public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+          }
+
+          @Override
+          public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+          }
+
+          @Override
+          public void onCancelled(DatabaseError databaseError) {
+
+          }
+      });
+
+
     }
 
 }
