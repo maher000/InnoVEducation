@@ -161,7 +161,7 @@ public class SearchClassAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
-                    notificationBody=author+"wants to join "+classRooms.get(position).getName();
+                    notificationBody=author+" wants to join "+classRooms.get(position).getName();
                     Notification not=new Notification();
                     not.setContenue(notificationBody);
                     not.setSenderId(FirebaseAuth.getInstance().getCurrentUser().getUid());

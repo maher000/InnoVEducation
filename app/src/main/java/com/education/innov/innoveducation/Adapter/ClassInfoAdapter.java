@@ -2,6 +2,7 @@ package com.education.innov.innoveducation.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -19,6 +20,7 @@ import com.education.innov.innoveducation.Entities.ClassroomRequest;
 import com.education.innov.innoveducation.R;
 import com.education.innov.innoveducation.Utils.ComplexPreferences;
 import com.education.innov.innoveducation.Utils.Config;
+import com.education.innov.innoveducation.Utils.psuhNotificationAllUsers;
 import com.education.innov.innoveducation.Views.ClassInfoViewHolder;
 import com.education.innov.innoveducation.Views.CommentsViewHolder;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -67,7 +69,7 @@ public class ClassInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
 
 
-        ClassInfoViewHolder mHolder = (ClassInfoViewHolder) holder;
+        final ClassInfoViewHolder mHolder = (ClassInfoViewHolder) holder;
         Picasso.with(context).load(classroomRequests.get(position).getUrlImgSender()).into(mHolder.image_profile);
 
         String content = "<b>" + classroomRequests.get(position).getSenderName() + "</b> " + "wants to join " + "</b>" +
@@ -76,13 +78,15 @@ public class ClassInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         mHolder.btnAccpet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                accept(position);
+                accept(position,mHolder);
+                mHolder.btnAccpet.setClickable(false);
             }
         });
         mHolder.btnIgnore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ignore(position);
+                ignore(position,mHolder);
+                mHolder.btnIgnore.setClickable(false);
             }
         });
 
@@ -94,7 +98,8 @@ public class ClassInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         return classroomRequests.size();
     }
 
-    private void accept(final int position) {
+    private void accept(final int position, final ClassInfoViewHolder holder) {
+
         System.out.println("senderId0");
         final int pos=position;
         if (classroomRequests.get(position).getSenderType().trim().equals("child")) {
@@ -108,6 +113,9 @@ public class ClassInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                     if (task.isSuccessful()) {
+                        final String senderId=classroomRequests.get(position).getSenderId();
+                        final ClassroomRequest clr=classroomRequests.get(pos);
+                        sendNotification(senderId,clr,true);
                         System.out.println(classroomRequests.get(pos).getSenderId()+"senderId");
                         mDatabase.child("child").child(classroomRequests.get(pos).getSenderId()).child("topic").
                                 setValue(classroomRequests.get(pos).getClassroomId()).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -138,6 +146,7 @@ public class ClassInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                                                                                 public void onComplete(@NonNull Task<Void> task) {
                                                                                     classroomRequests.remove(position);
                                                                                     notifyDataSetChanged();
+                                                                                    holder.btnAccpet.setClickable(true);
                                                                                 }});}
                                                                     }});
                                                     }
@@ -184,14 +193,65 @@ public class ClassInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         }
     }
 
-    private void ignore(final int position) {
+    private void ignore(final int position, final ClassInfoViewHolder holder) {
+        sendNotification(classroomRequests.get(position).getSenderId(),classroomRequests.get(position),false);
         mDatabase.child("classroomRequest").child(classroomRequests.get(position).getId()).
                 removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 classroomRequests.remove(position);
+                holder.btnIgnore.setClickable(true);
             }
         });
+    }
+
+    private void sendNotification(final String senderId, final ClassroomRequest clr, final boolean accept){
+
+        mDatabase.child("child").orderByChild("idUser").equalTo(senderId).addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+
+               final Child c=dataSnapshot.getValue(Child.class);
+                if(c!=null){
+                    if(c.getToken()!=null)
+                        new AsyncTask<Void, Void, Void>() {
+                            @Override
+                            protected Void doInBackground(Void... voids) {
+                                String body="";
+                                if(accept)
+                               body= "you are now a member in "+clr.getClassroomName();
+                                else
+                                    body="the administrator of "+clr.getClassroomName()+" has ignored your request";
+                                psuhNotificationAllUsers.sendAndroidNotification(c.getToken(), body, "new join request");
+                                return null;
+                            }
+                        }.execute();
+                }
+
+
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
     }
 
 
