@@ -62,7 +62,7 @@ import java.util.Date;
 
 public class CompleteInformationChildActivity extends AppCompatActivity {
 
-    private EditText EdtAdress, EdtPhone, EdtCodePostal,edtFirstName,edtLastName;
+    private EditText EdtAdress, EdtPhone, EdtCodePostal, edtFirstName, edtLastName, EdtCity;
     private TextView EdtBirthday, EdtCountry;
     private RadioButton RbMen, RbWomen;
     private Button btnSubmit;
@@ -72,13 +72,13 @@ public class CompleteInformationChildActivity extends AppCompatActivity {
     private Child child;
     private int yearStart, monthStart, dayStart;
     private int year, month, day;
-    private CountryPicker picker ;
+    private CountryPicker picker;
     private ProgressDialog progress;
-    private String country, address, phone, birthday, sex, code_postal,firstName,lastName;
+    private String country, address, phone, birthday, sex, code_postal, firstName, lastName, city;
     private LinearLayout LayoutErrorMessage;
     private TextView tvErrorMsg;
     private Bitmap bmpUser;
-    private  FloatingActionButton btnChooseImage;
+    private FloatingActionButton btnChooseImage;
     private static final int SELECT_PICTURE = 0;
     private static final int REQUEST_CAMERA = 1;
     private ImageView ImageProfileUser;
@@ -92,8 +92,8 @@ public class CompleteInformationChildActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_complete_information_child);
         picker = CountryPicker.newInstance("Select Country");
-        if(current_user!=null)
-            id=current_user.getUid();
+        if (current_user != null)
+            id = current_user.getUid();
 
         ImageProfileUser = (ImageView) findViewById(R.id.ImageProfileUser);
         LayoutErrorMessage = (LinearLayout) findViewById(R.id.LayoutErrorMessage);
@@ -104,6 +104,7 @@ public class CompleteInformationChildActivity extends AppCompatActivity {
         EdtCodePostal = (EditText) findViewById(R.id.EdtCodePostal);
         EdtCountry = (EditText) findViewById(R.id.EdtCountry);
         EdtAdress = (EditText) findViewById(R.id.EdtAdress);
+        EdtCity = (EditText) findViewById(R.id.EdtCity);
         EdtPhone = (EditText) findViewById(R.id.EdtPhone);
         EdtBirthday = (TextView) findViewById(R.id.EdtBirthday);
         RbMen = (RadioButton) findViewById(R.id.RbMen);
@@ -123,6 +124,7 @@ public class CompleteInformationChildActivity extends AppCompatActivity {
                 if (RbWomen.isChecked()) {
                     sex = "Women";
                 }
+                address = EdtAdress.getText().toString();
                 country = EdtCountry.getText().toString();
                 birthday = EdtBirthday.getText().toString();
                 phone = EdtPhone.getText().toString();
@@ -130,7 +132,8 @@ public class CompleteInformationChildActivity extends AppCompatActivity {
                 code_postal = EdtCodePostal.getText().toString();
                 firstName = edtFirstName.getText().toString();
                 lastName = edtLastName.getText().toString();
-                if(!ShowErorMessage()){
+                city = EdtCity.getText().toString();
+                if (!ShowErorMessage()) {
                     progress.show();
                     storageImage();
                 }
@@ -146,7 +149,7 @@ public class CompleteInformationChildActivity extends AppCompatActivity {
         EdtBirthday.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new DatePickerDialog(CompleteInformationChildActivity.this, BirthdayListener,
+                new DatePickerDialog(CompleteInformationChildActivity.this, R.style.DialogTheme, BirthdayListener,
                         year, month, day).show();
             }
         });
@@ -159,71 +162,74 @@ public class CompleteInformationChildActivity extends AppCompatActivity {
         });
 
 
-
     }
 
 
     private void completeInformation(final String urlImage) {
-        if(id!=null){
-        mDbase.child(Config.CHILD_CHILD).child(id).addListenerForSingleValueEvent(
-                new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        if (dataSnapshot.exists()) {
-                            child = dataSnapshot.getValue(Child.class);
-                           if(!ShowErorMessage()){
-                               child.setFirstName(firstName);
-                               child.setLastName(lastName);
-                               child.setUrlImage(urlImage);
-                               child.setActive("yes");
-                               child.setSex(sex);
-                               if(!phone.trim().isEmpty())
-                               child.setPhone(phone);
-                               if(!phone.trim().isEmpty())
-                                   child.setPhone(phone);
-                               if(!birthday.trim().isEmpty())
-                                   child.setBirthday(birthday);
-                               if(!code_postal.trim().isEmpty())
-                                   child.setCodePostal(code_postal);
-                               if(!country.trim().isEmpty())
-                                   child.setContry(country);
-                               if(!sex.trim().isEmpty())
-                                   child.setSex(sex);
+        if (id != null) {
+            mDbase.child(Config.CHILD_CHILD).child(id).addListenerForSingleValueEvent(
+                    new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            if (dataSnapshot.exists()) {
+                                child = dataSnapshot.getValue(Child.class);
+                                if (!ShowErorMessage()) {
+                                    child.setFirstName(firstName);
+                                    child.setLastName(lastName);
+                                    child.setUrlImage(urlImage);
+                                    if (city != null)
+                                        child.setCity(city);
+                                    if (address != null)
+                                        child.setAdresse(address);
+                                    child.setActive("yes");
+                                    child.setSex(sex);
+                                    if (!phone.trim().isEmpty())
+                                        child.setPhone(phone);
+                                    if (!phone.trim().isEmpty())
+                                        child.setPhone(phone);
+                                    if (!birthday.trim().isEmpty())
+                                        child.setBirthday(birthday);
+                                    if (!code_postal.trim().isEmpty())
+                                        child.setCodePostal(code_postal);
+                                    if (!country.trim().isEmpty())
+                                        child.setContry(country);
+                                    if (!sex.trim().isEmpty())
+                                        child.setSex(sex);
 
 
-                           }
-
-                            mDbase.child(Config.CHILD_CHILD).child(id).setValue(child).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    if (task.isSuccessful()) {
-                                        progress.dismiss();
-                                        sharedpreferences = getSharedPreferences("role_user", Context.MODE_PRIVATE);
-                                        SharedPreferences.Editor editor = sharedpreferences.edit();
-                                        editor.putString("role", "child");
-                                        editor.commit();
-                                        ComplexPreferences complexPreferences = ComplexPreferences.getComplexPreferences(
-                                                CompleteInformationChildActivity.this, "mypref", Context.MODE_PRIVATE);
-                                        complexPreferences.putObject("current_user", child);
-                                        complexPreferences.commit();
-                                        Intent intent = new Intent(CompleteInformationChildActivity.this, HomeActivity.class);
-                                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                        startActivity(intent);;
-                                    }
                                 }
-                            });
+
+                                mDbase.child(Config.CHILD_CHILD).child(id).setValue(child).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if (task.isSuccessful()) {
+                                            progress.dismiss();
+                                            sharedpreferences = getSharedPreferences("role_user", Context.MODE_PRIVATE);
+                                            SharedPreferences.Editor editor = sharedpreferences.edit();
+                                            editor.putString("role", "child");
+                                            editor.commit();
+                                            ComplexPreferences complexPreferences = ComplexPreferences.getComplexPreferences(
+                                                    CompleteInformationChildActivity.this, "mypref", Context.MODE_PRIVATE);
+                                            complexPreferences.putObject("current_user", child);
+                                            complexPreferences.commit();
+                                            Intent intent = new Intent(CompleteInformationChildActivity.this, HomeActivity.class);
+                                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                            startActivity(intent);
+                                            ;
+                                        }
+                                    }
+                                });
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
                         }
                     }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                    }
-                }
-        );
+            );
+        }
     }
-    }
-
 
 
     private DatePickerDialog.OnDateSetListener BirthdayListener = new
@@ -263,20 +269,21 @@ public class CompleteInformationChildActivity extends AppCompatActivity {
     }
 
     public boolean ShowErorMessage() {
-        String msg="";
+        String msg = "";
         if (!new Test().TestConnection(this)) {
-            msg="there is no internet connection";
+            msg = "there is no internet connection";
             return dispalyError(msg);
         }
-        if(firstName.trim().isEmpty()||lastName.trim().isEmpty())
+        if (firstName.trim().isEmpty() || lastName.trim().isEmpty())
             return dispalyError("Please fill required fields");
-        if( bmpUser == null)
+        if (bmpUser == null)
             return dispalyError("Please choose an image");
 
         return false;
 
     }
-    private boolean dispalyError(String message){
+
+    private boolean dispalyError(String message) {
         tvErrorMsg.setText(message);
         tvErrorMsg.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_in));
         LayoutErrorMessage.setVisibility(View.VISIBLE);
@@ -314,6 +321,7 @@ public class CompleteInformationChildActivity extends AppCompatActivity {
             });
         }
     }
+
     /***** select image ***/
 
     private void selectImage() {

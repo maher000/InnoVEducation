@@ -62,7 +62,7 @@ public class OnLineFrreindsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
 
         final int itemType = getItemViewType(position);
-        getInfomationUser();
+      //  getInfomationUser();
 
         FreindsOnlineViewHolder mHolder = (FreindsOnlineViewHolder) holder;
 
@@ -71,8 +71,6 @@ public class OnLineFrreindsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         if(users.get(position).getConnected().trim().equals("no")){
             mHolder.icon_online.setVisibility(View.GONE);
         }
-
-
     }
 
     @Override
@@ -108,7 +106,7 @@ public class OnLineFrreindsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                     }
                     System.out.println(teacher + "tttttttttttttt");
                     break;
-                case "child":
+     /*           case "child":
                     complexPreferences = ComplexPreferences.getComplexPreferences(context, "mypref", context.MODE_PRIVATE);
                     child = complexPreferences.getObject("current_user", Child.class);
                     if (child != null) {
@@ -120,7 +118,6 @@ public class OnLineFrreindsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                                     public void onDataChange(DataSnapshot dataSnapshot) {
                                         notifyDataSetChanged();
                                     }
-
                                     @Override
                                     public void onCancelled(DatabaseError databaseError) {
 
@@ -129,7 +126,7 @@ public class OnLineFrreindsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                         );
 
                     }
-                    break;
+                    break; */
                 case "parent":
                     complexPreferences = ComplexPreferences.getComplexPreferences(context, "mypref", context.MODE_PRIVATE);
                     parent = complexPreferences.getObject("current_user", Parent.class);

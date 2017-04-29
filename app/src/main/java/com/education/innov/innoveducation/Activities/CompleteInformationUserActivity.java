@@ -109,7 +109,7 @@ public class CompleteInformationUserActivity extends AppCompatActivity {
         EdtBirthday.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new DatePickerDialog(CompleteInformationUserActivity.this, BirthdayListener,
+                new DatePickerDialog(CompleteInformationUserActivity.this,R.style.DialogTheme, BirthdayListener,
                         year, month, day).show();
             }
         });

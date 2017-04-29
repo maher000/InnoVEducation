@@ -594,7 +594,6 @@ public class HomeActivity extends AppCompatActivity {
     }
     private void getNotifications(){
         if(Role.equals("child")){
-
             if(child!=null){
                 if(child.getClassRommId()!=null)
                     mBase.child("notification").orderByChild("classRoomId").equalTo(child.getClassRommId()).addChildEventListener(new ChildEventListener() {

@@ -32,7 +32,7 @@ import java.util.ArrayList;
 public class NotificationsActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private NotificationAdapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager ;
+    private RecyclerView.LayoutManager mLayoutManager;
     private DatabaseReference mDatabase;
     private String mUserId;
     private FirebaseAuth mFirebaseAuth;
@@ -50,7 +50,7 @@ public class NotificationsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notifications);
-        notifications=new ArrayList<>();
+        notifications = new ArrayList<>();
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseUser = mFirebaseAuth.getCurrentUser();
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -103,7 +103,7 @@ public class NotificationsActivity extends AppCompatActivity {
         setUpToolbar();
         mRecyclerView.setLayoutManager(mLayoutManager);
         //Adapter is created in the last step
-        mAdapter = new NotificationAdapter(this,notifications);
+        mAdapter = new NotificationAdapter(this, notifications);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(this, mRecyclerView, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
@@ -125,24 +125,50 @@ public class NotificationsActivity extends AppCompatActivity {
         }));
 
     }
+
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
     }
-    private void getNotifications(){
+
+    private void getNotifications() {
         mDatabase.child("notification").orderByChild("classRoomId").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                if(dataSnapshot!=null){
-                    Notification not=dataSnapshot.getValue(Notification.class);
-                    if(!not.getType().equals("join")){
-                        notifications.add(not);
-                        mRecyclerView.setAdapter(mAdapter);
-                    }
-                    else if(teacher!=null){
-                        notifications.add(not);
-                        mRecyclerView.setAdapter(mAdapter);
+                if (dataSnapshot != null) {
+                    Notification not = dataSnapshot.getValue(Notification.class);
+
+                    switch (Role) {
+                        case "teacher":
+                            if (teacher != null) {
+                                if (teacher.getClassRooms() != null)
+                                    if (teacher.getClassRooms().containsValue(not.getClassRoomId())) {
+                                        notifications.add(not);
+                                        mRecyclerView.setAdapter(mAdapter);
+                                    }
+                            }
+                            break;
+                        case "parent":
+                            if (parent != null) {
+                                if (parent.getClassRooms() != null)
+                                    if (parent.getClassRooms().containsValue(not.getClassRoomId())&&
+                                            !not.getType().equals("join")) {
+                                        notifications.add(not);
+                                        mRecyclerView.setAdapter(mAdapter);
+                                    }
+                            }
+                            break;
+                        case "child":
+                            if (child != null) {
+                                if (child.getClassRommId() != null)
+                                    if (child.getClassRommId().equals(not.getClassRoomId())&&
+                                            !not.getType().equals("join")   ) {
+                                        notifications.add(not);
+                                        mRecyclerView.setAdapter(mAdapter);
+                                    }
+                            }
+                            break;
                     }
 
                 }

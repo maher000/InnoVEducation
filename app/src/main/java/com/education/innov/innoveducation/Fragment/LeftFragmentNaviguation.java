@@ -74,8 +74,6 @@ public class LeftFragmentNaviguation extends Fragment {
         }
 
         ImageView DownloadImage = ((ImageView) view.findViewById(R.id.profileImage));
-
-
         TextView nameView = (TextView) view.findViewById(R.id.nameAndSurname);
         TextView emailView = (TextView) view.findViewById(R.id.email);
         emailView.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail());

@@ -113,13 +113,14 @@ public class RightFragmentNaviguation extends Fragment {
             @Override
             public void onItemClick(View view, int position) {
                 Intent intent = new Intent(getActivity(), ChatActivity.class);
-                intent.putExtra("name", users.get(mSectionedAdapter.sectionedPositionToPosition(position)).getFirstName() + " " + users.get(mSectionedAdapter.sectionedPositionToPosition
-                        (position)).getLastName());
-                intent.putExtra("id", users.get(mSectionedAdapter.sectionedPositionToPosition(position)).getIdUser());
-                intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                startActivity(intent);
+              //  if (position < users.size() && position <mSectionedAdapter.getItemCount()) {
+                    intent.putExtra("name", users.get(mSectionedAdapter.sectionedPositionToPosition(position)).getFirstName() + " " + users.get(mSectionedAdapter.sectionedPositionToPosition
+                            (position)).getLastName());
+                    intent.putExtra("id", users.get(mSectionedAdapter.sectionedPositionToPosition(position)).getIdUser());
+                    intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    startActivity(intent);
+               // }
             }
-
             @Override
             public void onLongItemClick(View view, int position) {
 
@@ -223,23 +224,26 @@ public class RightFragmentNaviguation extends Fragment {
 
                     System.out.println("classRoom");
                     if (new_child != null) {
-                        User user = new User();
-                        //creta a listener
-                        children.add(new_child);
-                        user.setConnected(new_child.getConnected() );
-                        user.setIdUser(new_child.getIdUser());
-                        user.setUrlImage(new_child.getUrlImage());
-                        user.setFirstName(new_child.getFirstName());
-                        user.setLastName(new_child.getLastName());
-                        users.add(user);
-                        System.out.println("liste de children size " + children.size());
-                        System.out.println("list online" + users);
-                        recyclerView.setAdapter(adapter);
-                        adapter.notifyDataSetChanged();
-                        List<SimpleSectionedRecyclerViewAdapter.Section> sections =
-                                new ArrayList<SimpleSectionedRecyclerViewAdapter.Section>();
-                    }
+                        if (!(new_child.getIdUser().trim().equals(FirebaseAuth.getInstance().getCurrentUser().getUid()))) {
+                            User user = new User();
+                            //creta a listener
+                            children.add(new_child);
+                            user.setConnected(new_child.getConnected());
+                            user.setIdUser(new_child.getIdUser());
+                            user.setUrlImage(new_child.getUrlImage());
+                            user.setFirstName(new_child.getFirstName());
+                            user.setLastName(new_child.getLastName());
+                            users.add(user);
+                            System.out.println("liste de children size " + children.size());
+                            System.out.println("list online" + users);
+                            recyclerView.setAdapter(adapter);
+                            adapter.notifyDataSetChanged();
+                            List<SimpleSectionedRecyclerViewAdapter.Section> sections =
+                                    new ArrayList<SimpleSectionedRecyclerViewAdapter.Section>();
 
+                        }
+
+                    }
                 }
 
                 @Override
@@ -275,37 +279,22 @@ public class RightFragmentNaviguation extends Fragment {
                 System.out.println("classRoom");
                 if (new_parent != null) {
                     //creta a listener
-
-
-
-                    Map<String, String> objectMap = (HashMap<String, String>)
-                            new_parent.getClassRooms();
-                    if (objectMap != null)
-                        if (objectMap.containsValue(active_classe_room)) {
-                            User user = new User();
-                            parents.add(new_parent);
-                            user.setConnected(new_parent.getConnected());
-                            user.setIdUser(new_parent.getIdUser());
-                            user.setUrlImage(new_parent.getUrlImage());
-                            user.setFirstName(new_parent.getFirstName());
-                            user.setLastName(new_parent.getLastName());
-                            users.add(user);
-                        }
-                    if (users.size() > 0) {
-                        recyclerView.setAdapter(adapter);
-                        adapter.notifyDataSetChanged();
-                        sections = new ArrayList<SimpleSectionedRecyclerViewAdapter.Section>();
-                        sections.add(new SimpleSectionedRecyclerViewAdapter.Section(0, "Classmates" +
-                                ""));
-                        sections.add(new SimpleSectionedRecyclerViewAdapter.Section(children.size(), "Parents"));
-                        sections.add(new SimpleSectionedRecyclerViewAdapter.Section((children.size() + parents.size()), "Teachers"));
-                        dummy = new SimpleSectionedRecyclerViewAdapter.Section[sections.size()];
-                        if (getActivity() != null) {
-                            mSectionedAdapter = new SimpleSectionedRecyclerViewAdapter(getActivity().getBaseContext(), R.layout.section_recycle_view, R.id.section_text, adapter);
-                        }
-                        mSectionedAdapter.setSections(sections.toArray(dummy));
-                        recyclerView.setAdapter(mSectionedAdapter);
+                    if (!(new_parent.getIdUser().trim().equals(FirebaseAuth.getInstance().getCurrentUser().getUid()))) {
+                        Map<String, String> objectMap = (HashMap<String, String>)
+                                new_parent.getClassRooms();
+                        if (objectMap != null)
+                            if (objectMap.containsValue(active_classe_room)) {
+                                User user = new User();
+                                parents.add(new_parent);
+                                user.setConnected(new_parent.getConnected());
+                                user.setIdUser(new_parent.getIdUser());
+                                user.setUrlImage(new_parent.getUrlImage());
+                                user.setFirstName(new_parent.getFirstName());
+                                user.setLastName(new_parent.getLastName());
+                                users.add(user);
+                            }
                     }
+
                 }
             }
 
@@ -341,6 +330,7 @@ public class RightFragmentNaviguation extends Fragment {
                     Map<String, String> objectMap = (HashMap<String, String>)
                             new_teacher.getClassRooms();
                     if (objectMap != null)
+                        if (!(new_teacher.getIdUser().trim().equals(FirebaseAuth.getInstance().getCurrentUser().getUid()))) {
                         if (objectMap.containsValue(active_classe_room)) {
                             teachers.add(new_teacher);
                             user.setConnected(new_teacher.getConnected());
@@ -350,8 +340,26 @@ public class RightFragmentNaviguation extends Fragment {
                             user.setLastName(new_teacher.getLastName());
                             users.add(user);
                         }
+
                 }
                 System.out.println("liste de teachers size " + teachers.size());
+            }
+                if (users.size() > 0) {
+
+                    recyclerView.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
+                    sections = new ArrayList<SimpleSectionedRecyclerViewAdapter.Section>();
+                    sections.add(new SimpleSectionedRecyclerViewAdapter.Section(0, "Classmates" +
+                            ""));
+                    sections.add(new SimpleSectionedRecyclerViewAdapter.Section(children.size(), "Parents"));
+                    sections.add(new SimpleSectionedRecyclerViewAdapter.Section((children.size() + parents.size()), "Teachers"));
+                    dummy = new SimpleSectionedRecyclerViewAdapter.Section[sections.size()];
+                    if (getActivity() != null) {
+                        mSectionedAdapter = new SimpleSectionedRecyclerViewAdapter(getActivity().getBaseContext(), R.layout.section_recycle_view, R.id.section_text, adapter);
+                    }
+                    mSectionedAdapter.setSections(sections.toArray(dummy));
+                    recyclerView.setAdapter(mSectionedAdapter);
+                }
             }
 
             @Override
@@ -371,7 +379,6 @@ public class RightFragmentNaviguation extends Fragment {
             }
         });
     }
-
 
 
 }
