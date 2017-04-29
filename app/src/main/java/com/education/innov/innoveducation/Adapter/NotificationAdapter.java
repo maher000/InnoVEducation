@@ -49,7 +49,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
 
         NotificationViewHolder mHolder = (NotificationViewHolder) holder;
-        mHolder.tvFullName.setText(notifications.get(position).getSenderName()+" "+notifications.get(position).getContenue());
+        mHolder.tvFullName.setText(notifications.get(position).getContenue());
         mHolder.tvDateNotif.setText(notifications.get(position).getDate());
         Picasso.with(context).load(notifications.get(position).getUrlImage()).into(mHolder.image_profile);
 

@@ -511,7 +511,7 @@ public class AddPostActivity extends SwipeBackActivity {
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
                 System.out.println("yees baby "+task.getResult());
-                    notificationBody=notificationBody+"has added a new Post : <"+new_post.getName()+"> on "+class_room.getName();
+                    notificationBody=author+"has added a new Post : "+new_post.getName()+" on "+class_room.getName();
                     Notification not=new Notification();
                     not.setContenue(notificationBody);
                     not.setSenderId(FirebaseAuth.getInstance().getCurrentUser().getUid());

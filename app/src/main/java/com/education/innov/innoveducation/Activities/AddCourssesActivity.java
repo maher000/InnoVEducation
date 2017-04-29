@@ -116,7 +116,7 @@ public class AddCourssesActivity extends SwipeBackActivity {
                     new AsyncTask<Void, Void, Void>() {
                         @Override
                         protected Void doInBackground(Void... voids) {
-                            notificationBody=notificationBody+"has added a new Course : <"+new_coursse.getName()+"> on "+class_room.getName();
+                            notificationBody=author+" has added a new Course : "+new_coursse.getName()+" on "+class_room.getName();
                             Notification not=new Notification();
                             not.setContenue(notificationBody);
                             not.setSenderId(FirebaseAuth.getInstance().getCurrentUser().getUid());
@@ -148,7 +148,6 @@ public class AddCourssesActivity extends SwipeBackActivity {
             author = teacher.getFirstName() + " " + teacher.getLastName();
             urlImageAuthor = teacher.getUrlImage();
             class_room = complexPreferences.getObject("my_class_room", ClassRoom.class);
-            notificationBody=teacher.getFirstName()+ " "+ teacher.getLastName()+" ";
             System.out.println(teacher + "tttttttttttttt");
         }
 

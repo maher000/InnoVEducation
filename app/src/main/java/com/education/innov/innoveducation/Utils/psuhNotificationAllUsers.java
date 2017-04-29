@@ -44,6 +44,7 @@ public class psuhNotificationAllUsers {
 
             Response response = client.newCall(request).execute();
         }catch (Exception e){
+            System.out.println("notficationError");
             e.printStackTrace();
         }
         System.out.print("***************************************************end");

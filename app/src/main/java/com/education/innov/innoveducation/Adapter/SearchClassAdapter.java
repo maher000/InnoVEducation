@@ -3,6 +3,7 @@ package com.education.innov.innoveducation.Adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -215,14 +216,23 @@ public class SearchClassAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         }
     }
   private void  sendNotification(String adminId,final  Notification not){
-      mDBase.child("teachers").child(adminId).addChildEventListener(new ChildEventListener() {
+      mDBase.child("teachers").orderByChild("idUser").equalTo(adminId).addChildEventListener(new ChildEventListener() {
           @Override
           public void onChildAdded(DataSnapshot dataSnapshot, String s) {
               Teacher teacher=dataSnapshot.getValue(Teacher.class);
+              System.out.println("tokenTeacher"+teacher.getToken());
               if(teacher!=null){
                   not.setId( mDBase.child("notification").push().getKey());
                   mDBase.child("notification").child(not.getId()).setValue(not);
-                  psuhNotificationAllUsers.sendAndroidNotification(teacher.getToken(),not.getContenue(),"new join request");
+                    final Teacher t=teacher;
+                      new AsyncTask<Void, Void, Void>() {
+                          @Override
+                          protected Void doInBackground(Void... voids) {
+                              psuhNotificationAllUsers.sendAndroidNotification(t.getToken(), not.getContenue(), "new join request");
+                              return null;
+                          }
+                      }.execute();
+
               }
           }
 
