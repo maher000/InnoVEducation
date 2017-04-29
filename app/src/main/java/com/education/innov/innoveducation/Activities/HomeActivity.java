@@ -24,6 +24,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.education.innov.innoveducation.Entities.Child;
@@ -91,6 +92,8 @@ public class HomeActivity extends AppCompatActivity {
     private Button btnChat, btnNotification;
     private EditText edtSearch;
     private DatabaseReference userRef ;
+    private TextView badge_notification_2;
+    private int count=0;
 
     @Override
     protected void onResume() {
@@ -112,6 +115,7 @@ public class HomeActivity extends AppCompatActivity {
         btnChat = (Button) findViewById(R.id.button1);
         btnNotification = (Button) findViewById(R.id.button2);
         edtSearch = (EditText) findViewById(R.id.edt_menu_search);
+        badge_notification_2 = (TextView) findViewById(R.id.badge_notification_2);
         FirebaseMessaging.getInstance().subscribeToTopic("09428835");
         //store and retreive data from shared prefernces
         shared = getSharedPreferences("role_user", Activity.MODE_PRIVATE);
@@ -328,6 +332,8 @@ public class HomeActivity extends AppCompatActivity {
         btnChat = (Button) menu_chat.findViewById(R.id.button1);
         edtSearch = (EditText) menu_chat.findViewById(R.id.edt_menu_search);
         btnNotification = (Button) menu_chat.findViewById(R.id.button2);
+        badge_notification_2=(TextView) menu_chat.findViewById(R.id.badge_notification_2);
+        getNotifications();
 
         btnChat.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -345,25 +351,6 @@ public class HomeActivity extends AppCompatActivity {
                 System.out.println("maherBtn");
                 System.out.println("maherSearch");
                 startActivity(new Intent(HomeActivity.this, NotificationsActivity.class).addFlags(FLAG_ACTIVITY_SINGLE_TOP));
-             /*   new AsyncTask<Void, Void, Void>() {
-                    @Override
-                    protected Void doInBackground(Void... voids) {
-                        Notification not=new Notification();
-                        not.setContenue("add new HomeWork");
-                        not.setSenderId(FirebaseAuth.getInstance().getCurrentUser().getUid());
-                        not.setSenderName(teacher.getFirstName()+" "+teacher.getLastName());
-                        not.setType("homework");
-                        not.setUrlImage(teacher.getUrlImage());
-                        not.setDate(new Date().toString());
-                        not.setClassRoomId("-KiMEgfpjQ6tABAHdF2j");
-                        not.setId( mBase.child("notification").push().getKey());
-                        mBase.child("notification").child(not.getId()).setValue(not);
-                        psuhNotificationAllUsers.sendAndroidNotification("/topics/-KiMEgfpjQ6tABAHdF2j","maher","new HomeWork added");
-                        return null;
-                    }
-                }.execute();
-                */
-                //   drawerLayout.openDrawer(GravityCompat.END);
 
             }
         });
@@ -610,4 +597,48 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
     }
+    private void getNotifications(){
+        if(Role.equals("child")){
+
+            if(child!=null){
+                if(child.getClassRommId()!=null)
+                    mBase.child("notification").orderByChild("classRoomId").equalTo(child.getClassRommId()).addChildEventListener(new ChildEventListener() {
+                        @Override
+                        public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+
+                            Notification not=dataSnapshot.getValue(Notification.class);
+                            if(not.getChecked().equals("no")){
+                                System.out.println("ccccfffsss"+count);
+                                count+=1;
+                                badge_notification_2.setText(""+(int)count);
+                            }
+                        }
+
+                        @Override
+                        public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                        }
+
+                        @Override
+                        public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+                        }
+
+                        @Override
+                        public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+
+            }
+
+        }
+    }
+        /*-------------------------------*/
+
 }

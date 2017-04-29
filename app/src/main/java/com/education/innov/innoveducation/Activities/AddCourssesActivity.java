@@ -3,6 +3,7 @@ package com.education.innov.innoveducation.Activities;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,12 +15,14 @@ import android.widget.RadioButton;
 import com.education.innov.innoveducation.Entities.Child;
 import com.education.innov.innoveducation.Entities.ClassRoom;
 import com.education.innov.innoveducation.Entities.Course;
+import com.education.innov.innoveducation.Entities.Notification;
 import com.education.innov.innoveducation.Entities.Parent;
 import com.education.innov.innoveducation.Entities.Teacher;
 import com.education.innov.innoveducation.R;
 import com.education.innov.innoveducation.Utils.ComplexPreferences;
 import com.education.innov.innoveducation.Utils.Config;
 import com.education.innov.innoveducation.Utils.MyApp;
+import com.education.innov.innoveducation.Utils.psuhNotificationAllUsers;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -46,6 +49,7 @@ public class AddCourssesActivity extends SwipeBackActivity {
     private Teacher teacher;
     private ComplexPreferences complexPreferences;
     private ClassRoom class_room;
+    private String notificationBody="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,6 +113,24 @@ public class AddCourssesActivity extends SwipeBackActivity {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
+                    new AsyncTask<Void, Void, Void>() {
+                        @Override
+                        protected Void doInBackground(Void... voids) {
+                            notificationBody=notificationBody+"has added a new Course : <"+new_coursse.getName()+"> on "+class_room.getName();
+                            Notification not=new Notification();
+                            not.setContenue(notificationBody);
+                            not.setSenderId(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                            not.setSenderName(teacher.getFirstName()+" "+teacher.getLastName());
+                            not.setType("course");
+                            not.setUrlImage(teacher.getUrlImage());
+                            not.setDate(new Date().toString());
+                            not.setClassRoomId(class_room.getId());
+                            not.setId( mDBase.child("notification").push().getKey());
+                            mDBase.child("notification").child(not.getId()).setValue(not);
+                            psuhNotificationAllUsers.sendAndroidNotification("/topics/"+new_coursse.getIdClassRoom(),notificationBody,"new Course");
+                            return null;
+                        }
+                    }.execute();
                     System.out.println(" success");
                     AddCourssesActivity.this.finish();
                 } else {
@@ -126,6 +148,7 @@ public class AddCourssesActivity extends SwipeBackActivity {
             author = teacher.getFirstName() + " " + teacher.getLastName();
             urlImageAuthor = teacher.getUrlImage();
             class_room = complexPreferences.getObject("my_class_room", ClassRoom.class);
+            notificationBody=teacher.getFirstName()+ " "+ teacher.getLastName()+" ";
             System.out.println(teacher + "tttttttttttttt");
         }
 

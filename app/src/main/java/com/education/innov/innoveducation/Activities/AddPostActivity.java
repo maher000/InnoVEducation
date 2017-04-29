@@ -36,6 +36,7 @@ import android.widget.VideoView;
 
 import com.education.innov.innoveducation.Entities.Child;
 import com.education.innov.innoveducation.Entities.ClassRoom;
+import com.education.innov.innoveducation.Entities.Notification;
 import com.education.innov.innoveducation.Entities.Parent;
 import com.education.innov.innoveducation.Entities.Teacher;
 import com.education.innov.innoveducation.Entities.User;
@@ -46,6 +47,7 @@ import com.education.innov.innoveducation.Utils.Config;
 import com.education.innov.innoveducation.Utils.FileChooser;
 import com.education.innov.innoveducation.Utils.FilePath;
 import com.education.innov.innoveducation.Utils.MyApp;
+import com.education.innov.innoveducation.Utils.psuhNotificationAllUsers;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -71,6 +73,7 @@ import com.liuguangqiang.swipeback.SwipeBackLayout;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 
 
 public class AddPostActivity extends SwipeBackActivity {
@@ -112,6 +115,7 @@ public class AddPostActivity extends SwipeBackActivity {
     private String extentionFile;
     private TextView name_file;
     private String urlFile;
+    private String notificationBody="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -507,6 +511,19 @@ public class AddPostActivity extends SwipeBackActivity {
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
                 System.out.println("yees baby "+task.getResult());
+                    notificationBody=notificationBody+"has added a new Post : <"+new_post.getName()+"> on "+class_room.getName();
+                    Notification not=new Notification();
+                    not.setContenue(notificationBody);
+                    not.setSenderId(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                    not.setSenderName(author);
+                    not.setType("post");
+                    not.setUrlImage(urlImageAuthor);
+                    not.setDate(new Date().toString());
+                    not.setClassRoomId(class_room.getId());
+                    not.setId( mDBase.child("notification").push().getKey());
+                    mDBase.child("notification").child(not.getId()).setValue(not);
+                    psuhNotificationAllUsers.sendAndroidNotification("/topics/"+new_post.getClassRoomId(),notificationBody,"new Post");
+
                     circleProgressBar.dismiss();
                     System.out.println("post added successfully");
                     AddPostActivity.this.finish();
@@ -563,6 +580,7 @@ public class AddPostActivity extends SwipeBackActivity {
                         author = teacher.getFirstName() + " " + teacher.getLastName();
                         urlImageAuthor = teacher.getUrlImage();
                         class_room = complexPreferences.getObject("my_class_room", ClassRoom.class);
+                        notificationBody=teacher.getFirstName()+ " "+ teacher.getLastName()+" ";
                         System.out.println(teacher + "tttttttttttttt");
                         break;
                     case "parent":
@@ -571,6 +589,7 @@ public class AddPostActivity extends SwipeBackActivity {
                         author = parent.getFirstName() + " " + parent.getLastName();
                         urlImageAuthor = parent.getUrlImage();
                         class_room = complexPreferences.getObject("my_class_room", ClassRoom.class);
+                        notificationBody=parent.getFirstName()+ " "+ parent.getLastName()+" ";
                         break;
                     case "child":
                         complexPreferences = ComplexPreferences.getComplexPreferences(this, "mypref", MODE_PRIVATE);
@@ -579,6 +598,9 @@ public class AddPostActivity extends SwipeBackActivity {
                         author = child.getFirstName() + " " + child.getLastName();
                         urlImageAuthor = child.getUrlImage();
                         class_room = complexPreferences.getObject("my_class_room", ClassRoom.class);
+                        notificationBody=child.getFirstName()+ " "+ child.getLastName()+" ";
+
+
                         break;
                 }
             }
