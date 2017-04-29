@@ -14,10 +14,12 @@ import android.widget.TextView;
 import com.education.innov.innoveducation.Entities.Child;
 import com.education.innov.innoveducation.Entities.ClassRoom;
 import com.education.innov.innoveducation.Entities.ClassroomRequest;
+import com.education.innov.innoveducation.Entities.Notification;
 import com.education.innov.innoveducation.Entities.Teacher;
 import com.education.innov.innoveducation.R;
 import com.education.innov.innoveducation.Utils.ComplexPreferences;
 import com.education.innov.innoveducation.Utils.Config;
+import com.education.innov.innoveducation.Utils.psuhNotificationAllUsers;
 import com.education.innov.innoveducation.Views.NotificationViewHolder;
 import com.education.innov.innoveducation.Views.SearchClassRoomViewHolder;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -61,6 +63,7 @@ public class SearchClassAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     private String id_class;
     private HashMap<String,String> list_class_teacher;
     private ArrayList<ClassroomRequest> list_class_room_requests ;
+    private String notificationBody="";
 
 
     public SearchClassAdapter(Context context, ArrayList<ClassRoom> classRooms,ArrayList<ClassroomRequest> list_class_room_requests) {
@@ -127,13 +130,14 @@ public class SearchClassAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         mHolder.btnJoin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                join(position);
                 mHolder.btnJoin.setText("request sent");
+                join(position);
+
             }
         });
     }
 
-    private void join(int position) {
+    private void join(final int position) {
         ClassroomRequest req = new ClassroomRequest();
         req.setAdminClassroomId(classRooms.get(position).getIdAdminstrator());
         req.setClassroomId(classRooms.get(position).getId());
@@ -156,6 +160,19 @@ public class SearchClassAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
+                    notificationBody=author+"wants to join "+classRooms.get(position).getName();
+                    Notification not=new Notification();
+                    not.setContenue(notificationBody);
+                    not.setSenderId(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                    not.setSenderName(author);
+                    not.setType("join");
+                    not.setUrlImage(urlImageAuthor);
+                    not.setDate(new Date().toString());
+                    not.setClassRoomId(classRooms.get(position).getId());
+                    not.setId( mDBase.child("notification").push().getKey());
+                    mDBase.child("notification").child(not.getId()).setValue(not);
+                    psuhNotificationAllUsers.sendAndroidNotification("/topics/"+classRooms.get(position).getId(),notificationBody,"new join request");
+
 
                 } else {
                     System.out.println("error" + task.getException().getMessage());

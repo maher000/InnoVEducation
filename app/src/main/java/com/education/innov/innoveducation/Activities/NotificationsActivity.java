@@ -136,8 +136,14 @@ public class NotificationsActivity extends AppCompatActivity {
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 if(dataSnapshot!=null){
                     Notification not=dataSnapshot.getValue(Notification.class);
-                    notifications.add(not);
-                    mRecyclerView.setAdapter(mAdapter);
+                    if(!not.getType().equals("join")){
+                        notifications.add(not);
+                        mRecyclerView.setAdapter(mAdapter);
+                    }
+                    else if(teacher!=null){
+                        notifications.add(not);
+                        mRecyclerView.setAdapter(mAdapter);
+                    }
 
                 }
             }

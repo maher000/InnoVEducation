@@ -17,6 +17,10 @@ public class Notification  {
     private String classRoomId;
     private String checked;
 
+    public Notification() {
+        this.checked="no";
+    }
+
     public String getId() {
         return id;
     }

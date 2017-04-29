@@ -607,8 +607,7 @@ public class HomeActivity extends AppCompatActivity {
                         public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
                             Notification not=dataSnapshot.getValue(Notification.class);
-                            if(not.getChecked().equals("no")){
-                                System.out.println("ccccfffsss"+count);
+                            if(not.getChecked().equals("no")&& !not.getType().equals("join")){
                                 count+=1;
                                 badge_notification_2.setText(""+(int)count);
                             }
