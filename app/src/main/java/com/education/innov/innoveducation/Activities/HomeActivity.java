@@ -24,7 +24,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.education.innov.innoveducation.Entities.Child;
@@ -87,11 +86,11 @@ public class HomeActivity extends AppCompatActivity {
     private SharedPreferences sp;
     private ComplexPreferences complexPreferences;
     private ClassRoom classRoom;
+    String id_class_room_child ;
     private RelativeLayout menu_chat;
     private Button btnChat, btnNotification;
     private EditText edtSearch;
-    private TextView badge_notification_2;
-    private int count=0;
+    private DatabaseReference userRef ;
 
     @Override
     protected void onResume() {
@@ -113,7 +112,6 @@ public class HomeActivity extends AppCompatActivity {
         btnChat = (Button) findViewById(R.id.button1);
         btnNotification = (Button) findViewById(R.id.button2);
         edtSearch = (EditText) findViewById(R.id.edt_menu_search);
-        badge_notification_2 = (TextView) findViewById(R.id.badge_notification_2);
         FirebaseMessaging.getInstance().subscribeToTopic("09428835");
         //store and retreive data from shared prefernces
         shared = getSharedPreferences("role_user", Activity.MODE_PRIVATE);
@@ -330,7 +328,7 @@ public class HomeActivity extends AppCompatActivity {
         btnChat = (Button) menu_chat.findViewById(R.id.button1);
         edtSearch = (EditText) menu_chat.findViewById(R.id.edt_menu_search);
         btnNotification = (Button) menu_chat.findViewById(R.id.button2);
-        badge_notification_2=(TextView) menu_chat.findViewById(R.id.badge_notification_2);
+
         btnChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -339,7 +337,8 @@ public class HomeActivity extends AppCompatActivity {
 
             }
         });
-        getNotifications();
+
+
         btnNotification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -391,6 +390,9 @@ public class HomeActivity extends AppCompatActivity {
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
+            //super.onBackPressed();
+            //MainActivity.this.finish();
+
 
             if (doubleBackToExitPressedOnce) {
                 moveTaskToBack(true);
@@ -439,8 +441,8 @@ public class HomeActivity extends AppCompatActivity {
                     firstname = child.getFirstName();
                     lastname = child.getLastName();
                     urlImage = child.getUrlImage();
-                    classRoom = complexPreferences.getObject("my_class_room", ClassRoom.class);
-
+                    id_class_room_child = child.getClassRommId();
+                    getClassRoomChild();
                     break;
             }
         }
@@ -458,8 +460,20 @@ public class HomeActivity extends AppCompatActivity {
 
         final DatabaseReference presenceRef = FirebaseDatabase.getInstance()
                 .getReference().child(".info/connected");
-        final DatabaseReference userRef = FirebaseDatabase.getInstance()
-                .getReference().child("presence").child(id);
+        switch (Role){
+            case "teacher":
+                userRef = FirebaseDatabase.getInstance()
+                        .getReference().child("teachers").child(id).child("connected");
+                break;
+            case "child":
+                userRef = FirebaseDatabase.getInstance()
+                        .getReference().child("child").child(id).child("connected");
+                break;
+            case "parent":
+                userRef = FirebaseDatabase.getInstance()
+                        .getReference().child("parents").child(id).child("connected");
+                break;
+        }
 
         ValueEventListener myPresence = new ValueEventListener() {
             @Override
@@ -467,7 +481,7 @@ public class HomeActivity extends AppCompatActivity {
                 // Remove ourselves when we disconnect.
                 if (snapshot.getValue(Boolean.class)) {
                     userRef.onDisconnect().removeValue();
-                    userRef.setValue(presence);
+                    userRef.setValue("yes");
                 }
             }
 
@@ -524,7 +538,7 @@ public class HomeActivity extends AppCompatActivity {
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
                 if (dataSnapshot.exists()) {
-                    mBase.child("parent").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("token").setValue(token);
+                    mBase.child("parents").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("token").setValue(token);
 
                 }
 
@@ -554,6 +568,7 @@ public class HomeActivity extends AppCompatActivity {
                 if (dataSnapshot.exists()) {
 
                     child = dataSnapshot.getValue(Child.class);
+                    if(child.getTopic() != null)
                     FirebaseMessaging.getInstance().subscribeToTopic(child.getTopic());
                     System.out.println(child.getTopic()+"childTopic");
                     mBase.child("child").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("token").setValue(token);
@@ -578,48 +593,21 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
     }
-    private void getNotifications(){
-        if(Role.equals("child")){
-
-            if(child!=null){
-                if(child.getClassRommId()!=null)
-                    mBase.child("notification").orderByChild("classRoomId").equalTo(child.getClassRommId()).addChildEventListener(new ChildEventListener() {
-                        @Override
-                        public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-
-                            Notification not=dataSnapshot.getValue(Notification.class);
-                            if(not.getChecked().equals("no")){
-                                System.out.println("ccccfffsss"+count);
-                                count+=1;
-                                badge_notification_2.setText(""+(int)count);
-                            }
-
-                        }
-
-                        @Override
-                        public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-                        }
-
-                        @Override
-                        public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-                        }
-
-                        @Override
-                        public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-                        }
-
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-
-                        }
-                    });
-
+    public void getClassRoomChild() {
+        if(id_class_room_child != null)
+        mBase.child("classrooms").child(id_class_room_child).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot != null) {
+                    classRoom = dataSnapshot.getValue(ClassRoom.class);
+                    complexPreferences.putObject("my_class_room", classRoom);
+                    complexPreferences.commit();
+                }
             }
 
-        }
-        }
-        /*-------------------------------*/
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+    }
 }

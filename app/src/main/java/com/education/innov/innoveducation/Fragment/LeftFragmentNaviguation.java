@@ -182,21 +182,17 @@ public class LeftFragmentNaviguation extends Fragment {
         Role = shared.getString("role", null);
         if (Role != null) {
             if(Role.equals("child")){
-
                 complexPreferences = ComplexPreferences.getComplexPreferences(getActivity(), "mypref", getActivity().MODE_PRIVATE);
                 child = complexPreferences.getObject("current_user", Child.class);
                 FirebaseMessaging.getInstance().unsubscribeFromTopic(child.getClassRommId());
                 System.out.println("unsabscribeToTopic");
             }
-
         }
-
-
-
         SharedPreferences.Editor editor = getActivity().getSharedPreferences("mypref", Context.MODE_PRIVATE).edit();
         editor.clear();
         editor.commit();
         editor.apply();
+
         startActivity(new Intent(getActivity(), MainActivity.class));
     }
 
