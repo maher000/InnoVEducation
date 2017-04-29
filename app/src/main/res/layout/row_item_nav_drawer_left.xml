@@ -9,8 +9,8 @@
 
 	<ImageView
 		android:id="@+id/imgIcon"
-		android:layout_width="20dp"
-		android:layout_height="20dp"
+		android:layout_width="40dp"
+		android:layout_height="40dp"
 		android:layout_marginLeft="16dp"
 		android:layout_marginRight="16dp"
 		android:src="@android:drawable/ic_delete"

@@ -170,10 +170,7 @@ public class AddClassRoomActivity extends SwipeBackActivity {
 
     private void SelectCountry() {
         picker.setStyle(1, R.style.CountryPicker);
-
         picker.show(getSupportFragmentManager(), "COUNTRY_PICKER");
-
-
         picker.setListener(new CountryPickerListener() {
             @Override
             public void onSelectCountry(String name, String code, String dialCode, int flagDrawableResID) {

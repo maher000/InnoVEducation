@@ -106,7 +106,7 @@ public class LeftFragmentNaviguation extends Fragment {
                             case 0:
                                 addChild();
                                 break;
-                            case 5:
+                            case 7:
                                 logOut();
                                 break;
                             default:
@@ -116,7 +116,7 @@ public class LeftFragmentNaviguation extends Fragment {
                         switch (position) {
                             case 0:
                                 break;
-                            case 4:
+                            case 5:
                                 logOut();
                                 break;
                             default:
@@ -131,7 +131,6 @@ public class LeftFragmentNaviguation extends Fragment {
         }));
         return recyclerView;
     }
-
     public void setUpDrawer(DrawerLayout drawerLayout, Toolbar toolbar) {
         mDrawerLayout = drawerLayout;
         mDrawerToggle = new ActionBarDrawerToggle(getActivity(), drawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close) {
@@ -139,10 +138,8 @@ public class LeftFragmentNaviguation extends Fragment {
             @Override
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
-
                 getActivity().invalidateOptionsMenu();
             }
-
             @Override
             public void onDrawerClosed(View drawerView) {
                 super.onDrawerClosed(drawerView);

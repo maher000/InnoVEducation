@@ -24,7 +24,7 @@ public class NavigationDrawerItem {
     private static Context ctx;
 
     public static List<NavigationDrawerItem> getData(String Role) {
-        role_user = Role ;
+        role_user = Role;
         List<NavigationDrawerItem> dataList = new ArrayList<>();
 
         int[] imageIds = getImages();
@@ -40,26 +40,37 @@ public class NavigationDrawerItem {
     }
 
     private static int[] getImages() {
+        if (role_user.trim().equals("parent")) {
+            return new int[]{
+                    R.drawable.icon_add_child_96,
+                    R.drawable.icon_tracking_96,
+                    R.drawable.icon_speaker_96,
+                    R.drawable.icon_language_96,
+                    R.drawable.icon_contact_96,
+                    R.drawable.icon_about_96,
+                    R.drawable.icon_settings_96,
+                    R.drawable.icon_logout_96};
+        } else {
 
-        return new int[]{
-                R.drawable.ic_action_name,
-                R.drawable.ic_action_name,
-                R.drawable.ic_action_name,
-                R.drawable.ic_action_name,
-                R.drawable.ic_action_name,
-                R.drawable.ic_action_name,
-                R.drawable.ic_action_name,
-                R.drawable.ic_action_name};
+            return new int[]{
+                    R.drawable.icon_speaker_96,
+                    R.drawable.icon_language_96,
+                    R.drawable.icon_contact_96,
+                    R.drawable.icon_settings_96,
+                    R.drawable.icon_about_96,
+                    R.drawable.icon_logout_96,
+            };
+        }
     }
 
     private static String[] getTitles() {
         if (role_user.trim().equals("parent")) {
             return new String[]{
-                    "Add Child", "Associations", "Evénements à proximité", "Contacter nous", "Profile", "Log out"
+                    "Add Child", "Tracking", "text to Speech", "Language", "Contact", "About", "Settings", "Log out"
             };
         } else
             return new String[]{
-                    "Associations", "Evénements à proximité", "Contacter nous", "Profile", "Log out"
+                    "text to Speech", "Language", "Contact", "Settings", "About", "Log out"
             };
 
 
