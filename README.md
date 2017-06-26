@@ -1,4 +1,4 @@
 # InnoVEducation
 Innov Education is an application that helps children to interact with each other at home with doing some cool stufs.. solving problems together, talking, playing and more. an automatic mode will be available too that helps you doing your homework, solving mathematical problems or translate for you words and phrases and suggest mind games daily and difrently. parents can control the activities of their children: time spend on app of the child either talking for issues relevant and irrelevant, how much time spent on playing games or doing homework, he can ask too if there is a homework to do or not, the parent can get in touch with teachers connected on his network. class mate provides a secure envirement for your children, rise them with love
+![alt text](https://user-images.githubusercontent.com/11638032/27521162-cb110f4e-5a19-11e7-9966-984d4401430f.png)
 
-https://user-images.githubusercontent.com/11638032/27521162-cb110f4e-5a19-11e7-9966-984d4401430f.png
