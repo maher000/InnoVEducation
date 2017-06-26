@@ -23,5 +23,12 @@ Innov Education is an application that helps children to interact with each othe
 </p>
 
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/11638032/27521217-68051048-5a1a-11e7-85d1-7dab49a1b6d5.png" width="350" alt="Homework"/>
+  <img src="https://user-images.githubusercontent.com/11638032/27521217-68051048-5a1a-11e7-85d1-7dab49a1b6d5.png" width="350" alt="Homework"/>  <img src="https://user-images.githubusercontent.com/11638032/27521617-73efe2de-5a1f-11e7-9312-dd9cd951f712.png" width="350" alt="Course"/>
 </p>
+
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/11638032/27521619-73fa494a-5a1f-11e7-9ce9-ea85c7b8c8dd.png" width="350" alt="Course list"/> 
+  <img src="https://user-images.githubusercontent.com/11638032/27521618-73f8500e-5a1f-11e7-8d2a-48e6b33b7fc0.png" width="350" alt="Notification"/>
+</p>
+
+
